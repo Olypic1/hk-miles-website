@@ -187,7 +187,7 @@
       color: rgba(255, 255, 255, 0.85);
       font-size: 14px;
       font-weight: 500;
-      padding: 8px 14px;
+      padding: 12px 14px;
       border-radius: 100px;
       transition: color 0.15s, background 0.15s;
       display: flex;
@@ -223,6 +223,7 @@
       text-decoration: none;
       white-space: nowrap;
       flex-shrink: 0;
+      min-height: 44px !important;
       transition: background 0.15s !important;
     }
 
@@ -955,6 +956,9 @@
       .feat-list {
         max-height: none;
         overflow-y: visible;
+        max-width: 100%;
+        mask-image: none;
+        -webkit-mask-image: none;
       }
     }
 
@@ -1362,6 +1366,17 @@
 
       .foot-links {
         justify-content: center;
+      }
+    }
+
+    /* ── MOBILE NAV ──────────────────────────────── */
+    @media (max-width: 520px) {
+      body > nav {
+        padding: 12px 16px;
+      }
+      /* Hide text links; logo acts as home link, CTA stays visible */
+      .nav-links a:not(.nav-cta) {
+        display: none;
       }
     }
   </style>
