@@ -276,8 +276,13 @@
     }
 
     @keyframes hero-banner-slide {
-      from { background-position-x: 0%; }
-      to   { background-position-x: 100%; }
+      from {
+        background-position-x: 0%;
+      }
+
+      to {
+        background-position-x: 100%;
+      }
     }
 
     .hero-in {
@@ -297,6 +302,7 @@
         opacity: 0;
         transform: translateY(20px);
       }
+
       to {
         opacity: 1;
         transform: translateY(0);
@@ -328,7 +334,13 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .hero-badge, .hero h1, .hero-desc, .hero-acts, .hero-trust, .hero-vis {
+
+      .hero-badge,
+      .hero h1,
+      .hero-desc,
+      .hero-acts,
+      .hero-trust,
+      .hero-vis {
         animation: none;
       }
     }
@@ -1371,9 +1383,10 @@
 
     /* ── MOBILE NAV ──────────────────────────────── */
     @media (max-width: 520px) {
-      body > nav {
+      body>nav {
         padding: 12px 16px;
       }
+
       /* Hide text links; logo acts as home link, CTA stays visible */
       .nav-links a:not(.nav-cta) {
         display: none;
@@ -1444,8 +1457,8 @@
       <!-- Decorative phone mockup -->
       <div class="hero-vis" aria-hidden="true">
         <div class="feat-phone-wrap">
-          <video id="hero-video" autoplay muted playsinline preload="auto" poster="assets/advisor-tab-poster.jpg">
-            <source src="assets/advisor-tab.mov" type="video/quicktime">
+          <video id="hero-video" autoplay muted playsinline preload="auto">
+            <source src="assets/advisor-tab.mp4" type="video/mp4">
           </video>
           <img src="assets/iphone-border.avif" class="feat-phone-border" alt="">
         </div>
@@ -1484,7 +1497,7 @@
           <!-- Scrollable feature list -->
           <div class="feat-list" role="list">
 
-            <div class="feat-item active" role="listitem" data-video="assets/advisor-tab.mov" tabindex="0">
+            <div class="feat-item active" role="listitem" data-video="assets/advisor-tab.mp4" tabindex="0">
               <div class="feat-item-body">
                 <div class="feat-item-ttl">碌卡建議</div>
                 <div class="feat-item-desc">輸入消費金額、貨幣及消費類別，即時比較所有信用卡，找出最高里數或現金回贈的最佳選擇</div>
@@ -1507,7 +1520,7 @@
               </div>
             </div>
 
-            <div class="feat-item" role="listitem" data-video="assets/mycard-tab.mov" tabindex="0">
+            <div class="feat-item" role="listitem" data-video="assets/mycard-tab.mp4" tabindex="0">
               <div class="feat-item-body">
                 <div class="feat-item-ttl">我的銀包</div>
                 <div class="feat-item-desc">集中管理你的信用卡，一眼查看月度消費進度、優惠加碼及簽賬上限，幫你避免錯過高回報或用爆優惠上限</div>
@@ -1530,7 +1543,7 @@
               </div>
             </div>
 
-            <div class="feat-item" role="listitem" data-video="assets/promotion-tab.mov" tabindex="0">
+            <div class="feat-item" role="listitem" data-video="assets/promotion-tab.mp4" tabindex="0">
               <div class="feat-item-body">
                 <div class="feat-item-ttl">最新優惠及情報</div>
                 <div class="feat-item-desc">整合銀行及信用卡優惠，確保你不會錯過任何精彩推廣</div>
@@ -1553,7 +1566,7 @@
               </div>
             </div>
 
-            <div class="feat-item" role="listitem" data-video="assets/history-tab.mov" tabindex="0">
+            <div class="feat-item" role="listitem" data-video="assets/history-tab.mp4" tabindex="0">
               <div class="feat-item-body">
                 <div class="feat-item-ttl">消費記錄與里數追蹤</div>
                 <div class="feat-item-desc">記錄每筆簽賬，自動計算已賺里數或現金回贈，並以每日及每月視圖追蹤回報</div>
@@ -1576,7 +1589,7 @@
               </div>
             </div>
 
-            <div class="feat-item" role="listitem" data-video="assets/monthly-promo.mov" tabindex="0">
+            <div class="feat-item" role="listitem" data-video="assets/monthly-promo.mp4" tabindex="0">
               <div class="feat-item-body">
                 <div class="feat-item-ttl">每日優惠</div>
                 <div class="feat-item-desc">按日期顯示當日適用的信用卡優惠，讓你付款前即時知道今日邊張卡最抵用</div>
@@ -1599,7 +1612,7 @@
               </div>
             </div>
 
-            <div class="feat-item" role="listitem" data-video="assets/miles-chart.mov" tabindex="0">
+            <div class="feat-item" role="listitem" data-video="assets/miles-chart.mp4" tabindex="0">
               <div class="feat-item-body">
                 <div class="feat-item-ttl">里數兌換</div>
                 <div class="feat-item-desc">內置里數兌換指南，快速查看不同航距、艙等、單程或來回所需里數，幫你規劃儲里數目標</div>
@@ -1628,8 +1641,8 @@
         <!-- Sticky iPhone mockup -->
         <div class="feat-phone">
           <div class="feat-phone-wrap">
-            <video id="feat-video" autoplay muted playsinline preload="auto" poster="assets/advisor-tab-poster.jpg">
-              <source src="assets/advisor-tab.mov" type="video/quicktime">
+            <video id="feat-video" autoplay muted playsinline preload="auto">
+              <source src="assets/advisor-tab.mp4" type="video/mp4">
             </video>
             <img src="assets/iphone-border.avif" class="feat-phone-border" alt="" aria-hidden="true">
           </div>
@@ -1740,8 +1753,8 @@
       </div>
       <div class="dl-phone-wrap" aria-hidden="true">
         <div class="feat-phone-wrap">
-          <video id="dl-video" autoplay muted playsinline preload="auto" poster="assets/advisor-tab-poster.jpg">
-            <source src="assets/advisor-tab.mov" type="video/quicktime">
+          <video id="dl-video" autoplay muted playsinline preload="auto">
+            <source src="assets/advisor-tab.mp4" type="video/mp4">
           </video>
           <img src="assets/iphone-border.avif" class="feat-phone-border" alt="">
         </div>
@@ -1879,28 +1892,28 @@
           els.reverse();
           setTimeout(() => { outgoing.pause(); }, FADE + 50);
           incoming.addEventListener('ended', advance, { once: true });
-        }).catch(() => {});
+        }).catch(() => { });
       }
 
       frontEl.addEventListener('ended', advance, { once: true });
     }
 
     makeVideoCycler(document.getElementById('hero-video'), [
-      'assets/advisor-tab.mov',
-      'assets/mycard-tab.mov',
-      'assets/promotion-tab.mov',
-      'assets/history-tab.mov',
-      'assets/monthly-promo.mov',
-      'assets/miles-chart.mov',
+      'assets/advisor-tab.mp4',
+      'assets/mycard-tab.mp4',
+      'assets/promotion-tab.mp4',
+      'assets/history-tab.mp4',
+      'assets/monthly-promo.mp4',
+      'assets/miles-chart.mp4',
     ]);
 
     makeVideoCycler(document.getElementById('dl-video'), [
-      'assets/advisor-tab.mov',
-      'assets/mycard-tab.mov',
-      'assets/promotion-tab.mov',
-      'assets/history-tab.mov',
-      'assets/monthly-promo.mov',
-      'assets/miles-chart.mov',
+      'assets/advisor-tab.mp4',
+      'assets/mycard-tab.mp4',
+      'assets/promotion-tab.mp4',
+      'assets/history-tab.mp4',
+      'assets/monthly-promo.mp4',
+      'assets/miles-chart.mp4',
     ]);
 
     // ── HERO SPOTLIGHT ───────────────────────────
