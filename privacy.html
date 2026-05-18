@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>私隱政策 | Privacy Policy — HK Miles</title>
+  <link rel="icon" href="assets/logo.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #0F172A;
+      --blue: #2563EB;
+      --text: #0F172A;
+      --text-2: #475569;
+      --text-3: #94A3B8;
+      --bg: #F8FAFC;
+      --white: #FFFFFF;
+      --border: #E2E8F0;
+    }
+
+    body {
+      font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--white);
+      color: var(--text);
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      padding: 14px 24px;
+    }
+
+    .nav-in {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: saturate(180%) blur(16px);
+      -webkit-backdrop-filter: saturate(180%) blur(16px);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 6px 6px 6px 14px;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.10);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 700;
+      font-size: 15px;
+      padding: 2px 10px 2px 0;
+      margin-right: 4px;
+    }
+
+    .nav-logo img { width: 28px; height: 28px; border-radius: 7px; object-fit: cover; }
+
+    .nav-links { display: flex; align-items: center; gap: 0; }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-2);
+      font-size: 14px;
+      font-weight: 500;
+      padding: 8px 14px;
+      border-radius: 100px;
+      transition: color .15s, background .15s;
+      white-space: nowrap;
+    }
+
+    .nav-links a:hover { color: var(--text); background: rgba(0,0,0,0.05); }
+
+    .nav-links .nav-cta {
+      color: #fff !important;
+    }
+
+    .nav-cta {
+      background: #111827;
+      color: #fff;
+      font-weight: 600;
+      font-size: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 16px;
+      border-radius: 100px;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background .15s;
+    }
+
+    .nav-cta:hover { background: #1f2937; }
+
+    /* ── PAGE ── */
+    .page-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 120px 24px 96px;
+    }
+
+    /* ── LANG SWITCHER ── */
+    .lang-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 48px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      color: var(--text-2);
+      text-decoration: none;
+      transition: color .15s;
+    }
+
+    .back-link:hover { color: var(--text); }
+
+    .switcher {
+      display: flex;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 3px;
+      border-radius: 10px;
+    }
+
+    .switcher button {
+      border: none;
+      background: none;
+      padding: 6px 14px;
+      border-radius: 7px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-2);
+      transition: all .15s;
+      font-family: inherit;
+    }
+
+    .switcher button.active {
+      background: var(--white);
+      color: var(--text);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+    }
+
+    /* ── CONTENT ── */
+    .lang-en { display: none; }
+    .lang-zh { display: block; }
+    body.show-en .lang-en { display: block; }
+    body.show-en .lang-zh { display: none; }
+
+    h1 {
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 700;
+      letter-spacing: -.5px;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .last-updated {
+      font-size: 13px;
+      color: var(--text-3);
+      margin-bottom: 48px;
+    }
+
+    h2 {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text);
+      margin-top: 40px;
+      margin-bottom: 10px;
+    }
+
+    p { color: var(--text-2); margin-bottom: 12px; }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    li {
+      color: var(--text-2);
+      padding-left: 16px;
+      position: relative;
+    }
+
+    li::before {
+      content: '·';
+      position: absolute;
+      left: 0;
+      color: var(--text-3);
+      font-weight: 700;
+    }
+
+    strong { color: var(--text); font-weight: 600; }
+
+    .section {
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 8px;
+    }
+
+    .section:last-child { border-bottom: none; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      padding: 32px 24px;
+      text-align: center;
+      color: var(--text-3);
+      font-size: 13px;
+    }
+
+    footer a { color: var(--text-2); text-decoration: none; }
+    footer a:hover { color: var(--text); }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-in">
+      <a href="index.html" class="nav-logo">
+        <img src="assets/logo.png" alt="HK Miles">
+        <span>HK Miles</span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html">首頁</a>
+        <a href="promotions.html">優惠情報</a>
+        <a href="https://apps.apple.com/hk/app/hk-miles/id6760291510" class="nav-cta" target="_blank" rel="noopener noreferrer">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+          </svg>
+          免費下載
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-wrap">
+    <div class="lang-bar">
+      <a href="index.html" class="back-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+        返回主頁
+      </a>
+      <div class="switcher">
+        <button id="btn-zh" class="active" onclick="setLang('zh')">中文</button>
+        <button id="btn-en" onclick="setLang('en')">English</button>
+      </div>
+    </div>
+
+    <!-- CHINESE -->
+    <div class="lang-zh">
+      <h1>私隱政策</h1>
+      <p class="last-updated">最後更新日期：2026年4月5日</p>
+
+      <div class="section">
+        <h2>1. 我們收集的資料</h2>
+        <p>HK Miles 旨在為您提供信用卡獎賞管理服務。我們收集的資料分為兩類：</p>
+        <ul>
+          <li><strong>本地數據：</strong>您的簽賬紀錄預設僅儲存在您的裝置本地，並透過您的私人 Apple iCloud 帳戶進行同步。開發團隊無法訪問或讀取此數據。</li>
+          <li><strong>雲端帳戶數據（用戶選用）：</strong>若您主動開啟「雲端帳戶同步」，我們會收集您的加密 UID、年齡組別、行業、獎賞偏好及簽賬明細，以便提供跨平台備份及深度個人化建議。</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h2>2. 資料用途</h2>
+        <p>我們使用收集到的資料進行以下用途：</p>
+        <ul>
+          <li><strong>跨裝置同步：</strong>確保您在不同 Apple 裝置上能讀取最新紀錄。</li>
+          <li><strong>個人化推薦：</strong>根據您的消費習慣與背景，提供精準的信用卡及優惠建議。</li>
+          <li><strong>服務優化：</strong>分析匿名數據以改善應用程式效能。</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h2>3. 資料安全性</h2>
+        <p>我們承諾保護您的數據安全。所有雲端數據均儲存在受保護的 Google Firebase 伺服器中，並使用業界標準的 SSL/TLS 加密技術進行傳輸。</p>
+      </div>
+
+      <div class="section">
+        <h2>4. 香港私隱條例 (PDPO) 合規聲明</h2>
+        <p>我們承諾嚴格遵守香港法例第486章《個人資料（私隱）條例》。我們收集的所有資料均按照條例要求的公平及合法原則進行處理。除非獲得法律許可或您的明確同意，我們不會將您的個人資料披露予任何第三方。</p>
+      </div>
+
+      <div class="section">
+        <h2>5. 第三方分析服務</h2>
+        <p>本應用程式使用 Google Analytics for Firebase。這項服務能幫助我們分析匿名數據，了解用戶最常用的信用卡、最頻繁的簽賬類別（如餐飲或海外）以及整體趨勢。所有資料均為去識別化的統計數據，不包含您的個人姓名、筆記或具體的簽賬金額。我們使用這些洞察來優化應用效能並改進推薦引擎。</p>
+      </div>
+
+      <div class="section">
+        <h2>6. 用戶權利與資料刪除</h2>
+        <p>您對自己的個人資料擁有絕對控制權：</p>
+        <ul>
+          <li><strong>隨時停用：</strong>您可隨時在設定中關閉雲端同步功能。</li>
+          <li><strong>完全刪除：</strong>您可以使用「永久刪除雲端帳戶數據」功能，這將立即觸發從伺服器中刪除所有屬於您的紀錄。</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h2>7. 資料保留與刪除</h2>
+        <p>我們僅在提供服務所需的期間內保留您的資料：</p>
+        <ul>
+          <li><strong>本地數據：</strong>永久保留，除非您刪除 App 或手動清除。</li>
+          <li><strong>雲端數據：</strong>若帳戶連續 12 個月無活動，我們可能會將其標記為非活躍並在通知後刪除。您亦可隨時使用「永久刪除」功能即時抹除所有雲端紀錄。</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h2>8. 兒童私隱</h2>
+        <p>本應用程式不對 13 歲以下的兒童提供服務。我們不會在知情的情況下收集 13 歲以下兒童的資料。若發現此類情況，我們將立即刪除相關數據。</p>
+      </div>
+
+      <div class="section">
+        <h2>9. 數據洩漏處理</h2>
+        <p>儘管我們盡力保護您的資料，但若不幸發生數據洩漏，我們承諾在發現後 72 小時內透過應用程式公告或電郵通知受影響用戶及相關監管機構。</p>
+      </div>
+
+      <div class="section">
+        <h2>10. 聯絡我們</h2>
+        <p>如果您對本私隱政策或您的個人資料有任何疑問，請透過以下方式聯絡我們：<br>
+        電郵：hkmiles.social@outlook.com</p>
+      </div>
+    </div>
+
+    <!-- ENGLISH -->
+    <div class="lang-en">
+      <h1>Privacy Policy</h1>
+      <p class="last-updated">Last Updated: April 5, 2026</p>
+
+      <div class="section">
+        <h2>1. Data We Collect</h2>
+        <p>HK Miles is designed to help you manage credit card rewards. We process two types of data:</p>
+        <ul>
+          <li><strong>Local Data:</strong> By default, your spending history is stored locally on your device and synced via your private Apple iCloud account. We have zero access to this data.</li>
+          <li><strong>Cloud Account Data (Opt-in):</strong> If you explicitly enable "Cloud Account Sync," we collect your encrypted UID, age group, industry, reward preferences, and transaction records to provide cross-platform backups and personalized advice.</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h2>2. How We Use Data</h2>
+        <p>We use the collected information for the following purposes:</p>
+        <ul>
+          <li><strong>Syncing:</strong> Providing access to your records across all your Apple devices.</li>
+          <li><strong>Personalization:</strong> Offering precise credit card and promotion recommendations based on your spending habits.</li>
+          <li><strong>Optimization:</strong> Analyzing anonymized data to improve app performance and user experience.</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h2>3. Data Security</h2>
+        <p>We take security seriously. All cloud data is stored on secure Google Firebase servers and transmitted using industry-standard SSL/TLS encryption.</p>
+      </div>
+
+      <div class="section">
+        <h2>4. HK PDPO Compliance</h2>
+        <p>We are committed to full compliance with the Personal Data (Privacy) Ordinance (Cap. 486) of Hong Kong. All data collected is processed fairly and lawfully. We will not disclose your personal data to any third parties unless required by law or with your explicit consent.</p>
+      </div>
+
+      <div class="section">
+        <h2>5. Third-Party Analytics</h2>
+        <p>This app uses Google Analytics for Firebase. This service helps us understand general trends, such as which credit cards are most popular and which spending categories are used most frequently. All data is anonymized and aggregated — it does not include your name, personal notes, or specific transaction amounts. We use these insights to improve app performance and our recommendation engine.</p>
+      </div>
+
+      <div class="section">
+        <h2>6. User Rights &amp; Data Deletion</h2>
+        <p>You maintain full control over your personal information:</p>
+        <ul>
+          <li><strong>Opt-out:</strong> You can disable cloud sync at any time within the app settings.</li>
+          <li><strong>Full Deletion:</strong> You can use the "Permanently Delete Cloud Data" feature, which triggers an immediate wipe of all your records from our infrastructure.</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h2>7. Data Retention</h2>
+        <p>We only keep your data for as long as necessary to provide our services:</p>
+        <ul>
+          <li><strong>Local Data:</strong> Stored indefinitely until you delete the app or clear its cache.</li>
+          <li><strong>Cloud Data:</strong> Accounts inactive for more than 12 months may be marked for deletion after notice. You can trigger an instant wipe at any time via the "Delete Cloud Data" feature.</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h2>8. Children's Privacy</h2>
+        <p>Our services are not intended for children under 13. We do not knowingly collect data from children under 13. If we discover such data, we will delete it immediately.</p>
+      </div>
+
+      <div class="section">
+        <h2>9. Data Breach Procedures</h2>
+        <p>In the unlikely event of a data breach, we commit to notifying affected users and relevant authorities within 72 hours of discovery via app announcements or email.</p>
+      </div>
+
+      <div class="section">
+        <h2>10. Contact Us</h2>
+        <p>If you have any questions about this Privacy Policy or your personal data, please contact us at:<br>
+        Email: hkmiles.social@outlook.com</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2026 HK Miles. All rights reserved. &nbsp;·&nbsp; <a href="privacy.html">私隱政策</a> &nbsp;·&nbsp; <a href="terms.html">使用條款</a></p>
+  </footer>
+
+  <script>
+    function setLang(lang) {
+      if (lang === 'en') {
+        document.body.classList.add('show-en');
+        document.getElementById('btn-en').classList.add('active');
+        document.getElementById('btn-zh').classList.remove('active');
+        document.title = 'Privacy Policy — HK Miles';
+        document.documentElement.lang = 'en';
+      } else {
+        document.body.classList.remove('show-en');
+        document.getElementById('btn-zh').classList.add('active');
+        document.getElementById('btn-en').classList.remove('active');
+        document.title = '私隱政策 — HK Miles';
+        document.documentElement.lang = 'zh-Hant-HK';
+      }
+    }
+  </script>
+</body>
+</html>

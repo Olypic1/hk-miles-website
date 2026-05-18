@@ -1,0 +1,2008 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HK Miles｜香港信用卡里數及回贈計算器</title>
+  <meta name="description" content="HK Miles 是專為香港人設計的信用卡里數及現金回贈計算器。智能比較各銀行信用卡回報，掌握最新優惠，最大化每筆消費的回報。">
+  <link rel="icon" href="assets/logo.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap"
+    rel="stylesheet">
+  <style>
+    /* ── RESET ──────────────────────────────────── */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* ── DESIGN TOKENS ──────────────────────────── */
+    :root {
+      --blue: #1D4ED8;
+      --blue-mid: #2563EB;
+      --blue-dim: #1E40AF;
+      --blue-bg: #EFF6FF;
+      --navy: #0F172A;
+      --navy-mid: #1E293B;
+      --text: #0F172A;
+      --text-2: #475569;
+      --text-3: #94A3B8;
+      --bg: #F8FAFC;
+      --white: #FFFFFF;
+      --border: #E2E8F0;
+      --success: #059669;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+      --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.12);
+      --r-sm: 8px;
+      --r-md: 14px;
+      --r-lg: 20px;
+      --r-xl: 28px;
+    }
+
+    /* ── DARK MODE ───────────────────────────────── */
+    /* ── BASE ────────────────────────────────────── */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--white);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    /* ── SKIP LINK ───────────────────────────────── */
+    .skip-link {
+      position: absolute;
+      top: -48px;
+      left: 8px;
+      background: var(--blue);
+      color: #fff;
+      padding: 8px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 0 0 var(--r-sm) var(--r-sm);
+      z-index: 9999;
+      transition: top 0.2s;
+    }
+
+    .skip-link:focus {
+      top: 0;
+      outline: 3px solid #fff;
+      outline-offset: 2px;
+    }
+
+    /* ── FOCUS STYLES ────────────────────────────── */
+    :focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 3px;
+      border-radius: var(--r-sm);
+    }
+
+    /* ── REDUCED MOTION ──────────────────────────── */
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+
+      html {
+        scroll-behavior: auto;
+      }
+    }
+
+    /* ── NAV ─────────────────────────────────────── */
+    body>nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      padding: 14px 24px;
+      pointer-events: none;
+    }
+
+    .nav-in {
+      pointer-events: all;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: saturate(180%) blur(16px);
+      -webkit-backdrop-filter: saturate(180%) blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 100px;
+      padding: 6px 6px 6px 14px;
+      box-shadow: 0 2px 16px rgba(0, 0, 0, 0.12);
+      transition: background 0.25s, border-color 0.25s, box-shadow 0.25s;
+    }
+
+    body>nav.scrolled .nav-in {
+      background: rgba(255, 255, 255, 0.88);
+      border-color: var(--border);
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.10);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+      border-radius: 100px;
+      padding: 2px 10px 2px 0;
+      margin-right: 4px;
+      flex-shrink: 0;
+    }
+
+    .nav-logo img {
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      object-fit: cover;
+    }
+
+    .nav-logo span {
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: -0.2px;
+      color: #fff;
+      transition: color 0.25s;
+      white-space: nowrap;
+    }
+
+    body>nav.scrolled .nav-logo span {
+      color: var(--text);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 14px;
+      font-weight: 500;
+      padding: 8px 14px;
+      border-radius: 100px;
+      transition: color 0.15s, background 0.15s;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    body>nav.scrolled .nav-links a {
+      color: var(--text-2);
+    }
+
+    .nav-links a:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    body>nav.scrolled .nav-links a:hover {
+      color: var(--text);
+      background: rgba(0, 0, 0, 0.05);
+    }
+
+    .nav-cta {
+      background: #111827 !important;
+      color: #fff !important;
+      font-weight: 600 !important;
+      font-size: 14px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+      padding: 9px 16px !important;
+      border-radius: 100px !important;
+      text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: background 0.15s !important;
+    }
+
+    .nav-cta:hover {
+      background: #1f2937 !important;
+    }
+
+    body>nav.scrolled .nav-cta {
+      background: #111827 !important;
+    }
+
+    body>nav.scrolled .nav-cta:hover {
+      background: #374151 !important;
+    }
+
+    .nav-cta svg {
+      flex-shrink: 0;
+    }
+
+    /* ── HERO ─────────────────────────────────────── */
+    .hero {
+      background: var(--navy);
+      padding-top: 60px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 65% 90% at 78% 55%, rgba(37, 99, 235, 0.22) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .hero-spotlight {
+      position: absolute;
+      inset: 0;
+      background-image: url('assets/card-banner.png');
+      background-repeat: no-repeat;
+      background-size: auto 100%;
+      background-position: 0% 50%;
+      animation: hero-banner-slide 37.5s linear infinite alternate;
+      -webkit-mask-image: radial-gradient(circle 0px at 50% 50%, black 50%, transparent 100%);
+      mask-image: radial-gradient(circle 0px at 50% 50%, black 50%, transparent 100%);
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0;
+    }
+
+    @keyframes hero-banner-slide {
+      from { background-position-x: 0%; }
+      to   { background-position-x: 100%; }
+    }
+
+    .hero-in {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 80px 24px 96px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 64px;
+      position: relative;
+      z-index: 3;
+    }
+
+    @keyframes hero-up {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero-badge {
+      animation: hero-up 700ms cubic-bezier(0.23, 1, 0.32, 1) both;
+    }
+
+    .hero h1 {
+      animation: hero-up 700ms 80ms cubic-bezier(0.23, 1, 0.32, 1) both;
+    }
+
+    .hero-desc {
+      animation: hero-up 700ms 160ms cubic-bezier(0.23, 1, 0.32, 1) both;
+    }
+
+    .hero-acts {
+      animation: hero-up 700ms 240ms cubic-bezier(0.23, 1, 0.32, 1) both;
+    }
+
+    .hero-trust {
+      animation: hero-up 700ms 320ms cubic-bezier(0.23, 1, 0.32, 1) both;
+    }
+
+    .hero-vis {
+      animation: hero-up 900ms 200ms cubic-bezier(0.23, 1, 0.32, 1) both;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-badge, .hero h1, .hero-desc, .hero-acts, .hero-trust, .hero-vis {
+        animation: none;
+      }
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.10);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 100px;
+      margin-bottom: 20px;
+    }
+
+    .live-dot {
+      width: 6px;
+      height: 6px;
+      background: #4ADE80;
+      border-radius: 50%;
+      animation: pulse-g 2.2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-g {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: .5;
+        transform: scale(.8);
+      }
+    }
+
+    .hero h1 {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+      font-size: clamp(34px, 4.5vw, 54px);
+      font-weight: 700;
+      line-height: 1.2;
+      color: #fff;
+      margin-bottom: 20px;
+      letter-spacing: -.5px;
+    }
+
+    .hero h1 .hi {
+      background: linear-gradient(135deg, #60A5FA, #34D399);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-desc {
+      font-size: 17px;
+      color: rgba(255, 255, 255, .70);
+      line-height: 1.75;
+      margin-bottom: 32px;
+      max-width: 420px;
+    }
+
+    .hero-acts {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-pri {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--blue-mid);
+      color: #fff;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 13px 24px;
+      border-radius: var(--r-md);
+      transition: background 150ms ease, transform 160ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 150ms ease;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, .40);
+      min-height: 44px;
+      cursor: pointer;
+      border: none;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .btn-pri:hover {
+        background: var(--blue-dim);
+        box-shadow: 0 6px 18px rgba(37, 99, 235, .50);
+      }
+    }
+
+    .btn-pri:active {
+      transform: scale(0.97);
+    }
+
+    .btn-sec {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, .10);
+      border: 1px solid rgba(255, 255, 255, .28);
+      color: rgba(255, 255, 255, .90);
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 600;
+      padding: 13px 20px;
+      border-radius: var(--r-md);
+      transition: background 150ms ease, transform 160ms cubic-bezier(0.23, 1, 0.32, 1);
+      min-height: 44px;
+      cursor: pointer;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .btn-sec:hover {
+        background: rgba(255, 255, 255, .18);
+      }
+    }
+
+    .btn-sec:active {
+      transform: scale(0.97);
+    }
+
+    .hero-trust {
+      margin-top: 24px;
+      font-size: 12px;
+      color: rgba(255, 255, 255, .40);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .stars {
+      color: #FBBF24;
+      font-size: 11px;
+      letter-spacing: 2px;
+    }
+
+    /* phone mockup */
+    .hero-vis {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      position: relative;
+    }
+
+    .phone-frame {
+      width: 248px;
+      background: #18181B;
+      border-radius: 42px;
+      padding: 13px;
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, .06) inset, 0 32px 72px rgba(0, 0, 0, .55);
+      position: relative;
+    }
+
+    .phone-notch {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 96px;
+      height: 26px;
+      background: #18181B;
+      border-radius: 0 0 16px 16px;
+      z-index: 5;
+    }
+
+    .phone-scr {
+      background: #F2F2F7;
+      border-radius: 30px;
+      overflow: hidden;
+      aspect-ratio: 9/19.5;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .phone-status {
+      height: 44px;
+      background: #F2F2F7;
+      display: flex;
+      align-items: flex-end;
+      padding: 0 18px 8px;
+      justify-content: space-between;
+      font-size: 11px;
+      font-weight: 600;
+      color: #1C1C1E;
+      flex-shrink: 0;
+    }
+
+    .phone-content {
+      flex: 1;
+      padding: 0 12px 12px;
+      overflow: hidden;
+    }
+
+    .phone-hd {
+      font-size: 20px;
+      font-weight: 900;
+      color: #1C1C1E;
+      margin-bottom: 10px;
+      letter-spacing: -.5px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .phone-row {
+      background: #fff;
+      border-radius: 10px;
+      padding: 9px;
+      margin-bottom: 7px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, .05);
+    }
+
+    .phone-chips {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 7px;
+    }
+
+    .pchip {
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 5px;
+      background: #EFF6FF;
+      color: #1D4ED8;
+    }
+
+    .pchip.on {
+      background: #1D4ED8;
+      color: #fff;
+    }
+
+    .pcard {
+      background: #fff;
+      border-radius: 9px;
+      padding: 8px 10px;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, .04);
+    }
+
+    .pcard.best {
+      background: #1D4ED8;
+    }
+
+    .pcn {
+      font-size: 10px;
+      font-weight: 600;
+      color: #1C1C1E;
+    }
+
+    .pcard.best .pcn {
+      color: #fff;
+    }
+
+    .pcr {
+      font-size: 11px;
+      font-weight: 700;
+      color: #1D4ED8;
+    }
+
+    .pcard.best .pcr {
+      color: rgba(255, 255, 255, .9);
+    }
+
+    .phone-tabs {
+      height: 52px;
+      background: rgba(242, 242, 247, .96);
+      border-top: 1px solid rgba(0, 0, 0, .08);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      flex-shrink: 0;
+    }
+
+    .ptab {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1px;
+      font-size: 8px;
+      color: #8E8E93;
+    }
+
+    .ptab.on {
+      color: #1D4ED8;
+    }
+
+    /* floating stat cards */
+    .fcard {
+      position: absolute;
+      background: #fff;
+      border-radius: var(--r-md);
+      padding: 10px 14px;
+      box-shadow: var(--shadow-lg);
+      animation: bob 4s ease-in-out infinite;
+    }
+
+    .fcard.r {
+      right: -22px;
+      top: 24%;
+    }
+
+    .fcard.l {
+      left: -22px;
+      top: 58%;
+      animation-delay: -2s;
+    }
+
+    @keyframes bob {
+
+      0%,
+      100% {
+        transform: translateY(0)
+      }
+
+      50% {
+        transform: translateY(-6px)
+      }
+    }
+
+    .fval {
+      font-size: 20px;
+      font-weight: 900;
+      color: var(--blue);
+      display: block;
+    }
+
+    .flbl {
+      font-size: 10px;
+      color: var(--text-2);
+    }
+
+    /* ── STATS ─────────────────────────────────────── */
+    .stats {
+      background: var(--bg);
+      padding: 96px 24px;
+    }
+
+    .stats-grid {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .stat-cell {
+      padding: 48px 40px;
+      text-align: center;
+      position: relative;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 600ms cubic-bezier(0.23, 1, 0.32, 1), transform 600ms cubic-bezier(0.23, 1, 0.32, 1);
+      transition-delay: calc(var(--i, 0) * 120ms);
+    }
+
+    .stat-cell.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .stat-cell:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 20%;
+      height: 60%;
+      width: 1px;
+      background: var(--border);
+    }
+
+    .stat-v {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+      font-size: 64px;
+      font-weight: 700;
+      color: var(--blue);
+      letter-spacing: -3px;
+      line-height: 1;
+      margin-bottom: 12px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .stat-l {
+      font-size: 15px;
+      color: var(--text-2);
+      font-weight: 500;
+    }
+
+    /* ── SECTION HEADER ────────────────────────────── */
+    .sec-lbl {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--blue);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .sec-ttl {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+      font-size: clamp(26px, 3.5vw, 40px);
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -.5px;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .sec-sub {
+      font-size: 16px;
+      color: var(--text-2);
+      text-align: center;
+      max-width: 480px;
+      margin: 0 auto 64px;
+    }
+
+    /* ── FEATURES ──────────────────────────────────── */
+    .features {
+      background: var(--bg);
+      padding: 96px 24px;
+    }
+
+    .feat-showcase {
+      max-width: 960px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 64px;
+      align-items: start;
+    }
+
+    /* Scrollable list */
+    .feat-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: calc(300px * 1602 / 784);
+      max-width: 85%;
+      overflow-y: auto;
+      padding: 16px 8px;
+      scrollbar-width: none;
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%);
+      mask-image: linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%);
+    }
+
+    .feat-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: #ebf0f8;
+      border-radius: 24px;
+      padding: 32px 24px;
+      cursor: pointer;
+      transition: transform 0.25s;
+      user-select: none;
+    }
+
+    /* Inactive: scale down + dim */
+    .feat-item:not(.active) {
+      transform: scale(0.925);
+    }
+
+    .feat-item:not(.active) .feat-item-ttl,
+    .feat-item:not(.active) .feat-item-desc {
+      opacity: 0.5;
+    }
+
+    .feat-item:not(.active) .feat-arrow-icon {
+      opacity: 0.5;
+    }
+
+    /* Hover on inactive: restore to full size */
+    .feat-item:not(.active):hover {
+      transform: scale(1);
+    }
+
+    .feat-item:not(.active):hover .feat-item-ttl,
+    .feat-item:not(.active):hover .feat-item-desc {
+      opacity: 0.8;
+    }
+
+    .feat-item:not(.active):hover .feat-arrow-icon {
+      opacity: 1;
+    }
+
+    /* Click feedback */
+    .feat-item:active {
+      transform: scale(0.99);
+    }
+
+    .feat-item-ttl,
+    .feat-item-desc {
+      opacity: 1;
+      transition: opacity 0.3s;
+    }
+
+    .feat-item-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .feat-item-ttl {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -.2px;
+      margin-bottom: 6px;
+    }
+
+    .feat-item-desc {
+      font-size: 14px;
+      color: var(--text-2);
+      line-height: 1.65;
+    }
+
+    /* Ring icon container */
+    .feat-item-ico {
+      width: 34px;
+      height: 34px;
+      flex-shrink: 0;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .feat-ring-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    .feat-arrow-icon {
+      position: relative;
+      z-index: 1;
+      color: #1F2025;
+      transition: opacity 0.3s;
+      flex-shrink: 0;
+    }
+
+    .feat-pause-icon {
+      position: relative;
+      z-index: 1;
+      color: #1F2025;
+      display: none;
+    }
+
+    .feat-item.active .feat-arrow-icon {
+      display: none;
+    }
+
+    .feat-item.active .feat-pause-icon {
+      display: block;
+    }
+
+    /* Phone mockup */
+    .feat-phone {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .feat-phone-wrap {
+      position: relative;
+      width: 300px;
+      height: calc(300px * 1602 / 784);
+    }
+
+    .feat-phone-wrap video {
+      position: absolute;
+      top: 2.5%;
+      left: 4%;
+      right: 4%;
+      bottom: 2%;
+      width: 92%;
+      height: 95%;
+      object-fit: contain;
+      border-radius: 44px;
+      display: block;
+    }
+
+    .feat-phone-border {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .feat-showcase {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .feat-phone {
+        position: static;
+        display: flex;
+        justify-content: center;
+      }
+
+      .feat-phone-wrap {
+        width: 240px;
+        height: calc(240px * 1602 / 784);
+      }
+
+      .feat-list {
+        max-height: none;
+        overflow-y: visible;
+      }
+    }
+
+    /* ── HOW ─────────────────────────────────────── */
+    .how {
+      background: var(--bg);
+      padding: 96px 24px;
+    }
+
+    .steps {
+      max-width: 860px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 48px;
+      position: relative;
+    }
+
+    .steps::before {
+      content: '';
+      position: absolute;
+      top: 26px;
+      left: calc(16.67% + 14px);
+      right: calc(16.67% + 14px);
+      height: 2px;
+      background: linear-gradient(90deg, var(--blue-mid), #34D399);
+    }
+
+    .step {
+      text-align: center;
+      position: relative;
+    }
+
+    .step-n {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue-mid), #34D399);
+      color: #fff;
+      font-size: 20px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      z-index: 1;
+      position: relative;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, .30);
+    }
+
+    .step-ttl {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .step-desc {
+      font-size: 14px;
+      color: var(--text-2);
+      line-height: 1.65;
+    }
+
+    /* ── BANKS ────────────────────────────────────── */
+    /* ── APPLE PAY ────────────────────────────────── */
+    .applepay {
+      background: var(--bg);
+      padding: 96px 24px;
+    }
+
+    .applepay-in {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 80px;
+    }
+
+    .ap-phone-wrap {
+      position: relative;
+      width: 300px;
+      height: calc(300px * 1602 / 784);
+      flex-shrink: 0;
+    }
+
+    .ap-phone-wrap .ap-screen {
+      position: absolute;
+      top: 2.5%;
+      left: 4%;
+      width: 92%;
+      height: 95%;
+      object-fit: cover;
+      border-radius: 44px;
+      display: block;
+    }
+
+    .applepay-c .sec-lbl,
+    .applepay-c .sec-ttl {
+      text-align: left;
+    }
+
+    .applepay-c .sec-ttl {
+      font-size: clamp(24px, 3vw, 36px);
+    }
+
+    .ap-desc {
+      font-size: 16px;
+      color: var(--text-2);
+      line-height: 1.75;
+      margin-bottom: 16px;
+    }
+
+    .bullets {
+      list-style: none;
+      margin: 20px 0 32px;
+    }
+
+    .bullets li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 15px;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+
+    .bcheck {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* ── DOWNLOAD ─────────────────────────────────── */
+    .dl-sect {
+      position: relative;
+      overflow: hidden;
+      padding: 96px 24px 80px;
+      text-align: center;
+      color: #fff;
+      background: var(--navy);
+      /* placeholder — replace with full-width background */
+      min-height: 900px;
+    }
+
+    .dl-content {
+      position: relative;
+      z-index: 2;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .dl-sect .sec-lbl {
+      color: rgba(255, 255, 255, .55);
+      margin-bottom: 16px;
+    }
+
+    .dl-sect h2 {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+      font-size: clamp(32px, 4.5vw, 54px);
+      font-weight: 700;
+      letter-spacing: -.5px;
+      margin-bottom: 16px;
+      line-height: 1.15;
+    }
+
+    .dl-sect p {
+      font-size: 17px;
+      opacity: .72;
+      line-height: 1.7;
+      margin-bottom: 40px;
+    }
+
+    .dl-btns {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .dl-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255, 255, 255, .12);
+      border: 1.5px solid rgba(255, 255, 255, .35);
+      color: #fff;
+      text-decoration: none;
+      padding: 16px 32px;
+      border-radius: var(--r-md);
+      transition: background .2s, transform .15s;
+      min-height: 56px;
+      cursor: pointer;
+    }
+
+    .dl-btn:hover {
+      background: rgba(255, 255, 255, .22);
+      transform: translateY(-2px);
+    }
+
+    .dl-sub {
+      font-size: 11px;
+      opacity: .75;
+      display: block;
+      text-align: left;
+    }
+
+    .dl-main {
+      font-size: 18px;
+      font-weight: 700;
+      display: block;
+      text-align: left;
+    }
+
+    .dl-phone-wrap {
+      display: flex;
+      justify-content: center;
+      margin-top: 60px;
+    }
+
+    .dl-banner {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 50px;
+      /* 80px bottom padding − 30px */
+      height: calc(300px * 1602 / 784 + 60px);
+      /* phone height + 30px top & bottom */
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .dl-banner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, var(--navy), transparent 120px, transparent calc(100% - 120px), var(--navy));
+      z-index: 2;
+    }
+
+    .dl-banner::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1;
+    }
+
+    .dl-banner img {
+      height: 100%;
+      width: auto;
+      max-width: none;
+      display: block;
+      animation: banner-slide 37.5s linear infinite alternate;
+    }
+
+    @keyframes banner-slide {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(calc(-100% + 100vw));
+      }
+    }
+
+    /* ── FOOTER ────────────────────────────────────── */
+    footer {
+      background: var(--bg);
+      color: var(--text-2);
+      padding: 80px 24px;
+    }
+
+    .foot-in {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .foot-in>p {
+      text-align: right;
+    }
+
+    .foot-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text);
+      font-weight: 700;
+      font-size: 15px;
+      text-decoration: none;
+      border-radius: var(--r-sm);
+    }
+
+    .foot-logo img {
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      object-fit: cover;
+    }
+
+    .foot-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .foot-links a {
+      color: var(--text-2);
+      text-decoration: none;
+      font-size: 13px;
+      transition: color .15s;
+    }
+
+    .foot-links a:hover {
+      color: var(--text);
+    }
+
+    /* ── SCROLL REVEAL ─────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity .55s ease, transform .55s ease;
+    }
+
+    .reveal.in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ────────────────────────────────── */
+    @media (max-width: 900px) {
+      .hero-in {
+        grid-template-columns: 1fr;
+        gap: 48px;
+        padding-bottom: 64px;
+      }
+
+      .hero-vis {
+        display: none;
+      }
+
+      .feat-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .applepay-in {
+        grid-template-columns: 1fr;
+      }
+
+      .promo-in {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stat-cell::after {
+        display: none;
+      }
+
+      .stat-cell:not(:last-child) {
+        border-bottom: 1px solid var(--border);
+      }
+
+      .stat-v {
+        font-size: 52px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .feat-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .steps {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .steps::before {
+        display: none;
+      }
+
+      .hide-sm {
+        display: none !important;
+      }
+
+      .foot-in {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .foot-in>p {
+        text-align: center;
+      }
+
+      .foot-links {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Skip navigation for keyboard/screen reader users -->
+  <a href="#main" class="skip-link">跳至主要內容</a>
+
+  <!-- NAV -->
+  <nav aria-label="主導航">
+    <div class="nav-in">
+      <a href="index.html" class="nav-logo" aria-label="HK Miles 首頁">
+        <img src="assets/logo.png" alt="" aria-hidden="true">
+        <span>HK Miles</span>
+      </a>
+      <div class="nav-links" role="list">
+        <a href="index.html" role="listitem">首頁</a>
+        <a href="promotions.html" role="listitem">優惠情報</a>
+        <a href="https://apps.apple.com/hk/app/hk-miles/id6760291510" role="listitem" class="nav-cta" target="_blank"
+          rel="noopener noreferrer" aria-label="在 App Store 免費下載 HK Miles（於新分頁開啟）">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path
+              d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+          </svg>
+          免費下載
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" aria-labelledby="hero-h">
+    <div class="hero-spotlight" aria-hidden="true"></div>
+    <div class="hero-in">
+      <div>
+        <div class="hero-badge" aria-hidden="true">
+          <span class="live-dot"></span>專為香港人設計
+        </div>
+        <h1 id="hero-h">每一筆消費<br>都值得<span class="hi">最高回報</span></h1>
+        <p class="hero-desc">HK Miles 讓你即時比較所有信用卡回報，自動計算里數或現金回贈，掌握最新銀行優惠，輕鬆最大化每一分消費。</p>
+        <div class="hero-acts">
+          <a href="#download" class="btn-pri">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 16L7 11M12 16L17 11M12 16V4M5 20H19" />
+            </svg>
+            立即免費下載
+          </a>
+          <a href="promotions.html" class="btn-sec">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" />
+              <circle cx="7" cy="7" r="1.5" fill="currentColor" stroke="none" />
+            </svg>
+            查看最新優惠
+          </a>
+        </div>
+        <p class="hero-trust" aria-label="五星好評，深受香港用戶歡迎，免費使用，無廣告">
+          <span class="stars" aria-hidden="true">★★★★★</span>
+          深受香港用戶歡迎 · 免費 · 無廣告
+        </p>
+      </div>
+
+      <!-- Decorative phone mockup -->
+      <div class="hero-vis" aria-hidden="true">
+        <div class="feat-phone-wrap">
+          <video id="hero-video" autoplay muted playsinline>
+            <source src="assets/advisor-tab.mov" type="video/mp4">
+            <source src="assets/advisor-tab.mov" type="video/quicktime">
+          </video>
+          <img src="assets/iphone-border.avif" class="feat-phone-border" alt="">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN -->
+  <main id="main">
+
+    <!-- STATS -->
+    <section class="stats" aria-label="產品數據">
+      <div class="stats-grid">
+        <div class="stat-cell" style="--i:0">
+          <div class="stat-v" data-count="60" data-suffix="+">60+</div>
+          <div class="stat-l">支援香港信用卡</div>
+        </div>
+        <div class="stat-cell" style="--i:1">
+          <div class="stat-v" data-count="10" data-suffix="+">10+</div>
+          <div class="stat-l">主要發卡銀行</div>
+        </div>
+        <div class="stat-cell" style="--i:2">
+          <div class="stat-v">免費</div>
+          <div class="stat-l">完全免費，無廣告</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="features" id="features" aria-labelledby="feat-h">
+      <h2 class="sec-ttl" id="feat-h">一個 App，全面管理里數</h2>
+      <p class="sec-sub">從計算回報到記錄消費，HK Miles 涵蓋你在信用卡管理上的所有需要。</p>
+
+      <div class="feat-showcase">
+        <div class="feat-left">
+          <!-- Scrollable feature list -->
+          <div class="feat-list" role="list">
+
+            <div class="feat-item active" role="listitem" data-video="assets/advisor-tab.mov" tabindex="0">
+              <div class="feat-item-body">
+                <div class="feat-item-ttl">碌卡建議</div>
+                <div class="feat-item-desc">輸入消費金額、貨幣及消費類別，即時比較所有信用卡，找出最高里數或現金回贈的最佳選擇</div>
+              </div>
+              <div class="feat-item-ico" aria-hidden="true">
+                <svg class="feat-ring-svg" viewBox="0 0 34 34">
+                  <circle cx="17" cy="17" r="13" fill="none" stroke="#C2C6CE" stroke-width="2.5" />
+                  <circle class="feat-ring-progress" cx="17" cy="17" r="13" fill="none" stroke="#1F2025"
+                    stroke-width="2.5"
+                    style="stroke-dasharray:81.68;stroke-dashoffset:81.68;transform-origin:17px 17px;transform:rotate(-90deg);" />
+                </svg>
+                <svg class="feat-arrow-icon" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+                <svg class="feat-pause-icon" width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                  <rect x="6" y="5" width="4" height="14" rx="1" />
+                  <rect x="14" y="5" width="4" height="14" rx="1" />
+                </svg>
+              </div>
+            </div>
+
+            <div class="feat-item" role="listitem" data-video="assets/mycard-tab.mov" tabindex="0">
+              <div class="feat-item-body">
+                <div class="feat-item-ttl">我的銀包</div>
+                <div class="feat-item-desc">集中管理你的信用卡，一眼查看月度消費進度、優惠加碼及簽賬上限，幫你避免錯過高回報或用爆優惠上限</div>
+              </div>
+              <div class="feat-item-ico" aria-hidden="true">
+                <svg class="feat-ring-svg" viewBox="0 0 34 34">
+                  <circle cx="17" cy="17" r="13" fill="none" stroke="#C2C6CE" stroke-width="2.5" />
+                  <circle class="feat-ring-progress" cx="17" cy="17" r="13" fill="none" stroke="#1F2025"
+                    stroke-width="2.5"
+                    style="stroke-dasharray:81.68;stroke-dashoffset:81.68;transform-origin:17px 17px;transform:rotate(-90deg);" />
+                </svg>
+                <svg class="feat-arrow-icon" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+                <svg class="feat-pause-icon" width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                  <rect x="6" y="5" width="4" height="14" rx="1" />
+                  <rect x="14" y="5" width="4" height="14" rx="1" />
+                </svg>
+              </div>
+            </div>
+
+            <div class="feat-item" role="listitem" data-video="assets/promotion-tab.mov" tabindex="0">
+              <div class="feat-item-body">
+                <div class="feat-item-ttl">最新優惠及情報</div>
+                <div class="feat-item-desc">整合銀行及信用卡優惠，確保你不會錯過任何精彩推廣</div>
+              </div>
+              <div class="feat-item-ico" aria-hidden="true">
+                <svg class="feat-ring-svg" viewBox="0 0 34 34">
+                  <circle cx="17" cy="17" r="13" fill="none" stroke="#C2C6CE" stroke-width="2.5" />
+                  <circle class="feat-ring-progress" cx="17" cy="17" r="13" fill="none" stroke="#1F2025"
+                    stroke-width="2.5"
+                    style="stroke-dasharray:81.68;stroke-dashoffset:81.68;transform-origin:17px 17px;transform:rotate(-90deg);" />
+                </svg>
+                <svg class="feat-arrow-icon" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+                <svg class="feat-pause-icon" width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                  <rect x="6" y="5" width="4" height="14" rx="1" />
+                  <rect x="14" y="5" width="4" height="14" rx="1" />
+                </svg>
+              </div>
+            </div>
+
+            <div class="feat-item" role="listitem" data-video="assets/history-tab.mov" tabindex="0">
+              <div class="feat-item-body">
+                <div class="feat-item-ttl">消費記錄與里數追蹤</div>
+                <div class="feat-item-desc">記錄每筆簽賬，自動計算已賺里數或現金回贈，並以每日及每月視圖追蹤回報</div>
+              </div>
+              <div class="feat-item-ico" aria-hidden="true">
+                <svg class="feat-ring-svg" viewBox="0 0 34 34">
+                  <circle cx="17" cy="17" r="13" fill="none" stroke="#C2C6CE" stroke-width="2.5" />
+                  <circle class="feat-ring-progress" cx="17" cy="17" r="13" fill="none" stroke="#1F2025"
+                    stroke-width="2.5"
+                    style="stroke-dasharray:81.68;stroke-dashoffset:81.68;transform-origin:17px 17px;transform:rotate(-90deg);" />
+                </svg>
+                <svg class="feat-arrow-icon" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+                <svg class="feat-pause-icon" width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                  <rect x="6" y="5" width="4" height="14" rx="1" />
+                  <rect x="14" y="5" width="4" height="14" rx="1" />
+                </svg>
+              </div>
+            </div>
+
+            <div class="feat-item" role="listitem" data-video="assets/monthly-promo.mov" tabindex="0">
+              <div class="feat-item-body">
+                <div class="feat-item-ttl">每日優惠</div>
+                <div class="feat-item-desc">按日期顯示當日適用的信用卡優惠，讓你付款前即時知道今日邊張卡最抵用</div>
+              </div>
+              <div class="feat-item-ico" aria-hidden="true">
+                <svg class="feat-ring-svg" viewBox="0 0 34 34">
+                  <circle cx="17" cy="17" r="13" fill="none" stroke="#C2C6CE" stroke-width="2.5" />
+                  <circle class="feat-ring-progress" cx="17" cy="17" r="13" fill="none" stroke="#1F2025"
+                    stroke-width="2.5"
+                    style="stroke-dasharray:81.68;stroke-dashoffset:81.68;transform-origin:17px 17px;transform:rotate(-90deg);" />
+                </svg>
+                <svg class="feat-arrow-icon" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+                <svg class="feat-pause-icon" width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                  <rect x="6" y="5" width="4" height="14" rx="1" />
+                  <rect x="14" y="5" width="4" height="14" rx="1" />
+                </svg>
+              </div>
+            </div>
+
+            <div class="feat-item" role="listitem" data-video="assets/miles-chart.mov" tabindex="0">
+              <div class="feat-item-body">
+                <div class="feat-item-ttl">里數兌換</div>
+                <div class="feat-item-desc">內置里數兌換指南，快速查看不同航距、艙等、單程或來回所需里數，幫你規劃儲里數目標</div>
+              </div>
+              <div class="feat-item-ico" aria-hidden="true">
+                <svg class="feat-ring-svg" viewBox="0 0 34 34">
+                  <circle cx="17" cy="17" r="13" fill="none" stroke="#C2C6CE" stroke-width="2.5" />
+                  <circle class="feat-ring-progress" cx="17" cy="17" r="13" fill="none" stroke="#1F2025"
+                    stroke-width="2.5"
+                    style="stroke-dasharray:81.68;stroke-dashoffset:81.68;transform-origin:17px 17px;transform:rotate(-90deg);" />
+                </svg>
+                <svg class="feat-arrow-icon" width="12" height="12" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+                <svg class="feat-pause-icon" width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                  <rect x="6" y="5" width="4" height="14" rx="1" />
+                  <rect x="14" y="5" width="4" height="14" rx="1" />
+                </svg>
+              </div>
+            </div>
+
+          </div>
+        </div><!-- /feat-left -->
+
+        <!-- Sticky iPhone mockup -->
+        <div class="feat-phone">
+          <div class="feat-phone-wrap">
+            <video id="feat-video" autoplay muted playsinline>
+              <source src="assets/advisor-tab.mov" type="video/mp4">
+              <source src="assets/advisor-tab.mov" type="video/quicktime">
+            </video>
+            <img src="assets/iphone-border.avif" class="feat-phone-border" alt="" aria-hidden="true">
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="how" id="how" aria-labelledby="how-h">
+      <h2 class="sec-ttl" id="how-h">三步即可上手</h2>
+      <p class="sec-sub">簡單直覺的操作，讓你秒速找到最值錢的刷卡選擇。</p>
+      <div class="steps">
+        <div class="step reveal">
+          <div class="step-n" aria-hidden="true">1</div>
+          <h3 class="step-ttl">加入你的信用卡</h3>
+          <p class="step-desc">從超過 50 張香港信用卡中選擇你持有的卡片，加入你的數碼銀包。</p>
+        </div>
+        <div class="step reveal">
+          <div class="step-n" aria-hidden="true">2</div>
+          <h3 class="step-ttl">輸入消費詳情</h3>
+          <p class="step-desc">輸入消費金額、選擇消費類別，即時獲得最佳信用卡建議。</p>
+        </div>
+        <div class="step reveal">
+          <div class="step-n" aria-hidden="true">3</div>
+          <h3 class="step-ttl">按建議刷卡並記錄</h3>
+          <p class="step-desc">根據智能排名選用最高回報的信用卡，並記錄消費，自動追蹤里數累積。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- BANKS -->
+    <!-- APPLE PAY -->
+    <section class="applepay" aria-labelledby="ap-h">
+      <div class="applepay-in">
+        <div style="display:flex;justify-content:center;">
+          <div class="ap-phone-wrap reveal">
+            <img src="assets/applepay_zh.png" alt="Apple Pay 自動記帳示範：付款後彈出記錄介面，自動填入金額" class="ap-screen">
+            <img src="assets/iphone-border.avif" class="feat-phone-border" alt="" aria-hidden="true">
+          </div>
+        </div>
+        <div class="applepay-c">
+          <h2 class="sec-ttl" id="ap-h">Apple Pay 付款<br>自動記錄消費</h2>
+          <p class="ap-desc">每次使用 Apple Pay 付款後，HK Miles 會自動偵測付款詳情，彈出快速記錄介面，讓你在確認的同時完成消費記錄。</p>
+          <ul class="bullets" aria-label="Apple Pay 整合特色">
+            <li>
+              <span class="bcheck" aria-hidden="true">
+                <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="2 6 5 9 10 3" />
+                </svg>
+              </span>
+              自動擷取商戶名稱及付款金額
+            </li>
+            <li>
+              <span class="bcheck" aria-hidden="true">
+                <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="2 6 5 9 10 3" />
+                </svg>
+              </span>
+              一鍵選擇消費類別，即時計算里數
+            </li>
+            <li>
+              <span class="bcheck" aria-hidden="true">
+                <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="2 6 5 9 10 3" />
+                </svg>
+              </span>
+              無需手動輸入，大幅節省時間
+            </li>
+            <li>
+              <span class="bcheck" aria-hidden="true">
+                <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="2 6 5 9 10 3" />
+                </svg>
+              </span>
+              記錄同步至雲端，跨裝置查閱
+            </li>
+          </ul>
+          <a href="#download" class="btn-pri" style="align-self:flex-start;display:inline-flex;">立即體驗</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROMO PREVIEW -->
+    <!-- DOWNLOAD -->
+    <section class="dl-sect" id="download" aria-labelledby="dl-h">
+      <div class="dl-banner" aria-hidden="true">
+        <img src="assets/card-banner.png" alt="">
+      </div>
+      <div class="dl-content">
+        <h2 id="dl-h">立即開始最大化你的回報</h2>
+        <p>免費下載，無廣告，保護你的隱私。</p>
+        <div class="dl-btns">
+          <a href="https://apps.apple.com/hk/app/hk-miles/id6760291510" class="nav-cta" target="_blank"
+            rel="noopener noreferrer" aria-label="在 App Store 免費下載 HK Miles（於新分頁開啟）"
+            style="font-size:15px !important; padding:11px 20px !important; background:#fff !important; color:#111827 !important;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path
+                d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+            </svg>
+            免費下載
+          </a>
+        </div>
+      </div>
+      <div class="dl-phone-wrap" aria-hidden="true">
+        <div class="feat-phone-wrap">
+          <video id="dl-video" autoplay muted playsinline>
+            <source src="assets/advisor-tab.mov" type="video/mp4">
+            <source src="assets/advisor-tab.mov" type="video/quicktime">
+          </video>
+          <img src="assets/iphone-border.avif" class="feat-phone-border" alt="">
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="foot-in">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <a href="index.html" class="foot-logo">
+          <img src="assets/logo.png" alt="" aria-hidden="true">
+          <span>HK Miles</span>
+        </a>
+        <a href="https://www.threads.com/@hkmiles.app" target="_blank" rel="noopener noreferrer" aria-label="Threads"
+          style="display:flex;align-items:center;">
+          <img src="assets/Threads_(app)_logo.svg.png" alt="Threads" style="width:18px;height:18px;object-fit:contain;">
+        </a>
+      </div>
+      <nav class="foot-links" aria-label="頁腳導航">
+        <a href="privacy.html">私隱政策</a>
+        <a href="terms.html">使用條款</a>
+      </nav>
+      <p style="font-size:12px;">© 2026 HK Miles. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // ── FEATURE LIST AUTO-ADVANCE ────────────────
+    (function () {
+      const featVideo = document.getElementById('feat-video');
+      const items = Array.from(document.querySelectorAll('.feat-item'));
+      const CIRC = 81.68; // 2π × 13
+      let currentIdx = 0;
+
+      function getProgressRing(item) {
+        return item.querySelector('.feat-ring-progress');
+      }
+
+      function setActive(idx) {
+        items.forEach((it, i) => {
+          it.classList.toggle('active', i === idx);
+          const ring = getProgressRing(it);
+          if (ring) ring.style.strokeDashoffset = CIRC;
+        });
+
+        currentIdx = idx;
+
+        // Switch video
+        const src = items[idx].dataset.video;
+        if (src) {
+          const sources = featVideo.querySelectorAll('source');
+          if (sources[0].src !== new URL(src, location.href).href) {
+            sources.forEach(s => s.src = src);
+            featVideo.load();
+          }
+          featVideo.play().catch(() => { });
+        }
+
+        // Scroll item into view inside the list only
+        const list = items[idx].closest('.feat-list');
+        if (list) {
+          const itemTop = items[idx].offsetTop - list.offsetTop;
+          const itemBot = itemTop + items[idx].offsetHeight;
+          if (itemTop < list.scrollTop) {
+            list.scrollTo({ top: itemTop, behavior: 'smooth' });
+          } else if (itemBot > list.scrollTop + list.clientHeight) {
+            list.scrollTo({ top: itemBot - list.clientHeight, behavior: 'smooth' });
+          }
+        }
+      }
+
+      // Smooth ring animation via rAF, reading real currentTime for accuracy
+      let rafId = null;
+      function tickRing() {
+        if (featVideo.duration) {
+          const progress = featVideo.currentTime / featVideo.duration;
+          const ring = getProgressRing(items[currentIdx]);
+          if (ring) ring.style.strokeDashoffset = CIRC * (1 - progress);
+        }
+        rafId = requestAnimationFrame(tickRing);
+      }
+      tickRing();
+
+      // Advance when video naturally ends
+      featVideo.addEventListener('ended', () => {
+        setActive((currentIdx + 1) % items.length);
+      });
+
+      // Click & keyboard handlers
+      items.forEach((item, idx) => {
+        item.addEventListener('click', () => setActive(idx));
+        item.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setActive(idx); }
+        });
+      });
+
+      setActive(0);
+    })();
+
+    // ── VIDEO CROSSFADE CYCLER ────────────────────
+    // Two overlapping video elements crossfade on switch — no black frame.
+    function makeVideoCycler(frontEl, srcs) {
+      if (!frontEl) return;
+
+      const FADE = 350; // ms
+
+      // Clone a back layer with same CSS (inherits .feat-phone-wrap video rules)
+      const backEl = frontEl.cloneNode(false);
+      backEl.removeAttribute('id');
+      backEl.removeAttribute('autoplay');
+      backEl.style.opacity = '0';
+      backEl.style.transition = `opacity ${FADE}ms ease`;
+      frontEl.style.transition = `opacity ${FADE}ms ease`;
+      frontEl.parentNode.insertBefore(backEl, frontEl.nextSibling);
+
+      // els[0] = currently visible, els[1] = hidden/standby
+      const els = [frontEl, backEl];
+      let idx = 0;
+
+      function advance() {
+        const next = (idx + 1) % srcs.length;
+        const incoming = els[1]; // standby
+        const outgoing = els[0]; // currently visible
+
+        incoming.src = srcs[next];
+        incoming.load();
+        incoming.play().then(() => {
+          incoming.style.opacity = '1';
+          outgoing.style.opacity = '0';
+          idx = next;
+          // Swap array order so els[0] is always "front"
+          els.reverse();
+          setTimeout(() => { outgoing.pause(); }, FADE + 50);
+          incoming.addEventListener('ended', advance, { once: true });
+        }).catch(() => {});
+      }
+
+      frontEl.addEventListener('ended', advance, { once: true });
+    }
+
+    makeVideoCycler(document.getElementById('hero-video'), [
+      'assets/advisor-tab.mov',
+      'assets/mycard-tab.mov',
+      'assets/promotion-tab.mov',
+      'assets/history-tab.mov',
+      'assets/monthly-promo.mov',
+      'assets/miles-chart.mov',
+    ]);
+
+    makeVideoCycler(document.getElementById('dl-video'), [
+      'assets/advisor-tab.mov',
+      'assets/mycard-tab.mov',
+      'assets/promotion-tab.mov',
+      'assets/history-tab.mov',
+      'assets/monthly-promo.mov',
+      'assets/miles-chart.mov',
+    ]);
+
+    // ── HERO SPOTLIGHT ───────────────────────────
+    (function () {
+      const hero = document.querySelector('.hero');
+      const front = document.querySelector('.hero-spotlight');
+      if (!hero || !front) return;
+
+      const RADIUS = 110;
+      const TRAIL_SEGS = 20;  // extra fading layers behind the front
+      const DELAY = 3;        // history frames between each segment
+
+      // Insert trail elements before front so front renders on top
+      const trailEls = [];
+      for (let i = 0; i < TRAIL_SEGS; i++) {
+        const el = front.cloneNode(false);
+        hero.insertBefore(el, front);
+        trailEls.unshift(el); // trailEls[0] = newest trail, [TRAIL_SEGS-1] = oldest
+      }
+      // Render order: oldest … newest trail … front
+      const allEls = [...trailEls.slice().reverse(), front];
+
+      const history = [];
+      let targetX = 0, targetY = 0;
+      let isVisible = false;
+      let vis = 0; // lerped 0→1 visibility
+
+      function tick() {
+        history.unshift({ x: targetX, y: targetY });
+        if (history.length > TRAIL_SEGS * DELAY + 4) history.pop();
+
+        vis += ((isVisible ? 1 : 0) - vis) * 0.025;
+
+        allEls.forEach((el, i) => {
+          // i=0 is oldest trail, i=TRAIL_SEGS is front
+          const fraction = (i + 1) / (TRAIL_SEGS + 1); // 0.25 … 1.0
+          const histIdx = Math.min((TRAIL_SEGS - i) * DELAY, history.length - 1);
+          const pos = history[histIdx] || { x: targetX, y: targetY };
+          const radius = RADIUS * (0.45 + 0.55 * fraction);
+          el.style.opacity = vis * 0.55 * fraction * fraction;
+          const g = `radial-gradient(circle ${radius}px at ${pos.x}px ${pos.y}px, black 50%, transparent 100%)`;
+          el.style.webkitMaskImage = g;
+          el.style.maskImage = g;
+        });
+
+        requestAnimationFrame(tick);
+      }
+
+      tick();
+
+      hero.addEventListener('mousemove', (e) => {
+        const rect = hero.getBoundingClientRect();
+        targetX = e.clientX - rect.left;
+        targetY = e.clientY - rect.top;
+        isVisible = true;
+      });
+
+      hero.addEventListener('mouseleave', () => { isVisible = false; });
+    })();
+
+    // ── NAV SCROLL ────────────────────────────────
+    const navEl = document.querySelector('nav');
+    function updateNav() { navEl.classList.toggle('scrolled', window.scrollY > 10); }
+    window.addEventListener('scroll', updateNav, { passive: true });
+    updateNav();
+
+    // Scroll reveal — respects prefers-reduced-motion
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (mq.matches) {
+      document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+    } else {
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+      }, { threshold: 0.12, rootMargin: '0px 0px -36px 0px' });
+      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    }
+
+    // Stats — stagger reveal + count-up
+    function countUp(el, target, suffix, duration) {
+      const start = performance.now();
+      function tick(now) {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.round(eased * target) + suffix;
+        if (progress < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+
+    const statCells = document.querySelectorAll('.stat-cell');
+    const statsIo = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        const cell = e.target;
+        const i = parseInt(cell.style.getPropertyValue('--i')) || 0;
+        setTimeout(() => {
+          cell.classList.add('visible');
+          const numEl = cell.querySelector('[data-count]');
+          if (numEl) {
+            const target = parseInt(numEl.dataset.count);
+            const suffix = numEl.dataset.suffix || '';
+            countUp(numEl, target, suffix, 1200);
+          }
+        }, i * 120);
+        statsIo.unobserve(cell);
+      });
+    }, { threshold: 0.2 });
+
+    if (mq.matches) {
+      statCells.forEach(el => el.classList.add('visible'));
+    } else {
+      statCells.forEach(el => statsIo.observe(el));
+    }
+  </script>
+</body>
+
+</html>

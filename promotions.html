@@ -1,0 +1,1764 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>最新信用卡優惠｜HK Miles</title>
+  <meta name="description" content="瀏覽香港各大銀行最新信用卡優惠，包括里數加碼、現金回贈、餐飲、超市、海外消費優惠。實時更新，一手掌握。">
+  <link rel="icon" href="assets/logo.png" type="image/png">
+  <!-- Apply saved theme before first paint to prevent flash -->
+  <script>(function () { var t = localStorage.getItem('hkmiles-theme'); if (t) document.documentElement.setAttribute('data-theme', t); })();</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    /* ── RESET ───────────────────────────────────── */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* ── TOKENS ──────────────────────────────────── */
+    :root {
+      --blue: #1D4ED8;
+      --blue-mid: #2563EB;
+      --blue-dim: #1E40AF;
+      --blue-bg: #EFF6FF;
+      --navy: #0F172A;
+      --text: #0F172A;
+      --text-2: #475569;
+      --text-3: #94A3B8;
+      --bg: #F8FAFC;
+      --white: #FFFFFF;
+      --border: #E2E8F0;
+      --red: #DC2626;
+      --orange: #EA580C;
+      --green: #059669;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.07);
+      --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.07);
+      --shadow-lg: 0 10px 32px rgba(0, 0, 0, 0.10);
+      --r-sm: 8px;
+      --r-md: 14px;
+      --r-lg: 20px;
+    }
+
+    /* ── DARK MODE ───────────────────────────────── */
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --blue: #60A5FA;
+        --blue-mid: #3B82F6;
+        --blue-dim: #2563EB;
+        --blue-bg: #172554;
+        --navy: #020817;
+        --text: #F1F5F9;
+        --text-2: #94A3B8;
+        --text-3: #475569;
+        --bg: #0F172A;
+        --white: #1E293B;
+        --border: #334155;
+        --red: #F87171;
+        --orange: #FB923C;
+        --green: #34D399;
+        --shadow-sm: 0 1px 3px rgba(0, 0, 0, .4);
+        --shadow-md: 0 4px 16px rgba(0, 0, 0, .4);
+        --shadow-lg: 0 10px 32px rgba(0, 0, 0, .6);
+      }
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) body>nav.scrolled {
+        background: rgba(15, 23, 42, .95);
+      }
+
+      :root:not([data-theme="light"]) .modal-ov {
+        background: rgba(0, 0, 0, .75);
+      }
+
+      :root:not([data-theme="light"]) .modal-content th {
+        border-right-color: rgba(255, 255, 255, .15);
+      }
+
+      :root:not([data-theme="light"]) .card-img,
+      :root:not([data-theme="light"]) #modal-img-area {
+        background: linear-gradient(135deg, #1e293b, #0f172a);
+      }
+    }
+
+    [data-theme="dark"] {
+      --blue: #60A5FA;
+      --blue-mid: #3B82F6;
+      --blue-dim: #2563EB;
+      --blue-bg: #172554;
+      --navy: #020817;
+      --text: #F1F5F9;
+      --text-2: #94A3B8;
+      --text-3: #475569;
+      --bg: #0F172A;
+      --white: #1E293B;
+      --border: #334155;
+      --red: #F87171;
+      --orange: #FB923C;
+      --green: #34D399;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, .4);
+      --shadow-md: 0 4px 16px rgba(0, 0, 0, .4);
+      --shadow-lg: 0 10px 32px rgba(0, 0, 0, .6);
+    }
+
+    [data-theme="dark"] body>nav.scrolled {
+      background: rgba(15, 23, 42, .95);
+    }
+
+    [data-theme="dark"] .modal-ov {
+      background: rgba(0, 0, 0, .75);
+    }
+
+    [data-theme="dark"] .modal-content th {
+      border-right-color: rgba(255, 255, 255, .15);
+    }
+
+    [data-theme="dark"] .card-img,
+    [data-theme="dark"] #modal-img-area {
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+    }
+
+    /* ── THEME TOGGLE BUTTON ─────────────────────── */
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+      transition: background 0.15s, color 0.15s;
+      flex-shrink: 0;
+    }
+
+    .theme-toggle:hover {
+      background: rgba(255, 255, 255, 0.28);
+    }
+
+    body>nav.scrolled .theme-toggle {
+      background: var(--blue-bg);
+      color: var(--blue);
+    }
+
+    body>nav.scrolled .theme-toggle:hover {
+      background: var(--border);
+    }
+
+    .theme-toggle svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    /* ── BASE ────────────────────────────────────── */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    /* ── SKIP LINK ───────────────────────────────── */
+    .skip-link {
+      position: absolute;
+      top: -48px;
+      left: 8px;
+      background: var(--blue);
+      color: #fff;
+      padding: 8px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 0 0 var(--r-sm) var(--r-sm);
+      z-index: 9999;
+      transition: top 0.2s;
+    }
+
+    .skip-link:focus {
+      top: 0;
+      outline: 3px solid #fff;
+      outline-offset: 2px;
+    }
+
+    /* ── FOCUS ───────────────────────────────────── */
+    :focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 3px;
+      border-radius: var(--r-sm);
+    }
+
+    /* ── REDUCED MOTION ──────────────────────────── */
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+
+      html {
+        scroll-behavior: auto;
+      }
+    }
+
+    /* ── NAV ─────────────────────────────────────── */
+    body>nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      padding: 14px 24px;
+      pointer-events: none;
+    }
+
+    .nav-in {
+      pointer-events: all;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: saturate(180%) blur(16px);
+      -webkit-backdrop-filter: saturate(180%) blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 100px;
+      padding: 6px 6px 6px 14px;
+      box-shadow: 0 2px 16px rgba(0, 0, 0, 0.12);
+      transition: background 0.25s, border-color 0.25s, box-shadow 0.25s;
+    }
+
+    body>nav.scrolled .nav-in {
+      background: rgba(255, 255, 255, 0.88);
+      border-color: var(--border);
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.10);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+      border-radius: 100px;
+      padding: 2px 10px 2px 0;
+      margin-right: 4px;
+      flex-shrink: 0;
+    }
+
+    .nav-logo img {
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      object-fit: cover;
+    }
+
+    .nav-logo span {
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: -0.2px;
+      color: #fff;
+      transition: color 0.25s;
+      white-space: nowrap;
+    }
+
+    body>nav.scrolled .nav-logo span {
+      color: var(--text);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 14px;
+      font-weight: 500;
+      padding: 8px 14px;
+      border-radius: 100px;
+      transition: color 0.15s, background 0.15s;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    body>nav.scrolled .nav-links a {
+      color: var(--text-2);
+    }
+
+    .nav-links a:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    body>nav.scrolled .nav-links a:hover {
+      color: var(--text);
+      background: rgba(0, 0, 0, 0.05);
+    }
+
+    body>nav.scrolled .nav-links a[aria-current] {
+      color: var(--blue);
+    }
+
+    .nav-cta {
+      background: #111827 !important;
+      color: #fff !important;
+      font-weight: 600 !important;
+      font-size: 14px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+      padding: 9px 16px !important;
+      border-radius: 100px !important;
+      text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: background 0.15s !important;
+    }
+
+    .nav-cta:hover {
+      background: #1f2937 !important;
+    }
+
+    body>nav.scrolled .nav-cta:hover {
+      background: #374151 !important;
+    }
+
+    .nav-cta svg {
+      flex-shrink: 0;
+    }
+
+    /* ── PAGE HEADER ─────────────────────────────── */
+    .page-hd {
+      background: linear-gradient(160deg, var(--blue) 0%, var(--blue-dim) 60%, #1E3A8A 100%);
+      padding: 100px 24px 48px;
+      color: #fff;
+    }
+
+    .page-hd-in {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .page-hd-lbl {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: .72;
+      margin-bottom: 10px;
+    }
+
+    .page-hd h1 {
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 900;
+      letter-spacing: -1px;
+      margin-bottom: 10px;
+    }
+
+    .page-hd p {
+      font-size: 16px;
+      opacity: .80;
+      max-width: 500px;
+    }
+
+    .hd-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .meta-chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 100px;
+      padding: 5px 14px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      background: #4ADE80;
+      border-radius: 50%;
+      animation: pg 2s ease-in-out infinite;
+    }
+
+    @keyframes pg {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1)
+      }
+
+      50% {
+        opacity: .5;
+        transform: scale(.8)
+      }
+    }
+
+    /* ── MAIN ─────────────────────────────────────── */
+    .main {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 28px 24px 80px;
+    }
+
+    /* ── CONTROLS ─────────────────────────────────── */
+    .controls {
+      background: var(--white);
+      border-radius: var(--r-lg);
+      padding: 18px 18px 14px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .search-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .search-box {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 9px 14px;
+      transition: border-color 0.2s;
+    }
+
+    .search-box:focus-within {
+      border-color: var(--blue);
+    }
+
+    .search-box input {
+      flex: 1;
+      border: none;
+      background: none;
+      font-family: inherit;
+      font-size: 15px;
+      color: var(--text);
+      outline: none;
+    }
+
+    .search-box input::placeholder {
+      color: var(--text-3);
+    }
+
+    .s-ico {
+      color: var(--text-3);
+      flex-shrink: 0;
+    }
+
+    .clear-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-3);
+      display: none;
+      padding: 2px;
+      border-radius: 50%;
+      min-width: 24px;
+      min-height: 24px;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.15s;
+    }
+
+    .clear-btn.vis {
+      display: flex;
+    }
+
+    .clear-btn:hover {
+      color: var(--text);
+    }
+
+    .filter-row {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .filter-row::-webkit-scrollbar {
+      display: none;
+    }
+
+    .fbtn {
+      white-space: nowrap;
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 100px;
+      padding: 6px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-2);
+      cursor: pointer;
+      font-family: inherit;
+      transition: background .15s, border-color .15s, color .15s;
+      flex-shrink: 0;
+      min-height: 36px;
+    }
+
+    .fbtn:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+
+    .fbtn[aria-pressed="true"] {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: #fff;
+    }
+
+    /* ── RESULTS BAR ──────────────────────────────── */
+    .results-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .results-count {
+      font-size: 14px;
+      color: var(--text-2);
+      font-weight: 500;
+    }
+
+    .results-count strong {
+      color: var(--text);
+    }
+
+    /* ── LIST ─────────────────────────────────────── */
+    .promo-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* ── PROMO CARD (list row: thumb left, text right) */
+    .promo-card {
+      background: var(--white);
+      border-radius: var(--r-md);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow .2s, border-color .2s, background .2s;
+      cursor: pointer;
+      display: flex;
+      align-items: stretch;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      min-height: 260px;
+    }
+
+    .promo-card:hover {
+      box-shadow: var(--shadow-md);
+      border-color: #BFDBFE;
+      background: #FAFCFF;
+    }
+
+    .promo-card:focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 2px;
+    }
+
+    /* Thumbnail — 1:1 square, fixed width */
+    .card-img {
+      width: 260px;
+      min-width: 260px;
+      height: 260px;
+      background: linear-gradient(135deg, #EFF6FF, #DBEAFE);
+      overflow: hidden;
+      position: relative;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .card-img-ph {
+      color: var(--text-3);
+    }
+
+    /* Badges */
+    .badge-new {
+      position: absolute;
+      bottom: 5px;
+      left: 5px;
+      background: var(--blue);
+      color: #fff;
+      font-size: 9px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+      letter-spacing: .4px;
+    }
+
+    .badge-pin {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      background: rgba(0, 0, 0, 0.50);
+      color: #fff;
+      font-size: 9px;
+      padding: 2px 5px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    /* Right content area */
+    .card-body {
+      flex: 1;
+      min-width: 0;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 4px;
+    }
+
+    .card-top {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .card-bank {
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--blue);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .card-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 4px;
+      overflow: hidden;
+    }
+
+    .ctag {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: var(--blue-bg);
+      color: var(--blue);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .expiry {
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+
+    .edot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .edot.urgent {
+      background: var(--red);
+    }
+
+    .edot.soon {
+      background: var(--orange);
+    }
+
+    .edot.ok {
+      background: var(--green);
+    }
+
+    .edot.grey {
+      background: var(--text-3);
+    }
+
+    .expiry.urgent {
+      color: var(--red);
+    }
+
+    .expiry.soon {
+      color: var(--orange);
+    }
+
+    .expiry.ok {
+      color: var(--text-2);
+    }
+
+    .expiry.grey {
+      color: var(--text-3);
+    }
+
+    /* ── STATES ─────────────────────────────────── */
+    .load-state {
+      text-align: center;
+      padding: 80px 24px;
+    }
+
+    .spinner {
+      width: 34px;
+      height: 34px;
+      border: 3px solid var(--border);
+      border-top-color: var(--blue);
+      border-radius: 50%;
+      animation: spin .75s linear infinite;
+      margin: 0 auto 14px;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .load-state p {
+      font-size: 15px;
+      color: var(--text-2);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 80px 24px;
+      display: none;
+    }
+
+    .empty-ico {
+      margin-bottom: 12px;
+      color: var(--text-3);
+    }
+
+    .empty-state h3 {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .empty-state p {
+      font-size: 14px;
+      color: var(--text-2);
+    }
+
+    .error-state {
+      text-align: center;
+      padding: 80px 24px;
+      display: none;
+    }
+
+    .error-state h3 {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .error-state p {
+      font-size: 14px;
+      color: var(--text-2);
+      margin-bottom: 20px;
+    }
+
+    .retry-btn {
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: var(--r-md);
+      padding: 10px 24px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      min-height: 44px;
+      transition: background .15s;
+    }
+
+    .retry-btn:hover {
+      background: var(--blue-dim);
+    }
+
+    /* ── MODAL ─────────────────────────────────── */
+    .modal-ov {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(4px);
+      z-index: 200;
+      overflow-y: auto;
+      padding: 40px 20px;
+    }
+
+    .modal-ov.open {
+      display: block;
+    }
+
+    .modal {
+      background: var(--white);
+      border-radius: var(--r-lg);
+      max-width: 600px;
+      width: 100%;
+      margin: 0 auto;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.20);
+      animation: modal-in .22s ease;
+      overflow: hidden;
+    }
+
+    @keyframes modal-in {
+      from {
+        opacity: 0;
+        transform: scale(.96) translateY(8px)
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0)
+      }
+    }
+
+    .modal-head {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-bank-lbl {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .modal-close {
+      width: 34px;
+      height: 34px;
+      background: var(--bg);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-2);
+      transition: background .15s;
+      min-width: 34px;
+    }
+
+    .modal-close:hover {
+      background: var(--border);
+    }
+
+    #modal-img-area {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      position: relative;
+      background: linear-gradient(135deg, #EFF6FF, #E0F2FE);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #modal-img-area img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    #modal-img-area .modal-img-ph {
+      color: var(--text-3);
+    }
+
+    .modal-body {
+      padding: 22px 22px 28px;
+    }
+
+    .modal-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.35;
+      margin-bottom: 12px;
+      letter-spacing: -.3px;
+    }
+
+    .modal-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-bottom: 18px;
+    }
+
+    .mchip {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 100px;
+      background: var(--bg);
+      color: var(--text-2);
+    }
+
+    .mchip.cat {
+      background: var(--blue-bg);
+      color: var(--blue);
+    }
+
+    .mchip.urgent {
+      background: #FEF2F2;
+      color: var(--red);
+    }
+
+    .mchip.soon {
+      background: #FFF7ED;
+      color: var(--orange);
+    }
+
+    .mchip.new {
+      background: var(--blue-bg);
+      color: var(--blue);
+    }
+
+    .modal-content {
+      font-size: 15px;
+      line-height: 1.75;
+      color: var(--text);
+    }
+
+    .modal-content h2,
+    .modal-content h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin: 18px 0 7px;
+    }
+
+    .modal-content p {
+      margin-bottom: 9px;
+      color: var(--text-2);
+    }
+
+    .modal-content ul,
+    .modal-content ol {
+      padding-left: 20px;
+      margin-bottom: 10px;
+    }
+
+    .modal-content li {
+      margin-bottom: 5px;
+      color: var(--text-2);
+    }
+
+    .modal-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+      font-size: 13px;
+    }
+
+    .modal-content .table-wrap {
+      overflow-x: auto;
+      border-radius: var(--r-sm);
+      border: 1px solid var(--border);
+      margin: 12px 0;
+    }
+
+    .modal-content .table-wrap table {
+      margin: 0;
+      border: none;
+    }
+
+    .modal-content th {
+      padding: 9px 12px;
+      text-align: left;
+      font-weight: 700;
+      white-space: nowrap;
+      border-right: 1px solid rgba(255, 255, 255, 0.25);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+    }
+
+    .modal-content th:last-child {
+      border-right: none;
+    }
+
+    .modal-content td {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    .modal-content td:last-child {
+      border-right: none;
+    }
+
+    .modal-content tr:last-child td {
+      border-bottom: none;
+    }
+
+    .modal-content tr:nth-child(even) td {
+      background: var(--bg);
+    }
+
+    .modal-content blockquote {
+      border-left: 3px solid var(--blue);
+      padding-left: 14px;
+      margin: 10px 0;
+      color: var(--text-2);
+      font-style: italic;
+    }
+
+    .modal-content a {
+      color: var(--blue);
+    }
+
+    .modal-dl {
+      margin-top: 24px;
+      background: linear-gradient(135deg, var(--blue-mid), var(--blue-dim));
+      border-radius: var(--r-md);
+      padding: 18px 20px;
+      text-align: center;
+    }
+
+    .modal-dl p {
+      color: rgba(255, 255, 255, .82);
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+
+    .modal-dl a {
+      display: inline-block;
+      background: #fff;
+      color: var(--blue);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 10px 24px;
+      border-radius: 10px;
+      transition: opacity .2s;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .modal-dl a:hover {
+      opacity: .9;
+    }
+
+    /* ── FOOTER ──────────────────────────────────── */
+    footer {
+      background: var(--navy);
+      color: rgba(255, 255, 255, .50);
+      padding: 40px 24px;
+    }
+
+    .foot-in {
+      max-width: 1140px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .foot-in>p {
+      text-align: right;
+    }
+
+    .foot-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #fff;
+      font-weight: 700;
+      font-size: 15px;
+      text-decoration: none;
+      border-radius: var(--r-sm);
+    }
+
+    .foot-logo img {
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      object-fit: cover;
+    }
+
+    .foot-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    .foot-links a {
+      color: rgba(255, 255, 255, .45);
+      text-decoration: none;
+      font-size: 13px;
+      transition: color .15s;
+    }
+
+    .foot-links a:hover {
+      color: #fff;
+    }
+
+    /* ── RESPONSIVE ──────────────────────────────── */
+    @media (max-width: 640px) {
+      .card-img {
+        width: 120px;
+        min-width: 120px;
+        height: 120px;
+      }
+
+      .foot-in {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .foot-in>p {
+        text-align: center;
+      }
+
+      .foot-links {
+        justify-content: center;
+      }
+
+      .hide-sm {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <a href="#main" class="skip-link">跳至主要內容</a>
+
+  <!-- NAV -->
+  <nav aria-label="主導航">
+    <div class="nav-in">
+      <a href="index.html" class="nav-logo" aria-label="HK Miles 首頁">
+        <img src="assets/logo.png" alt="" aria-hidden="true">
+        <span>HK Miles</span>
+      </a>
+      <div class="nav-links" role="list">
+        <a href="index.html" role="listitem">首頁</a>
+        <a href="promotions.html" role="listitem" aria-current="page">優惠情報</a>
+        <a href="https://apps.apple.com/hk/app/hk-miles/id6746290785" class="nav-cta" role="listitem" target="_blank"
+          rel="noopener noreferrer" aria-label="在 App Store 免費下載 HK Miles（於新分頁開啟）">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path
+              d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+          </svg>
+          免費下載
+        </a>
+        <button id="theme-toggle" class="theme-toggle" aria-label="切換深色模式">
+          <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="display:none">
+            <path
+              d="M12 4a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0V5a1 1 0 0 1 1-1zm0 13a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0v-1a1 1 0 0 1 1-1zm9-5a1 1 0 0 1-1 1h-1a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1zM4 12a1 1 0 0 1-1 1H2a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1zm14.364-6.364a1 1 0 0 1 0 1.414l-.707.707a1 1 0 1 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 0zM7.757 16.243a1 1 0 0 1 0 1.414l-.707.707a1 1 0 1 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 0zm9.9 1.414a1 1 0 0 1-1.414 0l-.707-.707a1 1 0 1 1 1.414-1.414l.707.707a1 1 0 0 1 0 1.414zM7.757 7.757a1 1 0 0 1-1.414 0l-.707-.707A1 1 0 0 1 7.05 5.636l.707.707a1 1 0 0 1 0 1.414zM12 8a4 4 0 1 1 0 8 4 4 0 0 1 0-8z" />
+          </svg>
+          <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-hd">
+    <div class="page-hd-in">
+      <div class="page-hd-lbl" aria-hidden="true">銀行優惠情報</div>
+      <h1>最新優惠</h1>
+      <p>實時追蹤香港各大銀行最新優惠，里數加碼、現金回贈、餐飲著數，一站搜羅。</p>
+      <div class="hd-meta">
+        <div class="meta-chip">
+          <span class="live-dot" aria-hidden="true"></span>
+          <span>實時更新</span>
+        </div>
+        <div class="meta-chip" id="hd-count" aria-live="polite">載入中…</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <main id="main">
+    <div class="main">
+
+      <!-- CONTROLS -->
+      <section class="controls" aria-label="搜尋及篩選">
+        <div class="search-row">
+          <div class="search-box">
+            <span class="s-ico" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8" />
+                <path d="M21 21l-4.35-4.35" />
+              </svg>
+            </span>
+            <input type="search" id="search-in" placeholder="搜尋銀行、優惠名稱…" autocomplete="off" aria-label="搜尋優惠">
+            <button class="clear-btn" id="clear-btn" aria-label="清除搜尋">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="filter-row" role="group" aria-label="優惠類別篩選" id="filter-bar">
+          <button class="fbtn" data-f="all" aria-pressed="true">全部</button>
+          <button class="fbtn" data-f="expiring" aria-pressed="false">即將到期</button>
+          <button class="fbtn" data-f="new" aria-pressed="false">最新</button>
+          <button class="fbtn" data-f="基本" aria-pressed="false">基本</button>
+          <button class="fbtn" data-f="餐飲" aria-pressed="false">餐飲</button>
+          <button class="fbtn" data-f="超市商戶" aria-pressed="false">超市商戶</button>
+          <button class="fbtn" data-f="交通" aria-pressed="false">交通</button>
+          <button class="fbtn" data-f="網上 (本地)" aria-pressed="false">網上 (本地)</button>
+          <button class="fbtn" data-f="網上 (海外)" aria-pressed="false">網上 (海外)</button>
+          <button class="fbtn" data-f="海外" aria-pressed="false">海外</button>
+          <button class="fbtn" data-f="機票及酒店" aria-pressed="false">機票及酒店</button>
+          <button class="fbtn" data-f="自動增值/繳費" aria-pressed="false">自動增值/繳費</button>
+        </div>
+      </section>
+
+      <!-- RESULTS BAR -->
+      <div class="results-bar">
+        <div class="results-count" id="res-count" aria-live="polite"></div>
+      </div>
+
+      <!-- LOADING -->
+      <div class="load-state" id="load-st" role="status" aria-live="polite">
+        <div class="spinner" aria-hidden="true"></div>
+        <p>正在載入最新優惠…</p>
+      </div>
+
+      <!-- ERROR -->
+      <div class="error-state" id="err-st" role="alert">
+        <div style="font-size:40px;margin-bottom:12px;color:var(--text-3);" aria-hidden="true">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
+        </div>
+        <h3>載入失敗</h3>
+        <p>無法取得最新優惠，請稍後重試。</p>
+        <button class="retry-btn" onclick="fetchPromos()">重試</button>
+      </div>
+
+      <!-- EMPTY -->
+      <div class="empty-state" id="empty-st" role="status">
+        <div class="empty-ico" aria-hidden="true">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8" />
+            <path d="M21 21l-4.35-4.35" />
+          </svg>
+        </div>
+        <h3>找不到相關優惠</h3>
+        <p>請嘗試其他搜尋關鍵字或篩選條件。</p>
+      </div>
+
+      <!-- GRID -->
+      <div class="promo-grid" id="promo-grid" aria-label="優惠列表" role="list"></div>
+
+    </div>
+  </main>
+
+  <!-- MODAL -->
+  <div class="modal-ov" id="modal-ov" role="dialog" aria-modal="true" aria-labelledby="modal-title-el">
+    <div class="modal" id="modal">
+      <div class="modal-head">
+        <span class="modal-bank-lbl" id="modal-bank-el"></span>
+        <button class="modal-close" id="modal-close" aria-label="關閉優惠詳情">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+      <div id="modal-img-area"></div>
+      <div class="modal-body">
+        <h2 class="modal-title" id="modal-title-el"></h2>
+        <div class="modal-meta" id="modal-meta-el"></div>
+        <div class="modal-content" id="modal-content-el"></div>
+        <div class="modal-dl">
+          <p>在 HK Miles App 內查看更多優惠詳情及計算最佳刷卡選擇</p>
+          <a href="https://apps.apple.com/hk/app/hk-miles/id6746290785" target="_blank" rel="noopener noreferrer"
+            aria-label="免費下載 HK Miles App（於新分頁開啟）">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"
+              style="margin-right:6px;">
+              <path
+                d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+            </svg>
+            免費下載 HK Miles
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="foot-in">
+      <a href="index.html" class="foot-logo">
+        <img src="assets/logo.png" alt="" aria-hidden="true">
+        <span>HK Miles</span>
+      </a>
+      <nav class="foot-links" aria-label="頁腳導航">
+        <a href="privacy.html">私隱政策</a>
+        <a href="terms.html">使用條款</a>
+      </nav>
+      <p style="font-size:12px;">© 2025 HK Miles. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- SR-ONLY utility -->
+  <style>
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0
+    }
+  </style>
+
+  <script>
+    /* ── THEME TOGGLE ────────────────────────── */
+    (function () {
+      const THEME_KEY = 'hkmiles-theme';
+      const root = document.documentElement;
+      const toggleBtn = document.getElementById('theme-toggle');
+      const iconSun = document.getElementById('icon-sun');
+      const iconMoon = document.getElementById('icon-moon');
+
+      function isDark() {
+        const saved = root.getAttribute('data-theme');
+        if (saved === 'dark') return true;
+        if (saved === 'light') return false;
+        return window.matchMedia('(prefers-color-scheme: dark)').matches;
+      }
+
+      function applyTheme(dark) {
+        root.setAttribute('data-theme', dark ? 'dark' : 'light');
+        localStorage.setItem(THEME_KEY, dark ? 'dark' : 'light');
+        iconSun.style.display = dark ? 'block' : 'none';
+        iconMoon.style.display = dark ? 'none' : 'block';
+        toggleBtn.setAttribute('aria-label', dark ? '切換淺色模式' : '切換深色模式');
+      }
+
+      applyTheme(isDark());
+      toggleBtn.addEventListener('click', () => applyTheme(!isDark()));
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        if (!localStorage.getItem(THEME_KEY)) applyTheme(e.matches);
+      });
+    })();
+
+    /* ── CONFIG ─────────────────────────────── */
+    const PROJECT = 'j3rszqec';
+    const DATASET = 'promotions';
+    const VERSION = 'v2022-03-07';
+    const QUERY = `*[_type == "promotion" && !(_id in path("drafts.**")) && (status == "Active" || status == "Expired" || !defined(status))] | order(pinned desc, _createdAt desc) { _id, title, bank, categories, endDate, "imageUrl": mainImage.asset->url, _createdAt, content, tags, status, pinned }`;
+
+    let all = [], curFilter = 'all', curSearch = '';
+
+    /* ── FETCH ───────────────────────────────── */
+    async function fetchPromos() {
+      showState('load');
+      try {
+        const url = `https://${PROJECT}.api.sanity.io/${VERSION}/data/query/${DATASET}?query=${encodeURIComponent(QUERY)}`;
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const json = await res.json();
+        all = json.result || [];
+        updateHdCount();
+        renderGrid();
+      } catch (e) {
+        console.error(e);
+        showState('error');
+      }
+    }
+
+    /* ── FILTER / SORT ───────────────────────── */
+    function getFiltered() {
+      let r = [...all];
+      if (curSearch) {
+        const q = curSearch.toLowerCase();
+        r = r.filter(p =>
+          (p.bank || '').toLowerCase().includes(q) ||
+          (p.title || '').toLowerCase().includes(q) ||
+          (p.tags || []).some(t => t.toLowerCase().includes(q))
+        );
+      }
+      if (curFilter === 'expiring') {
+        r = r.filter(p => { const d = daysLeft(p.endDate); return d !== null && d >= 0 && d <= 14; });
+      } else if (curFilter === 'new') {
+        r = r.filter(p => isNew(p._createdAt));
+      } else if (curFilter !== 'all') {
+        r = r.filter(p => (p.categories || []).some(c => c === curFilter));
+      }
+      r.sort((a, b) => new Date(b._createdAt || 0) - new Date(a._createdAt || 0));
+      return r;
+    }
+
+    /* ── RENDER ──────────────────────────────── */
+    function renderGrid() {
+      const list = getFiltered();
+      const grid = document.getElementById('promo-grid');
+      const countEl = document.getElementById('res-count');
+      countEl.innerHTML = `顯示 <strong>${list.length}</strong> 個優惠（共 ${all.length} 個）`;
+      if (!list.length) { grid.innerHTML = ''; showState('empty'); return; }
+      showState('grid');
+      grid.innerHTML = list.map((p, i) => cardHTML(p, i)).join('');
+      grid.querySelectorAll('.promo-card').forEach((el, i) => {
+        el.addEventListener('click', () => openModal(list[i]));
+        el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(list[i]); } });
+      });
+    }
+
+    function cardHTML(p, i) {
+      const days = daysLeft(p.endDate);
+      const expired = days !== null && days < 0;
+      const { cls, txt, dot } = expiryInfo(days, expired);
+      const tags = (p.categories || []).slice(0, 2);
+      const tagsHTML = tags.length
+        ? `<div class="card-tags" aria-label="消費類別">${tags.map(t => `<span class="ctag">${esc(t)}</span>`).join('')}</div>`
+        : '';
+      const newBadge = isNew(p._createdAt) && !expired ? '<span class="badge-new" aria-label="最新優惠">最新</span>' : '';
+      const pinBadge = p.pinned ? `<span class="badge-pin" aria-label="置頂優惠"><svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 12V4h1V2H7v2h1v8l-2 2v2h5.2v6h1.6v-6H18v-2z"/></svg></span>` : '';
+      const imgHTML = p.imageUrl
+        ? `<img src="${esc(p.imageUrl)}" alt="" aria-hidden="true" loading="lazy" onerror="this.style.display='none'">`
+        : `<div class="card-img-ph" aria-hidden="true">${bankIcon()}</div>`;
+
+      return `
+    <article class="promo-card" role="listitem"
+      tabindex="0"
+      aria-label="${esc(p.bank || '銀行')} — ${esc(p.title || '')} — ${txt}"
+      data-i="${i}">
+      <div class="card-img" aria-hidden="true">${imgHTML}${newBadge}${pinBadge}</div>
+      <div class="card-body">
+        <div class="card-top">
+          <div class="card-bank">${esc(p.bank || '')}</div>
+          <h3 class="card-title">${esc(p.title || '')}</h3>
+        </div>
+        <div class="card-bottom">
+          ${tagsHTML}
+          <div class="expiry ${cls}" aria-label="到期資訊：${txt}">
+            <span class="edot ${dot}" aria-hidden="true"></span>${txt}
+          </div>
+        </div>
+      </div>
+    </article>`;
+    }
+
+    function bankIcon() {
+      return `<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>`;
+    }
+
+    /* ── MODAL ───────────────────────────────── */
+    let lastFocused = null;
+    function openModal(p) {
+      lastFocused = document.activeElement;
+      const days = daysLeft(p.endDate); const expired = days !== null && days < 0;
+      document.getElementById('modal-bank-el').textContent = (p.bank || '').toUpperCase();
+      document.getElementById('modal-title-el').textContent = p.title || '';
+
+      const imgArea = document.getElementById('modal-img-area');
+      imgArea.innerHTML = '';
+      if (p.imageUrl) {
+        const img = document.createElement('img');
+        img.src = p.imageUrl;
+        img.alt = (p.bank || '') + ' — ' + (p.title || '');
+        img.addEventListener('error', () => {
+          imgArea.innerHTML = '<div class="modal-img-ph" aria-hidden="true">' + bankIcon() + '</div>';
+        });
+        imgArea.appendChild(img);
+      } else {
+        imgArea.innerHTML = '<div class="modal-img-ph" aria-hidden="true">' + bankIcon() + '</div>';
+      }
+
+      const meta = document.getElementById('modal-meta-el');
+      const chips = [];
+      if (p.endDate) {
+        const { cls } = expiryInfo(days, expired);
+        chips.push(`<span class="mchip ${cls === 'urgent' ? 'urgent' : cls === 'soon' ? 'soon' : ''}">${expired ? '已截止' : '截止：' + p.endDate}</span>`);
+      } else {
+        chips.push(`<span class="mchip">直至另行通知</span>`);
+      }
+      (p.categories || []).forEach(c => chips.push(`<span class="mchip cat">${esc(catZH(c))}</span>`));
+      if (isNew(p._createdAt) && !expired) chips.push(`<span class="mchip new">最新</span>`);
+      meta.innerHTML = chips.join('');
+
+      document.getElementById('modal-content-el').innerHTML = renderContent(p.content || []);
+      const ov = document.getElementById('modal-ov');
+      ov.classList.add('open');
+      ov.scrollTop = 0;
+      document.body.style.overflow = 'hidden';
+      document.getElementById('modal-close').focus();
+    }
+
+    function closeModal() {
+      document.getElementById('modal-ov').classList.remove('open');
+      document.body.style.overflow = '';
+      if (lastFocused) lastFocused.focus();
+    }
+
+    document.getElementById('modal-close').addEventListener('click', closeModal);
+    document.getElementById('modal-ov').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && document.getElementById('modal-ov').classList.contains('open')) closeModal(); });
+
+    /* ── PORTABLE TEXT RENDERER ──────────────── */
+    function renderContent(blocks) {
+      if (!Array.isArray(blocks) || !blocks.length)
+        return '<p style="color:var(--text-2)">詳情請下載 HK Miles App 查閱。</p>';
+
+      let html = blocks.map(b => {
+        if (!b || !b._type) return '';
+
+        // ── richTable (actual Sanity schema) ──────────────────────────────
+        if (b._type === 'richTable' || b._type === 'table') {
+          if (!b.rows || !b.rows.length) return '';
+          const [thead, ...tbodyRows] = b.rows.map((row, ri) => {
+            const cells = row.cells || [];
+            const isHeaderRow = ri === 0;
+            const cellsHTML = cells.map(cell => {
+              const text = extractCellText(cell);
+              const bg = cell.backgroundColor ? `background:${esc(cell.backgroundColor)};` : '';
+              const fg = cell.backgroundColor ? `color:${contrastColor(cell.backgroundColor)};` : '';
+              const align = cell.align ? `text-align:${esc(cell.align)};` : '';
+              const tag = (isHeaderRow || cell.isHeader) ? 'th' : 'td';
+              return `<${tag} style="${bg}${fg}${align}">${esc(text)}</${tag}>`;
+            }).join('');
+            return { isHeader: isHeaderRow, html: `<tr>${cellsHTML}</tr>` };
+          });
+
+          const theadHTML = thead ? `<thead>${thead.html}</thead>` : '';
+          const tbodyHTML = tbodyRows.length ? `<tbody>${tbodyRows.map(r => r.html).join('')}</tbody>` : '';
+          return `<div class="table-wrap"><table>${theadHTML}${tbodyHTML}</table></div>`;
+        }
+
+        // ── inline image block ────────────────────────────────────────────
+        if (b._type === 'image') {
+          const url = b.asset?.url || b.url;
+          return url
+            ? `<img src="${esc(url)}" style="width:100%;border-radius:10px;margin:10px 0" loading="lazy" alt="">`
+            : '';
+        }
+
+        // ── standard Portable Text block ──────────────────────────────────
+        if (b._type !== 'block') return '';
+        const style = b.style || 'normal';
+        const txt = renderSpans(b.children || [], b.markDefs || []);
+        if (style === 'h1' || style === 'h2') return `<h2>${txt}</h2>`;
+        if (style === 'h3' || style === 'h4') return `<h3>${txt}</h3>`;
+        if (style === 'blockquote') return `<blockquote>${txt}</blockquote>`;
+        if (b.listItem === 'bullet') return `<ul><li>${txt}</li></ul>`;
+        if (b.listItem === 'number') return `<ol><li>${txt}</li></ol>`;
+        return txt ? `<p>${txt}</p>` : '';
+      }).join('');
+
+      return html.replace(/<\/ul>\s*<ul>/g, '').replace(/<\/ol>\s*<ol>/g, '');
+    }
+
+    // Extract plain text from a richTableCell (nested Portable Text)
+    function extractCellText(cell) {
+      if (typeof cell === 'string') return cell; // legacy plain-string cells
+      if (!cell || !cell.content) return cell?.text || '';
+      return cell.content.flatMap(block =>
+        (block.children || []).map(span => span.text || '')
+      ).join('');
+    }
+
+    // Pick white or black foreground based on hex background luminance
+    function contrastColor(hex) {
+      if (!hex) return '';
+      const c = hex.replace('#', '');
+      if (c.length !== 6) return '#000';
+      const r = parseInt(c.slice(0, 2), 16);
+      const g = parseInt(c.slice(2, 4), 16);
+      const b = parseInt(c.slice(4, 6), 16);
+      const lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+      return lum > 0.55 ? '#000' : '#fff';
+    }
+
+    function renderSpans(children, markDefs) {
+      return (children || []).map(s => {
+        if (!s || s._type !== 'span') return '';
+        let t = esc(s.text || '');
+        (s.marks || []).forEach(m => {
+          if (m === 'strong') { t = `<strong>${t}</strong>`; return; }
+          if (m === 'em') { t = `<em>${t}</em>`; return; }
+          const d = markDefs.find(x => x._key === m);
+          if (!d) return;
+          if (d._type === 'textColor' || d._type === 'color')
+            t = `<span style="color:${esc(d.color)}">${t}</span>`;
+          if (d._type === 'link')
+            t = `<a href="${esc(d.href)}" target="_blank" rel="noopener noreferrer">${t}</a>`;
+        });
+        return t;
+      }).join('');
+    }
+
+    /* ── HELPERS ─────────────────────────────── */
+    function daysLeft(endDate) {
+      if (!endDate) return null;
+      const end = new Date(endDate + 'T23:59:59+08:00');
+      return Math.floor((end - Date.now()) / 86400000);
+    }
+    function isNew(ca) { return ca ? (Date.now() - new Date(ca)) < 3 * 86400000 : false; }
+    function expiryInfo(days, expired) {
+      if (expired || (days !== null && days < 0)) return { cls: 'grey', txt: '已截止', dot: 'grey' };
+      if (days === null) return { cls: 'ok', txt: '直至另行通知', dot: 'ok' };
+      if (days === 0) return { cls: 'urgent', txt: '今天到期', dot: 'urgent' };
+      if (days <= 7) return { cls: 'urgent', txt: `剩 ${days} 天`, dot: 'urgent' };
+      if (days <= 14) return { cls: 'soon', txt: `剩 ${days} 天`, dot: 'soon' };
+      return { cls: 'ok', txt: `截止：${days > 365 ? '長期' : `剩 ${days} 天`}`, dot: 'ok' };
+    }
+    // Categories are stored in Chinese in Sanity — pass through directly
+    function catZH(c) { return c; }
+    function esc(s) { return String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+
+    function showState(s) {
+      document.getElementById('load-st').style.display = s === 'load' ? 'block' : 'none';
+      document.getElementById('err-st').style.display = s === 'error' ? 'block' : 'none';
+      document.getElementById('empty-st').style.display = s === 'empty' ? 'block' : 'none';
+      document.getElementById('promo-grid').style.display = s === 'grid' ? 'grid' : 'none';
+      document.getElementById('res-count').style.visibility = (s === 'grid' || s === 'empty') ? 'visible' : 'hidden';
+    }
+
+    function updateHdCount() {
+      const active = all.filter(p => { const d = daysLeft(p.endDate); return d === null || d >= 0; });
+      document.getElementById('hd-count').textContent = `${active.length} 個有效優惠`;
+    }
+
+    /* ── EVENTS ──────────────────────────────── */
+    document.getElementById('filter-bar').addEventListener('click', e => {
+      const btn = e.target.closest('.fbtn');
+      if (!btn) return;
+      document.querySelectorAll('.fbtn').forEach(b => b.setAttribute('aria-pressed', 'false'));
+      btn.setAttribute('aria-pressed', 'true');
+      curFilter = btn.dataset.f;
+      renderGrid();
+    });
+
+    const searchIn = document.getElementById('search-in');
+    const clearBtn = document.getElementById('clear-btn');
+
+    searchIn.addEventListener('input', () => {
+      curSearch = searchIn.value.trim();
+      clearBtn.classList.toggle('vis', curSearch.length > 0);
+      renderGrid();
+    });
+    clearBtn.addEventListener('click', () => {
+      searchIn.value = ''; curSearch = '';
+      clearBtn.classList.remove('vis');
+      searchIn.focus();
+      renderGrid();
+    });
+
+    /* ── NAV SCROLL ──────────────────────────── */
+    const navEl = document.querySelector('nav');
+    function updateNav() { navEl.classList.toggle('scrolled', window.scrollY > 10); }
+    window.addEventListener('scroll', updateNav, { passive: true });
+    updateNav();
+
+    /* ── INIT ────────────────────────────────── */
+    showState('load');
+    fetchPromos();
+  </script>
+</body>
+
+</html>
