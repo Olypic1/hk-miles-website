@@ -7,8 +7,6 @@
   <title>最新信用卡優惠｜HK Miles</title>
   <meta name="description" content="瀏覽香港各大銀行最新信用卡優惠，包括里數加碼、現金回贈、餐飲、超市、海外消費優惠。實時更新，一手掌握。">
   <link rel="icon" href="assets/logo.png" type="image/png">
-  <!-- Apply saved theme before first paint to prevent flash -->
-  <script>(function () { var t = localStorage.getItem('hkmiles-theme'); if (t) document.documentElement.setAttribute('data-theme', t); })();</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -44,120 +42,6 @@
       --r-sm: 8px;
       --r-md: 14px;
       --r-lg: 20px;
-    }
-
-    /* ── DARK MODE ───────────────────────────────── */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme="light"]) {
-        --blue: #60A5FA;
-        --blue-mid: #3B82F6;
-        --blue-dim: #2563EB;
-        --blue-bg: #172554;
-        --navy: #020817;
-        --text: #F1F5F9;
-        --text-2: #94A3B8;
-        --text-3: #475569;
-        --bg: #0F172A;
-        --white: #1E293B;
-        --border: #334155;
-        --red: #F87171;
-        --orange: #FB923C;
-        --green: #34D399;
-        --shadow-sm: 0 1px 3px rgba(0, 0, 0, .4);
-        --shadow-md: 0 4px 16px rgba(0, 0, 0, .4);
-        --shadow-lg: 0 10px 32px rgba(0, 0, 0, .6);
-      }
-    }
-
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme="light"]) body>nav.scrolled {
-        background: rgba(15, 23, 42, .95);
-      }
-
-      :root:not([data-theme="light"]) .modal-ov {
-        background: rgba(0, 0, 0, .75);
-      }
-
-      :root:not([data-theme="light"]) .modal-content th {
-        border-right-color: rgba(255, 255, 255, .15);
-      }
-
-      :root:not([data-theme="light"]) .card-img,
-      :root:not([data-theme="light"]) #modal-img-area {
-        background: linear-gradient(135deg, #1e293b, #0f172a);
-      }
-    }
-
-    [data-theme="dark"] {
-      --blue: #60A5FA;
-      --blue-mid: #3B82F6;
-      --blue-dim: #2563EB;
-      --blue-bg: #172554;
-      --navy: #020817;
-      --text: #F1F5F9;
-      --text-2: #94A3B8;
-      --text-3: #475569;
-      --bg: #0F172A;
-      --white: #1E293B;
-      --border: #334155;
-      --red: #F87171;
-      --orange: #FB923C;
-      --green: #34D399;
-      --shadow-sm: 0 1px 3px rgba(0, 0, 0, .4);
-      --shadow-md: 0 4px 16px rgba(0, 0, 0, .4);
-      --shadow-lg: 0 10px 32px rgba(0, 0, 0, .6);
-    }
-
-    [data-theme="dark"] body>nav.scrolled {
-      background: rgba(15, 23, 42, .95);
-    }
-
-    [data-theme="dark"] .modal-ov {
-      background: rgba(0, 0, 0, .75);
-    }
-
-    [data-theme="dark"] .modal-content th {
-      border-right-color: rgba(255, 255, 255, .15);
-    }
-
-    [data-theme="dark"] .card-img,
-    [data-theme="dark"] #modal-img-area {
-      background: linear-gradient(135deg, #1e293b, #0f172a);
-    }
-
-    /* ── THEME TOGGLE BUTTON ─────────────────────── */
-    .theme-toggle {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      border: none;
-      cursor: pointer;
-      background: rgba(255, 255, 255, 0.15);
-      color: #fff;
-      transition: background 0.15s, color 0.15s;
-      flex-shrink: 0;
-    }
-
-    .theme-toggle:hover {
-      background: rgba(255, 255, 255, 0.28);
-    }
-
-    body>nav.scrolled .theme-toggle {
-      background: var(--blue-bg);
-      color: var(--blue);
-    }
-
-    body>nav.scrolled .theme-toggle:hover {
-      background: var(--border);
-    }
-
-    .theme-toggle svg {
-      width: 18px;
-      height: 18px;
-      fill: currentColor;
     }
 
     /* ── BASE ────────────────────────────────────── */
@@ -497,13 +381,14 @@
       cursor: pointer;
       color: var(--text-3);
       display: none;
-      padding: 2px;
+      padding: 0;
       border-radius: 50%;
-      min-width: 24px;
-      min-height: 24px;
+      min-width: 44px;
+      min-height: 44px;
       align-items: center;
       justify-content: center;
       transition: color 0.15s;
+      margin: -10px -10px -10px 0;
     }
 
     .clear-btn.vis {
@@ -1191,15 +1076,32 @@
 
     /* ── RESPONSIVE ──────────────────────────────── */
     @media (max-width: 640px) {
-      .page-hd-in {
-        padding-left: 0;
-        padding-right: 0;
-      }
-
+      /* Shrink card thumbnail earlier so content has room to breathe */
       .card-img {
         width: 120px;
         min-width: 120px;
         height: 120px;
+      }
+
+      /* Reset card min-height so it doesn't leave a dead gap at 120px thumb */
+      .promo-card {
+        min-height: 120px;
+      }
+
+      /* Collapse modal padding — tighter overlay on small screens */
+      .modal-ov {
+        padding: 16px 12px;
+      }
+
+      .modal {
+        border-radius: var(--r-md);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .page-hd-in {
+        padding-left: 0;
+        padding-right: 0;
       }
 
       .foot-in {
@@ -1254,15 +1156,6 @@
           </svg>
           免費下載
         </a>
-        <button id="theme-toggle" class="theme-toggle" aria-label="切換深色模式">
-          <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="display:none">
-            <path
-              d="M12 4a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0V5a1 1 0 0 1 1-1zm0 13a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0v-1a1 1 0 0 1 1-1zm9-5a1 1 0 0 1-1 1h-1a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1zM4 12a1 1 0 0 1-1 1H2a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1zm14.364-6.364a1 1 0 0 1 0 1.414l-.707.707a1 1 0 1 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 0zM7.757 16.243a1 1 0 0 1 0 1.414l-.707.707a1 1 0 1 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 0zm9.9 1.414a1 1 0 0 1-1.414 0l-.707-.707a1 1 0 1 1 1.414-1.414l.707.707a1 1 0 0 1 0 1.414zM7.757 7.757a1 1 0 0 1-1.414 0l-.707-.707A1 1 0 0 1 7.05 5.636l.707.707a1 1 0 0 1 0 1.414zM12 8a4 4 0 1 1 0 8 4 4 0 0 1 0-8z" />
-          </svg>
-          <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z" />
-          </svg>
-        </button>
       </div>
     </div>
   </nav>
@@ -1434,35 +1327,6 @@
   </style>
 
   <script>
-    /* ── THEME TOGGLE ────────────────────────── */
-    (function () {
-      const THEME_KEY = 'hkmiles-theme';
-      const root = document.documentElement;
-      const toggleBtn = document.getElementById('theme-toggle');
-      const iconSun = document.getElementById('icon-sun');
-      const iconMoon = document.getElementById('icon-moon');
-
-      function isDark() {
-        const saved = root.getAttribute('data-theme');
-        if (saved === 'dark') return true;
-        if (saved === 'light') return false;
-        return window.matchMedia('(prefers-color-scheme: dark)').matches;
-      }
-
-      function applyTheme(dark) {
-        root.setAttribute('data-theme', dark ? 'dark' : 'light');
-        localStorage.setItem(THEME_KEY, dark ? 'dark' : 'light');
-        iconSun.style.display = dark ? 'block' : 'none';
-        iconMoon.style.display = dark ? 'none' : 'block';
-        toggleBtn.setAttribute('aria-label', dark ? '切換淺色模式' : '切換深色模式');
-      }
-
-      applyTheme(isDark());
-      toggleBtn.addEventListener('click', () => applyTheme(!isDark()));
-      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-        if (!localStorage.getItem(THEME_KEY)) applyTheme(e.matches);
-      });
-    })();
 
     /* ── CONFIG ─────────────────────────────── */
     const PROJECT = 'j3rszqec';
