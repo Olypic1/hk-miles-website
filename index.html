@@ -262,17 +262,33 @@
 
     .hero-spotlight {
       position: absolute;
-      inset: 0;
+      inset: 60px 0;
       background-image: url('assets/card-banner.png');
       background-repeat: no-repeat;
       background-size: auto 100%;
       background-position: 0% 50%;
-      animation: hero-banner-slide 37.5s linear infinite alternate;
-      -webkit-mask-image: radial-gradient(circle 0px at 50% 50%, black 50%, transparent 100%);
-      mask-image: radial-gradient(circle 0px at 50% 50%, black 50%, transparent 100%);
+      animation: hero-banner-slide 75s linear infinite alternate;
+      -webkit-mask-image: none;
+      mask-image: none;
       pointer-events: none;
       z-index: 1;
-      opacity: 0;
+      opacity: 0.4;
+    }
+
+    .hero-spotlight::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, var(--navy), transparent 120px, transparent calc(100% - 120px), var(--navy));
+      z-index: 2;
+    }
+
+    .hero-spotlight::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1;
     }
 
     @keyframes hero-banner-slide {
@@ -766,8 +782,9 @@
       font-size: 16px;
       color: var(--text-2);
       text-align: center;
-      max-width: 480px;
+      max-width: 700px;
       margin: 0 auto 64px;
+      white-space: nowrap;
     }
 
     /* ── FEATURES ──────────────────────────────────── */
@@ -1198,48 +1215,20 @@
 
     .dl-banner {
       position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 50px;
-      /* 80px bottom padding − 30px */
-      height: calc(300px * 1602 / 784 + 60px);
-      /* phone height + 30px top & bottom */
+      inset: 0;
       z-index: 0;
       overflow: hidden;
-    }
-
-    .dl-banner::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to bottom, var(--navy), transparent 120px, transparent calc(100% - 120px), var(--navy));
-      z-index: 2;
-    }
-
-    .dl-banner::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 1;
+      opacity: 0;
+      -webkit-mask-image: none;
+      mask-image: none;
     }
 
     .dl-banner img {
+      width: 100%;
       height: 100%;
-      width: auto;
       max-width: none;
+      object-fit: cover;
       display: block;
-      animation: banner-slide 37.5s linear infinite alternate;
-    }
-
-    @keyframes banner-slide {
-      from {
-        transform: translateX(0);
-      }
-
-      to {
-        transform: translateX(calc(-100% + 100vw));
-      }
     }
 
     /* ── FOOTER ────────────────────────────────────── */
@@ -1489,7 +1478,7 @@
 
     <!-- FEATURES -->
     <section class="features" id="features" aria-labelledby="feat-h">
-      <h2 class="sec-ttl" id="feat-h">一個 App，全面管理里數</h2>
+      <h2 class="sec-ttl" id="feat-h">一個 App，全面管理所有獎賞</h2>
       <p class="sec-sub">從計算回報到記錄消費，HK Miles 涵蓋你在信用卡管理上的所有需要。</p>
 
       <div class="feat-showcase">
@@ -1499,7 +1488,7 @@
 
             <div class="feat-item active" role="listitem" data-video="assets/advisor-tab.mp4" tabindex="0">
               <div class="feat-item-body">
-                <div class="feat-item-ttl">碌卡建議</div>
+                <div class="feat-item-ttl">每次碌卡都賺到最盡</div>
                 <div class="feat-item-desc">輸入消費金額、貨幣及消費類別，即時比較所有信用卡，找出最高里數或現金回贈的最佳選擇</div>
               </div>
               <div class="feat-item-ico" aria-hidden="true">
@@ -1522,7 +1511,7 @@
 
             <div class="feat-item" role="listitem" data-video="assets/mycard-tab.mp4" tabindex="0">
               <div class="feat-item-body">
-                <div class="feat-item-ttl">我的銀包</div>
+                <div class="feat-item-ttl">全部信用卡一眼睇晒</div>
                 <div class="feat-item-desc">集中管理你的信用卡，一眼查看月度消費進度、優惠加碼及簽賬上限，幫你避免錯過高回報或用爆優惠上限</div>
               </div>
               <div class="feat-item-ico" aria-hidden="true">
@@ -1545,7 +1534,7 @@
 
             <div class="feat-item" role="listitem" data-video="assets/promotion-tab.mp4" tabindex="0">
               <div class="feat-item-body">
-                <div class="feat-item-ttl">最新優惠及情報</div>
+                <div class="feat-item-ttl">銀行優惠永不錯過</div>
                 <div class="feat-item-desc">整合銀行及信用卡優惠，確保你不會錯過任何精彩推廣</div>
               </div>
               <div class="feat-item-ico" aria-hidden="true">
@@ -1568,7 +1557,7 @@
 
             <div class="feat-item" role="listitem" data-video="assets/history-tab.mp4" tabindex="0">
               <div class="feat-item-body">
-                <div class="feat-item-ttl">消費記錄與里數追蹤</div>
+                <div class="feat-item-ttl">親眼睇住里數狂升</div>
                 <div class="feat-item-desc">記錄每筆簽賬，自動計算已賺里數或現金回贈，並以每日及每月視圖追蹤回報</div>
               </div>
               <div class="feat-item-ico" aria-hidden="true">
@@ -1591,7 +1580,7 @@
 
             <div class="feat-item" role="listitem" data-video="assets/monthly-promo.mp4" tabindex="0">
               <div class="feat-item-body">
-                <div class="feat-item-ttl">每日優惠</div>
+                <div class="feat-item-ttl">今日用邊張卡最抵</div>
                 <div class="feat-item-desc">按日期顯示當日適用的信用卡優惠，讓你付款前即時知道今日邊張卡最抵用</div>
               </div>
               <div class="feat-item-ico" aria-hidden="true">
@@ -1614,7 +1603,7 @@
 
             <div class="feat-item" role="listitem" data-video="assets/miles-chart.mp4" tabindex="0">
               <div class="feat-item-body">
-                <div class="feat-item-ttl">里數兌換</div>
+                <div class="feat-item-ttl">一秒知道換到去邊</div>
                 <div class="feat-item-desc">內置里數兌換指南，快速查看不同航距、艙等、單程或來回所需里數，幫你規劃儲里數目標</div>
               </div>
               <div class="feat-item-ico" aria-hidden="true">
@@ -1658,17 +1647,17 @@
       <div class="steps">
         <div class="step reveal">
           <div class="step-n" aria-hidden="true">1</div>
-          <h3 class="step-ttl">加入你的信用卡</h3>
+          <h3 class="step-ttl">揀翻你有嘅信用卡</h3>
           <p class="step-desc">從超過 50 張香港信用卡中選擇你持有的卡片，加入你的數碼銀包。</p>
         </div>
         <div class="step reveal">
           <div class="step-n" aria-hidden="true">2</div>
-          <h3 class="step-ttl">輸入消費詳情</h3>
+          <h3 class="step-ttl">輸入金額揀出最抵嘅卡</h3>
           <p class="step-desc">輸入消費金額、選擇消費類別，即時獲得最佳信用卡建議。</p>
         </div>
         <div class="step reveal">
           <div class="step-n" aria-hidden="true">3</div>
-          <h3 class="step-ttl">按建議刷卡並記錄</h3>
+          <h3 class="step-ttl">碌完回贈即時入袋</h3>
           <p class="step-desc">根據智能排名選用最高回報的信用卡，並記錄消費，自動追蹤里數累積。</p>
         </div>
       </div>
@@ -1685,7 +1674,7 @@
           </div>
         </div>
         <div class="applepay-c">
-          <h2 class="sec-ttl" id="ap-h">Apple Pay 付款<br>自動記錄消費</h2>
+          <h2 class="sec-ttl" id="ap-h">全自動記錄<br>里數回贈從此一目了然</h2>
           <p class="ap-desc">每次使用 Apple Pay 付款後，HK Miles 會自動偵測付款詳情，彈出快速記錄介面，讓你在確認的同時完成消費記錄。</p>
           <ul class="bullets" aria-label="Apple Pay 整合特色">
             <li>
@@ -1704,7 +1693,7 @@
                   <polyline points="2 6 5 9 10 3" />
                 </svg>
               </span>
-              一鍵選擇消費類別，即時計算里數
+              一鍵選擇消費類別，即時計算回贈
             </li>
             <li>
               <span class="bcheck" aria-hidden="true">
@@ -1916,30 +1905,30 @@
       'assets/miles-chart.mp4',
     ]);
 
-    // ── HERO SPOTLIGHT ───────────────────────────
+    // ── DOWNLOAD BANNER SPOTLIGHT ────────────────
     (function () {
-      const hero = document.querySelector('.hero');
-      const front = document.querySelector('.hero-spotlight');
-      if (!hero || !front) return;
+      const sect = document.querySelector('.dl-sect');
+      const banner = document.querySelector('.dl-banner');
+      if (!sect || !banner) return;
 
-      const RADIUS = 110;
-      const TRAIL_SEGS = 20;  // extra fading layers behind the front
-      const DELAY = 3;        // history frames between each segment
+      const RADIUS = 220;
+      const TRAIL_SEGS = 20;
+      const DELAY = 3;
 
-      // Insert trail elements before front so front renders on top
+      // Clone banner into trail layers inserted before it so front renders on top
       const trailEls = [];
       for (let i = 0; i < TRAIL_SEGS; i++) {
-        const el = front.cloneNode(false);
-        hero.insertBefore(el, front);
-        trailEls.unshift(el); // trailEls[0] = newest trail, [TRAIL_SEGS-1] = oldest
+        const el = banner.cloneNode(true);
+        el.setAttribute('aria-hidden', 'true');
+        banner.parentNode.insertBefore(el, banner);
+        trailEls.unshift(el);
       }
-      // Render order: oldest … newest trail … front
-      const allEls = [...trailEls.slice().reverse(), front];
+      const allEls = [...trailEls.slice().reverse(), banner];
 
       const history = [];
       let targetX = 0, targetY = 0;
       let isVisible = false;
-      let vis = 0; // lerped 0→1 visibility
+      let vis = 0;
 
       function tick() {
         history.unshift({ x: targetX, y: targetY });
@@ -1948,8 +1937,7 @@
         vis += ((isVisible ? 1 : 0) - vis) * 0.025;
 
         allEls.forEach((el, i) => {
-          // i=0 is oldest trail, i=TRAIL_SEGS is front
-          const fraction = (i + 1) / (TRAIL_SEGS + 1); // 0.25 … 1.0
+          const fraction = (i + 1) / (TRAIL_SEGS + 1);
           const histIdx = Math.min((TRAIL_SEGS - i) * DELAY, history.length - 1);
           const pos = history[histIdx] || { x: targetX, y: targetY };
           const radius = RADIUS * (0.45 + 0.55 * fraction);
@@ -1964,14 +1952,36 @@
 
       tick();
 
-      hero.addEventListener('mousemove', (e) => {
-        const rect = hero.getBoundingClientRect();
-        targetX = e.clientX - rect.left;
-        targetY = e.clientY - rect.top;
-        isVisible = true;
+      let lastClientX = 0, lastClientY = 0;
+
+      function recompute() {
+        const rect = banner.getBoundingClientRect();
+        const sectRect = sect.getBoundingClientRect();
+        targetX = lastClientX - rect.left;
+        targetY = lastClientY - rect.top;
+        // Hide if cursor moved outside the section (e.g. scrolled past)
+        isVisible =
+          lastClientX >= sectRect.left && lastClientX <= sectRect.right &&
+          lastClientY >= sectRect.top && lastClientY <= sectRect.bottom;
+      }
+
+      sect.addEventListener('mousemove', (e) => {
+        lastClientX = e.clientX;
+        lastClientY = e.clientY;
+        recompute();
       });
 
-      hero.addEventListener('mouseleave', () => { isVisible = false; });
+      sect.addEventListener('mouseleave', () => { isVisible = false; });
+
+      // Track cursor globally so we know its viewport position during scroll
+      window.addEventListener('mousemove', (e) => {
+        lastClientX = e.clientX;
+        lastClientY = e.clientY;
+      }, { passive: true });
+
+      // On scroll, the cursor's viewport position is unchanged but its
+      // position relative to the banner shifts — recompute every frame.
+      window.addEventListener('scroll', recompute, { passive: true });
     })();
 
     // ── NAV SCROLL ────────────────────────────────
