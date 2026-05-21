@@ -321,25 +321,175 @@
     .main {
       max-width: 1140px;
       margin: 0 auto;
-      padding: 28px 24px 80px;
+      padding: 84px 24px 80px;
     }
 
     /* ── CONTROLS ─────────────────────────────────── */
     .controls {
       background: var(--white);
       border-radius: var(--r-lg);
-      padding: 18px 18px 14px;
+      padding: 6px 6px 6px 10px;
       margin-bottom: 20px;
       border: 1px solid var(--border);
       box-shadow: var(--shadow-sm);
-      overflow: hidden;
       width: 100%;
+    }
+
+    .controls-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* ── TABS ─────────────────────────────────────── */
+    .tab-bar {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      flex: 1;
+      overflow: visible;
+    }
+    .tab-bar::-webkit-scrollbar { display: none; }
+
+    .tab {
+      white-space: nowrap;
+      background: none;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 13px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-2);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    .tab:hover {
+      background: var(--bg);
+      color: var(--text);
+    }
+    .tab.active {
+      background: var(--bg);
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    /* ── TAB DROPDOWN ─────────────────────────────── */
+    .tab-dd-wrap {
+      position: relative;
+      padding-bottom: 8px;
+      margin-bottom: -8px;
+    }
+
+    .tab-dd-trigger {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .dd-chevron {
+      transition: transform 0.2s;
+      flex-shrink: 0;
+      opacity: 0.6;
+    }
+
+    .tab-dd-trigger.open .dd-chevron {
+      transform: rotate(180deg);
+    }
+
+    .tab-dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      min-width: 160px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+      padding: 6px;
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-6px);
+      transition: opacity 0.15s, transform 0.15s;
+    }
+
+    .tab-dd-wrap:hover .tab-dropdown,
+    .tab-dropdown.open {
+      opacity: 1;
+      pointer-events: all;
+      transform: translateY(0);
+    }
+
+    .dd-item {
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-2);
+      cursor: pointer;
+      transition: background 0.12s, color 0.12s;
+      white-space: nowrap;
+    }
+
+    .dd-item:hover {
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .dd-item.active {
+      color: var(--blue);
+      font-weight: 600;
+      background: var(--bg);
+    }
+
+    /* ── SEARCH ICON ──────────────────────────────── */
+    .search-ico-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      border: none;
+      background: none;
+      color: var(--text-2);
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background 0.15s, color 0.15s;
+    }
+    .search-ico-btn:hover {
+      background: var(--bg);
+      color: var(--text);
+    }
+    .search-ico-btn.open {
+      background: var(--bg);
+      color: var(--blue);
+    }
+
+    /* ── EXPANDABLE SEARCH ────────────────────────── */
+    .search-expand {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.25s ease, padding 0.25s ease;
+      padding: 0 4px;
+    }
+    .search-expand.open {
+      max-height: 60px;
+      padding: 8px 4px 4px;
     }
 
     .search-row {
       display: flex;
       gap: 10px;
-      margin-bottom: 14px;
     }
 
     .search-box {
@@ -384,10 +534,8 @@
       cursor: pointer;
       color: var(--text-3);
       display: none;
-      padding: 10px;
+      padding: 4px;
       border-radius: 50%;
-      min-width: 44px;
-      min-height: 44px;
       align-items: center;
       justify-content: center;
       transition: color 0.15s;
@@ -466,12 +614,12 @@
 
     /* ── LIST ─────────────────────────────────────── */
     .promo-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
     }
 
-    /* ── PROMO CARD (list row: thumb left, text right) */
+    /* ── PROMO CARD (vertical: image top, details bottom) */
     .promo-card {
       background: var(--white);
       border-radius: var(--r-md);
@@ -480,11 +628,10 @@
       transition: box-shadow .2s, border-color .2s, background .2s;
       cursor: pointer;
       display: flex;
-      align-items: stretch;
+      flex-direction: column;
       overflow: hidden;
       text-decoration: none;
       color: inherit;
-      min-height: 260px;
     }
 
     .promo-card:hover {
@@ -498,11 +645,10 @@
       outline-offset: 2px;
     }
 
-    /* Thumbnail — 1:1 square, fixed width */
+    /* Thumbnail — full width, 1:1 square */
     .card-img {
-      width: 260px;
-      min-width: 260px;
-      height: 260px;
+      width: 100%;
+      aspect-ratio: 1 / 1;
       background: linear-gradient(135deg, #EFF6FF, #DBEAFE);
       overflow: hidden;
       position: relative;
@@ -551,15 +697,15 @@
       gap: 3px;
     }
 
-    /* Right content area */
+    /* Bottom content area */
     .card-body {
       flex: 1;
       min-width: 0;
-      padding: 12px 14px;
+      padding: 12px 14px 14px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 4px;
+      gap: 8px;
     }
 
     .card-top {
@@ -1080,19 +1226,19 @@
     }
 
     /* ── RESPONSIVE ──────────────────────────────── */
+    @media (max-width: 900px) {
+      .promo-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 520px) {
+      .promo-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
     @media (max-width: 640px) {
-      /* Shrink card thumbnail earlier so content has room to breathe */
-      .card-img {
-        width: 120px;
-        min-width: 120px;
-        height: 120px;
-      }
-
-      /* Reset card min-height so it doesn't leave a dead gap at 120px thumb */
-      .promo-card {
-        min-height: 120px;
-      }
-
       /* Collapse modal padding — tighter overlay on small screens */
       .modal-ov {
         padding: 16px 12px;
@@ -1165,21 +1311,6 @@
     </div>
   </nav>
 
-  <!-- PAGE HEADER -->
-  <div class="page-hd">
-    <div class="page-hd-in">
-      <div class="page-hd-lbl" aria-hidden="true">銀行優惠情報</div>
-      <h1>最新優惠</h1>
-      <p>實時追蹤香港各大銀行最新優惠，里數加碼、現金回贈、餐飲著數，一站搜羅。</p>
-      <div class="hd-meta">
-        <div class="meta-chip">
-          <span class="live-dot" aria-hidden="true"></span>
-          <span>實時更新</span>
-        </div>
-        <div class="meta-chip" id="hd-count" aria-live="polite">載入中…</div>
-      </div>
-    </div>
-  </div>
 
   <!-- MAIN -->
   <main id="main">
@@ -1187,38 +1318,69 @@
 
       <!-- CONTROLS -->
       <section class="controls" aria-label="搜尋及篩選">
-        <div class="search-row">
-          <div class="search-box">
-            <span class="s-ico" aria-hidden="true">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="11" cy="11" r="8" />
-                <path d="M21 21l-4.35-4.35" />
-              </svg>
-            </span>
-            <input type="search" id="search-in" placeholder="搜尋銀行、優惠名稱…" autocomplete="off" aria-label="搜尋優惠">
-            <button class="clear-btn" id="clear-btn" aria-label="清除搜尋">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                stroke-linecap="round">
-                <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="18" />
-              </svg>
-            </button>
+        <div class="controls-row">
+          <!-- Tab bar -->
+          <div class="tab-bar" role="tablist" aria-label="分類">
+            <button class="tab active" role="tab" aria-selected="true">主頁</button>
+            <button class="tab" role="tab" aria-selected="false">簡介</button>
+            <!-- 信用卡 with dropdown -->
+            <div class="tab-dd-wrap">
+              <button class="tab tab-dd-trigger" role="tab" aria-selected="false" aria-haspopup="true" aria-expanded="false" id="cc-tab">
+                信用卡
+                <svg class="dd-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div class="tab-dropdown" id="cc-dropdown" role="menu" aria-labelledby="cc-tab">
+                <button class="dd-item" role="menuitem">AEON信用卡</button>
+                <button class="dd-item" role="menuitem">AE信用卡</button>
+                <button class="dd-item" role="menuitem">東亞信用卡</button>
+                <button class="dd-item" role="menuitem">中銀信用卡</button>
+                <button class="dd-item" role="menuitem">建行信用卡</button>
+                <button class="dd-item" role="menuitem">Citi信用卡</button>
+                <button class="dd-item" role="menuitem">大新信用卡</button>
+                <button class="dd-item" role="menuitem">DBS信用卡</button>
+                <button class="dd-item" role="menuitem">富邦信用卡</button>
+                <button class="dd-item" role="menuitem">恒生信用卡</button>
+                <button class="dd-item" role="menuitem">HSBC信用卡</button>
+                <button class="dd-item" role="menuitem">Mox信用卡</button>
+                <button class="dd-item" role="menuitem">安信信用卡</button>
+                <button class="dd-item" role="menuitem">渣打信用卡</button>
+                <button class="dd-item" role="menuitem">sim信用卡</button>
+              </div>
+            </div>
+            <button class="tab" role="tab" aria-selected="false">攻略</button>
+            <button class="tab" role="tab" aria-selected="false">App 更新</button>
           </div>
+          <!-- Search icon -->
+          <button class="search-ico-btn" id="search-toggle" aria-label="搜尋" aria-expanded="false">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8" />
+              <path d="M21 21l-4.35-4.35" />
+            </svg>
+          </button>
         </div>
-        <div class="filter-row" role="group" aria-label="優惠類別篩選" id="filter-bar">
-          <button class="fbtn" data-f="all" aria-pressed="true">全部</button>
-          <button class="fbtn" data-f="expiring" aria-pressed="false">即將到期</button>
-          <button class="fbtn" data-f="new" aria-pressed="false">最新</button>
-          <button class="fbtn" data-f="基本" aria-pressed="false">基本</button>
-          <button class="fbtn" data-f="餐飲" aria-pressed="false">餐飲</button>
-          <button class="fbtn" data-f="超市商戶" aria-pressed="false">超市商戶</button>
-          <button class="fbtn" data-f="交通" aria-pressed="false">交通</button>
-          <button class="fbtn" data-f="網上 (本地)" aria-pressed="false">網上 (本地)</button>
-          <button class="fbtn" data-f="網上 (海外)" aria-pressed="false">網上 (海外)</button>
-          <button class="fbtn" data-f="海外" aria-pressed="false">海外</button>
-          <button class="fbtn" data-f="機票及酒店" aria-pressed="false">機票及酒店</button>
-          <button class="fbtn" data-f="自動增值/繳費" aria-pressed="false">自動增值/繳費</button>
+
+        <!-- Expandable search -->
+        <div class="search-expand" id="search-expand">
+          <div class="search-row">
+            <div class="search-box">
+              <span class="s-ico" aria-hidden="true">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="8" />
+                  <path d="M21 21l-4.35-4.35" />
+                </svg>
+              </span>
+              <input type="search" id="search-in" placeholder="搜尋銀行、優惠名稱…" autocomplete="off" aria-label="搜尋優惠">
+              <button class="clear-btn" id="clear-btn" aria-label="清除搜尋">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                  stroke-linecap="round">
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -1376,7 +1538,7 @@
       } else if (curFilter !== 'all') {
         r = r.filter(p => (p.categories || []).some(c => c === curFilter));
       }
-      r.sort((a, b) => new Date(b._createdAt || 0) - new Date(a._createdAt || 0));
+      r.sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0) || new Date(b._createdAt || 0) - new Date(a._createdAt || 0));
       return r;
     }
 
@@ -1607,17 +1769,74 @@
 
     function updateHdCount() {
       const active = all.filter(p => { const d = daysLeft(p.endDate); return d === null || d >= 0; });
-      document.getElementById('hd-count').textContent = `${active.length} 個有效優惠`;
+      const hdCount = document.getElementById('hd-count');
+      if (hdCount) hdCount.textContent = `${active.length} 個有效優惠`;
     }
 
     /* ── EVENTS ──────────────────────────────── */
-    document.getElementById('filter-bar').addEventListener('click', e => {
-      const btn = e.target.closest('.fbtn');
-      if (!btn) return;
-      document.querySelectorAll('.fbtn').forEach(b => b.setAttribute('aria-pressed', 'false'));
-      btn.setAttribute('aria-pressed', 'true');
-      curFilter = btn.dataset.f;
-      renderGrid();
+
+    // Tab bar + 信用卡 dropdown
+    const ccTab     = document.getElementById('cc-tab');
+    const ccDropdown = document.getElementById('cc-dropdown');
+
+    function closeDropdown() {
+      ccDropdown.classList.remove('open');
+      ccTab.classList.remove('open');
+      ccTab.setAttribute('aria-expanded', 'false');
+    }
+
+    document.querySelector('.tab-bar').addEventListener('click', e => {
+      const tab = e.target.closest('.tab');
+      if (!tab) return;
+
+      // Toggle 信用卡 dropdown
+      if (tab === ccTab) {
+        const isOpen = ccDropdown.classList.toggle('open');
+        ccTab.classList.toggle('open', isOpen);
+        ccTab.setAttribute('aria-expanded', String(isOpen));
+        return;
+      }
+
+      // Regular tab switch
+      closeDropdown();
+      document.querySelectorAll('.tab').forEach(t => {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
+    });
+
+    // Dropdown item click
+    ccDropdown.addEventListener('click', e => {
+      const item = e.target.closest('.dd-item');
+      if (!item) return;
+      ccDropdown.querySelectorAll('.dd-item').forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
+      // Mark the 信用卡 tab as active
+      document.querySelectorAll('.tab').forEach(t => {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      ccTab.classList.add('active');
+      ccTab.setAttribute('aria-selected', 'true');
+      closeDropdown();
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', e => {
+      if (!e.target.closest('.tab-dd-wrap')) closeDropdown();
+    });
+
+    // Search icon toggle
+    const searchToggle = document.getElementById('search-toggle');
+    const searchExpand = document.getElementById('search-expand');
+
+    searchToggle.addEventListener('click', () => {
+      const isOpen = searchExpand.classList.toggle('open');
+      searchToggle.classList.toggle('open', isOpen);
+      searchToggle.setAttribute('aria-expanded', String(isOpen));
+      if (isOpen) document.getElementById('search-in').focus();
     });
 
     const searchIn = document.getElementById('search-in');
@@ -1637,9 +1856,7 @@
 
     /* ── NAV SCROLL ──────────────────────────── */
     const navEl = document.querySelector('nav');
-    function updateNav() { navEl.classList.toggle('scrolled', window.scrollY > 10); }
-    window.addEventListener('scroll', updateNav, { passive: true });
-    updateNav();
+    navEl.classList.add('scrolled');
 
     /* ── INIT ────────────────────────────────── */
     showState('load');

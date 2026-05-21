@@ -272,7 +272,7 @@
       mask-image: none;
       pointer-events: none;
       z-index: 1;
-      opacity: 0.4;
+      opacity: 0.5;
     }
 
     .hero-spotlight::before {
@@ -1215,20 +1215,20 @@
 
     .dl-banner {
       position: absolute;
-      inset: 0;
+      inset: 60px 0;
       z-index: 0;
-      overflow: hidden;
       opacity: 0;
       -webkit-mask-image: none;
       mask-image: none;
+      background-image: url('assets/card-banner.png');
+      background-repeat: no-repeat;
+      background-size: auto 100%;
+      background-position: 0% 50%;
+      animation: hero-banner-slide 75s linear infinite alternate;
     }
 
     .dl-banner img {
-      width: 100%;
-      height: 100%;
-      max-width: none;
-      object-fit: cover;
-      display: block;
+      display: none;
     }
 
     /* ── FOOTER ────────────────────────────────────── */
@@ -1397,7 +1397,7 @@
       </a>
       <div class="nav-links" role="list">
         <a href="index.html" role="listitem">首頁</a>
-        <a href="promotions.html" role="listitem">優惠情報</a>
+        <!-- <a href="promotions.html" role="listitem">優惠情報</a> -->
         <a href="https://apps.apple.com/hk/app/hk-miles/id6760291510" role="listitem" class="nav-cta" target="_blank"
           rel="noopener noreferrer" aria-label="在 App Store 免費下載 HK Miles（於新分頁開啟）">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -1428,14 +1428,14 @@
             </svg>
             立即免費下載
           </a>
-          <a href="promotions.html" class="btn-sec">
+          <!-- <a href="promotions.html" class="btn-sec">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" />
               <circle cx="7" cy="7" r="1.5" fill="currentColor" stroke="none" />
             </svg>
             查看最新優惠
-          </a>
+          </a> -->
         </div>
         <p class="hero-trust" aria-label="五星好評，深受香港用戶歡迎，免費使用，無廣告">
           <span class="stars" aria-hidden="true">★★★★★</span>
