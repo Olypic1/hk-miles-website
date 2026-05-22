@@ -491,6 +491,16 @@
       transition: opacity 0.15s, transform 0.15s;
     }
 
+    /* Invisible bridge covering the gap so hover doesn't break mid-flight */
+    .dd-sub::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -12px;
+      width: 12px;
+      height: 100%;
+    }
+
     .dd-item-wrap:hover > .dd-item .dd-chevron-right {
       opacity: 0.9;
     }
