@@ -453,6 +453,83 @@
       background: var(--bg);
     }
 
+    /* ── BANK SUB-MENU ───────────────────────────── */
+    .dd-item-wrap {
+      position: relative;
+    }
+
+    .dd-item-wrap > .dd-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .dd-item-wrap > .dd-item .dd-chevron-right {
+      flex-shrink: 0;
+      opacity: 0.45;
+      transition: opacity 0.12s;
+    }
+
+    .dd-sub {
+      position: absolute;
+      top: -6px;
+      left: calc(100% + 4px);
+      min-width: 200px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      padding: 6px;
+      z-index: 300;
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(-6px);
+      transition: opacity 0.15s, transform 0.15s;
+    }
+
+    .dd-item-wrap:hover > .dd-item .dd-chevron-right {
+      opacity: 0.9;
+    }
+
+    .dd-item-wrap:hover .dd-sub {
+      opacity: 1;
+      pointer-events: all;
+      transform: translateX(0);
+    }
+
+    .dd-sub-item {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-2);
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background 0.12s, color 0.12s;
+    }
+
+    .dd-sub-item:hover {
+      background: var(--bg);
+      color: var(--blue);
+    }
+
+    .dd-sub-loading {
+      padding: 10px 12px;
+      font-size: 13px;
+      color: var(--text-3);
+    }
+
     /* ── SEARCH ICON ──────────────────────────────── */
     .search-ico-btn {
       display: flex;
@@ -1342,7 +1419,15 @@
                 <button class="dd-item" role="menuitem">DBS</button>
                 <button class="dd-item" role="menuitem">富邦</button>
                 <button class="dd-item" role="menuitem">恒生</button>
-                <a class="dd-item" role="menuitem" href="card.html?slug=red-card">HSBC</a>
+                <div class="dd-item-wrap" id="dd-wrap-HSBC">
+                  <button class="dd-item" role="menuitem" aria-haspopup="true">
+                    HSBC
+                    <svg class="dd-chevron-right" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                  </button>
+                  <div class="dd-sub" id="dd-sub-HSBC" role="menu">
+                    <span class="dd-sub-loading">載入中…</span>
+                  </div>
+                </div>
                 <button class="dd-item" role="menuitem">Mox</button>
                 <button class="dd-item" role="menuitem">安信</button>
                 <button class="dd-item" role="menuitem">渣打</button>
@@ -1863,6 +1948,43 @@
     /* ── INIT ────────────────────────────────── */
     showState('load');
     fetchPromos();
+
+    /* ── BANK SUB-MENUS ──────────────────────── */
+    const SANITY_PROJECT = 'j3rszqec';
+    const SANITY_DATASET = 'promotions';
+    const SANITY_API = `https://${SANITY_PROJECT}.api.sanity.io/v2024-01-01/data/query/${SANITY_DATASET}`;
+
+    // Map dropdown wrapper IDs → Sanity bank field values
+    const BANK_MAP = {
+      'HSBC': 'HSBC',
+      // Add more banks here as their sub-menus are added, e.g.:
+      // 'Citi': 'Citi',
+    };
+
+    async function loadBankCards(bankId, sanityBank) {
+      const subEl = document.getElementById(`dd-sub-${bankId}`);
+      if (!subEl) return;
+      try {
+        const q = encodeURIComponent(`*[_type == "creditCard" && bank == "${sanityBank}"] | order(title asc) { title, "slug": slug.current }`);
+        const res = await fetch(`${SANITY_API}?query=${q}`);
+        const data = await res.json();
+        const cards = data.result || [];
+        if (cards.length === 0) {
+          subEl.innerHTML = '<span class="dd-sub-loading">暫無卡片</span>';
+          return;
+        }
+        subEl.innerHTML = cards.map(c =>
+          `<a class="dd-sub-item" href="card.html?slug=${encodeURIComponent(c.slug)}">${c.title}</a>`
+        ).join('');
+      } catch (e) {
+        subEl.innerHTML = '<span class="dd-sub-loading">載入失敗</span>';
+      }
+    }
+
+    // Load all configured bank sub-menus
+    Object.entries(BANK_MAP).forEach(([bankId, sanityBank]) => {
+      loadBankCards(bankId, sanityBank);
+    });
   </script>
 </body>
 
