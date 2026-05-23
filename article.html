@@ -789,40 +789,36 @@
         <div class="tab-bar" role="tablist">
           <a class="tab" href="promotions.html" role="tab">主頁</a>
           <button class="tab" role="tab">簡介</button>
-          <!-- 信用卡 with dropdown -->
+          <!-- 信用卡 with dynamic dropdown -->
           <div class="tab-dd-wrap">
             <button class="tab tab-dd-trigger" role="tab" aria-haspopup="true" aria-expanded="false" id="cc-tab">
               信用卡
               <svg class="dd-chevron" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
             </button>
             <div class="tab-dropdown" id="cc-dropdown" role="menu">
-              <button class="dd-item">AEON</button>
-              <button class="dd-item">AE</button>
-              <button class="dd-item">東亞</button>
-              <button class="dd-item">中銀</button>
-              <button class="dd-item">建行</button>
-              <button class="dd-item">Citi</button>
-              <button class="dd-item">大新</button>
-              <button class="dd-item">DBS</button>
-              <button class="dd-item">富邦</button>
-              <button class="dd-item">恒生</button>
-              <div class="dd-item-wrap" id="dd-wrap-HSBC">
-                <button class="dd-item" aria-haspopup="true">
-                  HSBC
-                  <svg class="dd-chevron-right" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-                </button>
-                <div class="dd-sub" id="dd-sub-HSBC" role="menu">
-                  <span class="dd-sub-loading">載入中…</span>
-                </div>
-              </div>
-              <button class="dd-item">Mox</button>
-              <button class="dd-item">安信</button>
-              <button class="dd-item">渣打</button>
-              <button class="dd-item">sim</button>
+              <span class="dd-sub-loading">載入中…</span>
             </div>
           </div>
-          <button class="tab" role="tab">里數卡</button>
-          <button class="tab" role="tab">現金回贈卡</button>
+          <!-- 里數卡 with dynamic dropdown -->
+          <div class="tab-dd-wrap">
+            <button class="tab tab-dd-trigger" role="tab" aria-haspopup="true" aria-expanded="false" id="miles-tab">
+              里數卡
+              <svg class="dd-chevron" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="tab-dropdown" id="miles-dropdown" role="menu">
+              <span class="dd-sub-loading">載入中…</span>
+            </div>
+          </div>
+          <!-- 現金回贈卡 with dynamic dropdown -->
+          <div class="tab-dd-wrap">
+            <button class="tab tab-dd-trigger" role="tab" aria-haspopup="true" aria-expanded="false" id="cashback-tab">
+              現金回贈卡
+              <svg class="dd-chevron" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="tab-dropdown" id="cashback-dropdown" role="menu">
+              <span class="dd-sub-loading">載入中…</span>
+            </div>
+          </div>
           <a class="tab active" href="promotions.html" role="tab">攻略</a>
           <button class="tab" role="tab">App 更新</button>
         </div>
@@ -1524,28 +1520,66 @@
       }
     }
 
-    // ─── Bank sub-menu (same as promotions.html) ──────
-    const SANITY_API = 'https://j3rszqec.api.sanity.io/v2024-01-01/data/query/promotions';
-    async function loadBankCards(bankId, sanityBank) {
-      const subEl = document.getElementById(`dd-sub-${bankId}`);
-      if (!subEl) return;
+    // ─── Card tab dropdowns (same logic as promotions.html) ─────
+    // Pull every active credit card from Sanity once and use it to
+    // populate the 信用卡 / 里數卡 / 現金回贈卡 dropdowns. A bank only
+    // appears if it has at least one matching card.
+    (async function loadCardTabs() {
+      const CARDS_API = 'https://j3rszqec.api.sanity.io/v2024-01-01/data/query/promotions';
+      const TABS = [
+        { dropdownId: 'cc-dropdown',       filter: () => true },
+        { dropdownId: 'miles-dropdown',    filter: c => (c.cardType || []).includes('miles') },
+        { dropdownId: 'cashback-dropdown', filter: c => (c.cardType || []).includes('cashback') },
+      ];
       try {
-        const q = encodeURIComponent(`*[_type == "creditCard" && bank == "${sanityBank}"] | order(title asc) { title, "slug": slug.current }`);
-        const res = await fetch(`${SANITY_API}?query=${q}`);
+        const q = encodeURIComponent(
+          '*[_type == "creditCard" && status == "Active"] | order(bank asc, title asc)' +
+          '{ _id, title, bank, cardType, "slug": slug.current }'
+        );
+        const res = await fetch(`${CARDS_API}?query=${q}`);
         const data = await res.json();
         const cards = data.result || [];
-        if (cards.length === 0) {
-          subEl.innerHTML = '<span class="dd-sub-loading">暫無卡片</span>';
-          return;
-        }
-        subEl.innerHTML = cards.map(c =>
-          `<a class="dd-sub-item" href="article.html?card=${encodeURIComponent(c.slug)}">${escapeHtml(c.title)}</a>`
-        ).join('');
+        TABS.forEach(t => fillBankDropdown(t.dropdownId, cards.filter(t.filter)));
       } catch (e) {
-        subEl.innerHTML = '<span class="dd-sub-loading">載入失敗</span>';
+        TABS.forEach(t => {
+          const el = document.getElementById(t.dropdownId);
+          if (el) el.innerHTML = '<span class="dd-sub-loading">載入失敗</span>';
+        });
       }
+    })();
+
+    function fillBankDropdown(elId, cards) {
+      const el = document.getElementById(elId);
+      if (!el) return;
+      if (!cards.length) {
+        el.innerHTML = '<span class="dd-sub-loading">暫無卡片</span>';
+        return;
+      }
+      const banks = [];
+      const byBank = {};
+      cards.forEach(c => {
+        if (!byBank[c.bank]) { byBank[c.bank] = []; banks.push(c.bank); }
+        byBank[c.bank].push(c);
+      });
+      el.innerHTML = banks.map(bank => {
+        const list = byBank[bank];
+        if (list.length === 1) {
+          const c = list[0];
+          return `<a class="dd-item" role="menuitem" href="article.html?card=${encodeURIComponent(c.slug)}">${escapeHtml(bank)}</a>`;
+        }
+        return (
+          '<div class="dd-item-wrap">' +
+            '<button class="dd-item" role="menuitem" aria-haspopup="true">' +
+              escapeHtml(bank) +
+              '<svg class="dd-chevron-right" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>' +
+            '</button>' +
+            '<div class="dd-sub" role="menu">' +
+              list.map(c => `<a class="dd-sub-item" href="article.html?card=${encodeURIComponent(c.slug)}">${escapeHtml(c.title)}</a>`).join('') +
+            '</div>' +
+          '</div>'
+        );
+      }).join('');
     }
-    loadBankCards('HSBC', 'HSBC');
 
     load();
   </script>
