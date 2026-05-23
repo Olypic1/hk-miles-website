@@ -211,19 +211,15 @@
       gap: 32px;
       align-items: stretch;
     }
-    /* Side column stretches to the height of the text column. The image
+    /* Side column stretches to the height of the text column (only the
+       title/lede block — author meta row sits below the grid). The image
        is absolutely positioned inside so it never pushes the row taller,
-       and object-fit: contain scales it down (preserving aspect ratio)
-       so a vertical/portrait card fits within the same hero height. */
+       and object-fit: contain scales it to fit. No surrounding card —
+       transparent background, no border, no shadow. */
     .article-hero-side {
       position: relative;
       width: 100%;
-      min-height: 220px;
-      border-radius: 16px;
-      overflow: hidden;
-      background: var(--paper);
-      border: 1px solid var(--hair2);
-      box-shadow: var(--shadow-sm);
+      min-height: 180px;
     }
     .article-hero-side img {
       position: absolute; inset: 0;
@@ -1182,8 +1178,10 @@
       const root = document.getElementById('article-root');
       root.classList.remove('loading');
 
-      // Hero text content
-      const heroTextHtml = `
+      // Hero topic block (breadcrumb / tags / title / lede only — the
+       // author meta row is separated so when a side image is shown, the
+       // image only matches the topic's height, not the meta row's.)
+      const heroTopicHtml = `
         <div class="breadcrumb">${m.breadcrumb.map((b, i) =>
           `${i > 0 ? '<span>›</span>' : ''}<span>${escapeHtml(b)}</span>`).join('')}</div>
         <div class="hero-tags">
@@ -1191,7 +1189,9 @@
           <span class="read-time">· ${escapeHtml(m.readTime)}閱讀</span>
         </div>
         <h1 class="article-title">${escapeHtml(m.title)}</h1>
-        ${m.lede ? `<p class="article-lede">${renderInline(m.lede)}</p>` : ''}
+        ${m.lede ? `<p class="article-lede">${renderInline(m.lede)}</p>` : ''}`;
+
+      const heroMetaHtml = `
         <div class="article-meta">
           <div class="meta-author">
             <div class="author-avatar">${escapeHtml(m.author.slice(0, 1))}</div>
@@ -1206,19 +1206,22 @@
         </div>`;
 
       // If meta.heroSide is set (e.g. credit card image), render a 2-col
-      // hero with text on the left and the image on the right. Otherwise
-      // single-column hero, with optional below-fold m.hero placeholder.
+      // grid with topic-text on the left and image on the right, then
+      // place the author meta row BELOW the grid (so the image height
+      // matches the topic block only). Otherwise single-column hero.
       const heroHtml = m.heroSide
         ? `<div class="article-hero">
             <div class="article-hero-grid">
-              <div>${heroTextHtml}</div>
+              <div>${heroTopicHtml}</div>
               <div class="article-hero-side">
                 <img src="${escapeHtml(m.heroSide)}" alt="${escapeHtml(m.title)}">
               </div>
             </div>
+            ${heroMetaHtml}
           </div>`
         : `<div class="article-hero">
-            ${heroTextHtml}
+            ${heroTopicHtml}
+            ${heroMetaHtml}
             ${m.hero ? `<div style="margin-top:32px;">
               <div class="img-ph tint-${m.hero.tint || 'navy'}" style="aspect-ratio:${m.hero.ratio || '21/9'}; width:100%;"><span>${escapeHtml(m.hero.label || '主視覺')}</span></div>
             </div>` : ''}
