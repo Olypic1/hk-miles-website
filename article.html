@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>文章 | HK Miles</title>
+  <link rel="icon" href="assets/logo.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      /* Article palette (from design pack) */
+      --ink:    #0d2148;
+      --text:   rgba(13,33,72,0.78);
+      --muted:  rgba(13,33,72,0.6);
+      --faint:  rgba(13,33,72,0.4);
+      --hair:   rgba(13,33,72,0.1);
+      --hair2:  rgba(13,33,72,0.06);
+      --paper:  #f4f7fc;
+      --brand:  #1453d6;
+      --up:     #b3261e;
+      --down:   #0f7a3b;
+
+      /* Existing site tokens (for nav/tab bar) */
+      --blue: #1D4ED8;
+      --blue-mid: #2563EB;
+      --blue-dim: #1E40AF;
+      --blue-bg: #EFF6FF;
+      --navy: #0F172A;
+      --text-2: #475569;
+      --text-3: #94A3B8;
+      --bg: #F8FAFC;
+      --white: #FFFFFF;
+      --border: #E2E8F0;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      background: #fff;
+      color: var(--ink);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    h1, h2, h3, h4, p { margin: 0; }
+    img { display: block; max-width: 100%; }
+
+    /* ── NAV (original, matches promotions.html) ──────── */
+    body>nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex; justify-content: center;
+      padding: 14px 24px;
+      pointer-events: none;
+    }
+    .nav-in {
+      pointer-events: all;
+      display: flex; align-items: center; gap: 4px;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: saturate(180%) blur(16px);
+      -webkit-backdrop-filter: saturate(180%) blur(16px);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 6px 6px 6px 14px;
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.10);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 7px; padding: 2px 10px 2px 0; margin-right: 4px; flex-shrink: 0; }
+    .nav-logo img { width: 28px; height: 28px; border-radius: 7px; object-fit: cover; }
+    .nav-logo span { font-weight: 700; font-size: 15px; letter-spacing: -0.2px; color: var(--navy); white-space: nowrap; }
+    .nav-links { display: flex; align-items: center; gap: 0; }
+    .nav-links a {
+      color: var(--text-2); font-size: 14px; font-weight: 500;
+      padding: 12px 14px; border-radius: 100px;
+      transition: color 0.15s, background 0.15s;
+      display: flex; align-items: center; cursor: pointer; white-space: nowrap;
+    }
+    .nav-links a:hover { color: var(--navy); background: rgba(0, 0, 0, 0.05); }
+    .nav-cta {
+      background: #111827 !important; color: #fff !important;
+      font-weight: 600 !important; font-size: 14px !important;
+      display: inline-flex !important; align-items: center !important; gap: 6px !important;
+      padding: 9px 16px !important; border-radius: 100px !important;
+      white-space: nowrap; flex-shrink: 0; min-height: 44px !important;
+      transition: background 0.15s !important;
+    }
+    .nav-cta:hover { background: #1f2937 !important; }
+
+    /* ── TAB BAR (original, matches promotions.html) ──── */
+    .controls {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 84px 24px 0;
+    }
+    .controls-row {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--hair2);
+    }
+    .tab-bar {
+      display: flex; align-items: center; gap: 2px;
+      overflow: visible;
+      flex: 1;
+    }
+    .tab {
+      background: none; border: none; cursor: pointer;
+      font-family: inherit; font-size: 14px; font-weight: 500;
+      color: var(--muted);
+      padding: 8px 14px; border-radius: 8px;
+      transition: color 0.12s, background 0.12s;
+      position: relative;
+      white-space: nowrap;
+    }
+    .tab:hover { color: var(--ink); background: var(--paper); }
+    .tab[aria-selected="true"] { color: var(--ink); font-weight: 700; }
+    .tab[aria-selected="true"]::after {
+      content: ''; position: absolute;
+      left: 14px; right: 14px; bottom: -14px;
+      height: 2px; background: var(--ink); border-radius: 2px;
+    }
+    .tab-dd-wrap { position: relative; padding-bottom: 8px; margin-bottom: -8px; }
+    .tab-dd-trigger { display: flex; align-items: center; gap: 4px; }
+    .dd-chevron { transition: transform 0.15s; opacity: 0.55; }
+    .tab-dd-trigger.open .dd-chevron { transform: rotate(180deg); }
+    .tab-dropdown {
+      position: absolute; top: 100%; left: 0;
+      min-width: 160px; background: var(--white);
+      border: 1px solid var(--border); border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+      padding: 6px; z-index: 200;
+      display: flex; flex-direction: column; gap: 1px;
+      opacity: 0; pointer-events: none;
+      transform: translateY(-6px);
+      transition: opacity 0.15s, transform 0.15s;
+    }
+    .tab-dd-wrap:hover .tab-dropdown, .tab-dropdown.open {
+      opacity: 1; pointer-events: all; transform: translateY(0);
+    }
+    .dd-item {
+      display: block; width: 100%; text-align: left;
+      background: none; border: none; border-radius: 8px;
+      padding: 9px 12px; font-family: inherit;
+      font-size: 14px; font-weight: 500;
+      color: var(--text-2); cursor: pointer;
+      transition: background 0.12s, color 0.12s;
+      white-space: nowrap; text-decoration: none;
+    }
+    .dd-item:hover { background: var(--bg); color: var(--ink); }
+    .dd-item-wrap { position: relative; }
+    .dd-item-wrap > .dd-item { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .dd-item-wrap > .dd-item .dd-chevron-right { flex-shrink: 0; opacity: 0.45; }
+    .dd-sub {
+      position: absolute; top: -6px; left: calc(100% + 4px);
+      min-width: 200px; background: var(--white);
+      border: 1px solid var(--border); border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      padding: 6px; z-index: 300;
+      display: flex; flex-direction: column; gap: 1px;
+      opacity: 0; pointer-events: none;
+      transform: translateX(-6px);
+      transition: opacity 0.15s, transform 0.15s;
+    }
+    .dd-sub::before {
+      content: ''; position: absolute; top: 0; left: -12px;
+      width: 12px; height: 100%;
+    }
+    .dd-item-wrap:hover .dd-sub { opacity: 1; pointer-events: all; transform: translateX(0); }
+    .dd-sub-item {
+      display: block; width: 100%; text-align: left;
+      background: none; border: none; border-radius: 8px;
+      padding: 9px 12px; font-family: inherit;
+      font-size: 13px; font-weight: 500;
+      color: var(--text-2); cursor: pointer; text-decoration: none;
+      white-space: nowrap; transition: background 0.12s, color 0.12s;
+    }
+    .dd-sub-item:hover { background: var(--bg); color: var(--brand); }
+    .dd-sub-loading { padding: 10px 12px; font-size: 13px; color: var(--text-3); }
+    .search-ico-btn {
+      display: flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: none; border: 1px solid var(--hair);
+      cursor: pointer; color: var(--ink); flex-shrink: 0;
+      transition: background 0.12s, border-color 0.12s;
+    }
+    .search-ico-btn:hover { background: var(--paper); border-color: var(--ink); }
+
+    /* ── ARTICLE LAYOUT ───────────────────────────────── */
+    .article-wrap { max-width: 1280px; margin: 0 auto; }
+    .article-hero { padding: 32px 24px 28px; }
+    .breadcrumb {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 12px; color: var(--muted);
+      margin-bottom: 18px; flex-wrap: wrap;
+    }
+    .breadcrumb span:last-child { color: var(--ink); }
+    .hero-tags {
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 14px; flex-wrap: wrap;
+    }
+    .read-time { font-size: 12px; color: var(--faint); }
+    .article-title {
+      font-size: clamp(28px, 4.5vw, 50px);
+      line-height: 1.12; letter-spacing: -0.02em;
+      font-weight: 800; margin: 0 0 14px;
+      max-width: 900px; color: var(--ink);
+      text-wrap: balance;
+    }
+    .article-lede {
+      font-size: clamp(16px, 1.8vw, 20px);
+      line-height: 1.5; color: var(--muted);
+      margin: 0 0 24px; max-width: 780px; font-weight: 400;
+    }
+    .article-lede strong { color: var(--ink); font-weight: 700; }
+    .article-meta {
+      display: flex; align-items: center; gap: 22px; flex-wrap: wrap;
+      padding-top: 18px; border-top: 1px solid var(--hair2);
+    }
+    .meta-author { display: flex; align-items: center; gap: 10px; }
+    .author-avatar {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--ink), #3a3a3c);
+      color: #fff; display: grid; place-items: center;
+      font-size: 12px; font-weight: 700;
+    }
+    .author-name { font-size: 13px; font-weight: 600; color: var(--ink); }
+    .author-role { font-size: 11px; color: var(--faint); }
+    .meta-divider { width: 1px; height: 26px; background: var(--hair); }
+    .meta-date { font-size: 13px; color: var(--muted); }
+    .meta-date strong { color: var(--ink); font-weight: 500; }
+    .meta-actions { margin-left: auto; display: flex; gap: 8px; flex-wrap: wrap; }
+    .meta-btn {
+      background: transparent; border: 1px solid var(--hair);
+      border-radius: 999px; padding: 7px 14px;
+      font-size: 12px; font-weight: 500; color: var(--ink); cursor: pointer;
+      font-family: inherit;
+    }
+    .meta-btn:hover { background: var(--paper); }
+
+    /* Pills */
+    .pill {
+      border-radius: 999px;
+      padding: 3px 9px; font-size: 11.5px; font-weight: 600;
+      line-height: 1.4; white-space: nowrap;
+      display: inline-flex; align-items: center;
+    }
+    .pill-blue   { background: #e8f0fe; color: #1453d6; }
+    .pill-gray   { background: #f2f2f2; color: #4b5563; }
+    .pill-green  { background: #e7f6ec; color: #0f7a3b; }
+    .pill-red    { background: #fde9ea; color: #b3261e; }
+    .pill-amber  { background: #fff4d6; color: #8a5a00; }
+    .pill-black  { background: #0b0b0c; color: #fff; }
+
+    /* Image placeholder */
+    .img-ph {
+      border-radius: 12px; display: grid; place-items: center;
+      color: rgba(255,255,255,0.55);
+      font-size: 12px; letter-spacing: 0.18em; font-weight: 600;
+      position: relative; overflow: hidden;
+      text-transform: uppercase;
+    }
+    .img-ph::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.16), transparent 55%);
+    }
+    .img-ph > span { position: relative; z-index: 1; }
+    .tint-navy { background: linear-gradient(135deg, #0d2148, #2860c5); }
+    .tint-dark { background: linear-gradient(135deg, #0d2148, #3a3a3c); }
+    .tint-blue { background: linear-gradient(135deg, #1d6fef, #5b9af7); }
+    .tint-red  { background: linear-gradient(135deg, #7a1a1a, #c83a3a); }
+    .tint-gold { background: linear-gradient(135deg, #7a5a1a, #d6a83a); }
+    .tint-pink { background: linear-gradient(135deg, #7a1a5a, #d63ab0); }
+
+    /* Article body grid */
+    .article-body {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 280px;
+      gap: 48px;
+      padding: 24px 24px 48px;
+    }
+    @media (max-width: 900px) {
+      .article-body { grid-template-columns: 1fr; gap: 0; padding: 0 20px 24px; }
+      .article-toc { display: none; }
+    }
+
+    .article-main { min-width: 0; }
+
+    /* Block: h2 / h3 */
+    .blk-h2-wrap { margin: 48px 0 18px; }
+    .blk-h2 {
+      font-size: clamp(22px, 2.6vw, 30px); font-weight: 800;
+      letter-spacing: -0.01em; margin: 0 0 6px; color: var(--ink);
+      text-wrap: balance;
+    }
+    .blk-h2-sub { font-size: 14px; color: var(--muted); margin: 0; }
+    .blk-h3 {
+      font-size: clamp(18px, 2vw, 21px); font-weight: 700;
+      margin: 32px 0 10px; color: var(--ink); letter-spacing: -0.005em;
+    }
+
+    /* Block: paragraph */
+    .blk-p {
+      margin: 14px 0; font-size: clamp(15.5px, 1.4vw, 16px);
+      line-height: 1.75; color: var(--text); max-width: 780px;
+    }
+    .blk-p strong { color: var(--ink); font-weight: 700; }
+
+    /* Block: image */
+    .blk-figure { margin: 32px 0; max-width: 100%; }
+    .blk-caption {
+      font-size: 13px; color: var(--muted);
+      margin-top: 10px; line-height: 1.5; text-align: center;
+    }
+
+    /* Block: table */
+    .blk-table-wrap { margin: 28px 0; overflow-x: auto; }
+    .blk-table {
+      border: 1px solid var(--hair); border-radius: 10px; overflow: hidden;
+      min-width: 100%;
+    }
+    .blk-table-head {
+      display: grid; background: var(--ink); color: #fff;
+      font-size: 12px; font-weight: 700; letter-spacing: 0.04em;
+    }
+    .blk-table-head > div { padding: 14px; }
+    .blk-table-row { display: grid; border-top: 1px solid var(--hair2); }
+    .blk-table-row:first-child { border-top: none; }
+    .blk-table-row:nth-child(odd) { background: #fff; }
+    .blk-table-row:nth-child(even) { background: var(--paper); }
+    .blk-table-row > div {
+      padding: 16px 14px; font-size: 14px;
+      color: var(--text); line-height: 1.5;
+      font-variant-numeric: tabular-nums;
+    }
+    .cell-multiline-title { font-weight: 700; font-size: 14px; color: var(--ink); }
+    .cell-multiline-sub { font-size: 11.5px; color: var(--muted); margin-top: 2px; line-height: 1.4; }
+    .cell-val { font-size: 15.5px; font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums; }
+    .cell-delta { font-size: 11px; font-weight: 700; margin-top: 3px; font-variant-numeric: tabular-nums; }
+    .cell-delta.up { color: var(--up); }
+    .cell-delta.down { color: var(--down); }
+    .cell-badge {
+      display: inline-block; font-size: 10px; color: var(--down); font-weight: 600;
+      background: rgba(15,122,59,0.08); padding: 1px 6px; border-radius: 4px;
+      margin-top: 3px;
+    }
+    .blk-table-foot {
+      margin-top: 10px; font-size: 12px; color: var(--faint);
+      display: flex; gap: 16px; flex-wrap: wrap;
+    }
+    @media (max-width: 600px) {
+      .blk-table-head > div, .blk-table-row > div { padding: 12px 10px; font-size: 13px; }
+    }
+
+    /* Block: list */
+    .blk-list {
+      margin: 14px 0; padding-left: 22px;
+      font-size: 16px; line-height: 1.85;
+      color: var(--text); max-width: 780px;
+    }
+    .blk-list li { margin-bottom: 6px; }
+    .blk-list strong { color: var(--ink); font-weight: 700; }
+
+    /* Block: callout */
+    .blk-callout {
+      border-radius: 12px; padding: 22px; margin: 24px 0;
+      border-left-width: 3px; border-left-style: solid;
+    }
+    .blk-callout-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.18em;
+      margin-bottom: 8px; text-transform: uppercase;
+    }
+    .blk-callout-text { font-size: 15.5px; line-height: 1.7; color: var(--text); }
+    .blk-callout-text strong { color: var(--ink); font-weight: 700; }
+    .callout-info { background: var(--paper); border: 1px solid var(--hair); border-left-color: var(--brand); }
+    .callout-info .blk-callout-label { color: var(--brand); }
+    .callout-warn { background: rgba(179,38,30,0.04); border: 1px solid rgba(179,38,30,0.15); border-left-color: var(--up); }
+    .callout-warn .blk-callout-label { color: var(--up); }
+    .callout-verdict { background: #fff8e6; border: 1px solid rgba(138,90,0,0.2); border-left-color: #8a5a00; }
+    .callout-verdict .blk-callout-label { color: #8a5a00; }
+
+    /* Block: kpis */
+    .blk-kpis {
+      border: 1px solid var(--hair); background: var(--paper);
+      border-radius: 12px; padding: 26px; margin: 28px 0;
+    }
+    .blk-kpis-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.18em;
+      color: var(--muted); margin-bottom: 14px;
+    }
+    .blk-kpis-grid {
+      display: grid; gap: 24px;
+    }
+    .blk-kpi-label { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+    .blk-kpi-value {
+      font-size: 22px; font-weight: 800; letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+    .blk-kpi-value.up { color: var(--up); }
+    .blk-kpi-value.down, .blk-kpi-value.good { color: var(--down); }
+    .blk-kpi-value.bad { color: var(--up); }
+    .blk-kpis-bullets {
+      margin: 18px 0 0; padding-left: 20px; font-size: 14px;
+      line-height: 1.75; color: var(--text);
+    }
+    .blk-kpis-bullets li { margin-bottom: 4px; }
+    @media (max-width: 600px) {
+      .blk-kpis-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+      .blk-kpis { padding: 20px; }
+      .blk-kpi-value { font-size: 18px; }
+    }
+
+    /* Block: two-col */
+    .blk-twocol {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 16px; margin: 24px 0;
+    }
+    @media (max-width: 700px) {
+      .blk-twocol { grid-template-columns: 1fr; gap: 12px; }
+    }
+    .blk-twocol-side {
+      border: 1px solid var(--hair); border-radius: 12px;
+      padding: 22px; background: #fff;
+    }
+    .blk-twocol-head {
+      display: flex; align-items: center; gap: 8px; margin-bottom: 12px;
+    }
+    .blk-twocol-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .blk-twocol-dot.good { background: var(--down); }
+    .blk-twocol-dot.bad { background: var(--up); }
+    .blk-twocol-title {
+      font-weight: 700; font-size: 13px; letter-spacing: 0.06em;
+      color: var(--ink); text-transform: uppercase;
+    }
+    .blk-twocol-item {
+      padding: 10px 0; font-size: 14px; line-height: 1.55; color: var(--text);
+      border-top: 1px dashed var(--hair2);
+    }
+    .blk-twocol-item:first-of-type { border-top: none; }
+    .blk-twocol-num {
+      color: var(--faint); margin-right: 8px; font-variant-numeric: tabular-nums;
+    }
+    .blk-twocol-item strong { color: var(--ink); font-weight: 700; }
+
+    /* Block: steps */
+    .blk-steps {
+      border: 1px solid var(--hair); border-radius: 12px;
+      overflow: hidden; margin: 24px 0;
+    }
+    .blk-step {
+      display: grid; grid-template-columns: 64px 1fr;
+      border-top: 1px solid var(--hair2);
+    }
+    .blk-step:first-child { border-top: none; }
+    .blk-step-num {
+      padding: 20px 0; text-align: center;
+      font-size: 28px; font-weight: 800; letter-spacing: -0.02em;
+      color: rgba(13,33,72,0.18);
+      border-right: 1px solid var(--hair2);
+      font-variant-numeric: tabular-nums;
+    }
+    .blk-step-body { padding: 20px 22px; }
+    .blk-step-title { font-weight: 700; font-size: 16px; margin-bottom: 4px; color: var(--ink); }
+    .blk-step-desc { font-size: 14px; color: var(--muted); line-height: 1.6; }
+    .blk-step-desc strong { color: var(--ink); font-weight: 700; }
+
+    /* Block: faq */
+    .blk-faq { border-top: 1px solid var(--hair); margin: 24px 0; }
+    .blk-faq-item {
+      border-bottom: 1px solid var(--hair2);
+      padding: 18px 0;
+      display: flex; align-items: flex-start; gap: 12px;
+    }
+    .blk-faq-num {
+      font-size: 11px; color: var(--faint); font-weight: 700;
+      margin-top: 4px; font-variant-numeric: tabular-nums;
+    }
+    .blk-faq-body { flex: 1; }
+    .blk-faq-q { font-weight: 700; font-size: 15px; margin-bottom: 6px; color: var(--ink); }
+    .blk-faq-a { font-size: 14px; color: var(--text); line-height: 1.7; }
+    .blk-faq-plus { font-size: 18px; color: var(--faint); }
+
+    /* Block: cta */
+    .blk-cta {
+      margin: 40px 0 0;
+      background: var(--ink); color: #fff;
+      border-radius: 20px; padding: 32px 36px;
+      display: flex; align-items: center; gap: 32px; flex-wrap: wrap;
+    }
+    .blk-cta-eyebrow {
+      font-size: 12px; font-weight: 700; letter-spacing: 0.14em;
+      opacity: 0.6; margin-bottom: 8px;
+    }
+    .blk-cta-title {
+      font-size: 28px; font-weight: 700; letter-spacing: -0.01em;
+      line-height: 1.25; margin-bottom: 8px;
+    }
+    .blk-cta-desc { font-size: 14px; opacity: 0.7; line-height: 1.6; max-width: 460px; }
+    .blk-cta-body { flex: 1; min-width: 240px; }
+    .blk-cta-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+    .blk-cta-btn {
+      background: #fff; color: var(--ink);
+      border-radius: 12px; padding: 12px 18px;
+      display: flex; align-items: center; gap: 8px;
+      font-size: 14px; font-weight: 600; text-decoration: none;
+    }
+    .blk-cta-btn small { display: block; font-size: 9px; opacity: 0.7; }
+    @media (max-width: 600px) {
+      .blk-cta { padding: 24px 20px; gap: 16px; }
+      .blk-cta-title { font-size: 22px; }
+    }
+
+    /* Block: divider */
+    .blk-divider { border-top: 1px solid var(--hair); margin: 32px 0; }
+
+    /* TOC sidebar */
+    .article-toc { position: sticky; top: 90px; align-self: start; }
+    .toc-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.18em;
+      color: var(--muted); margin-bottom: 14px;
+    }
+    .toc-list { border-left: 1px solid var(--hair); }
+    .toc-item {
+      padding: 10px 14px; font-size: 13px; color: var(--muted);
+      border-left: 2px solid transparent; margin-left: -1px;
+      line-height: 1.4; cursor: pointer; display: block;
+      text-decoration: none;
+    }
+    .toc-item:hover { color: var(--ink); }
+    .toc-item.active { color: var(--ink); font-weight: 700; border-left-color: var(--ink); }
+    .toc-actions { margin-top: 20px; display: flex; flex-direction: column; gap: 8px; }
+    .toc-action {
+      border: 1px solid var(--hair); border-radius: 8px;
+      padding: 8px 12px; font-size: 13px; color: var(--ink);
+      display: flex; justify-content: space-between; align-items: center;
+      cursor: pointer; background: none; font-family: inherit;
+    }
+    .toc-action:hover { background: var(--paper); }
+    .toc-action span:last-child { color: var(--faint); font-size: 12px; }
+
+    /* Related strip */
+    .related {
+      padding: 48px 24px;
+      border-top: 1px solid var(--hair2);
+      background: var(--paper);
+    }
+    .related-in { max-width: 1280px; margin: 0 auto; }
+    .related-head {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 18px; gap: 12px;
+    }
+    .related-head h3 {
+      font-size: clamp(20px, 2.4vw, 24px);
+      font-weight: 800; margin: 0; color: var(--ink);
+    }
+    .related-link { font-size: 13px; color: var(--ink); border-bottom: 1px solid var(--ink); }
+    .related-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+    }
+    @media (max-width: 800px) { .related-grid { grid-template-columns: 1fr; } }
+    .related-card {
+      background: #fff; border: 1px solid var(--hair2);
+      border-radius: 12px; overflow: hidden;
+      text-decoration: none; color: inherit;
+      display: block;
+      transition: transform 0.12s, box-shadow 0.12s;
+    }
+    .related-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    .related-card .img-ph { border-radius: 0; aspect-ratio: 16 / 9; }
+    .related-body { padding: 16px; }
+    .related-cat {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+      color: var(--muted); margin-bottom: 6px;
+    }
+    .related-title {
+      font-size: 15px; font-weight: 700; line-height: 1.35;
+      margin-bottom: 10px; text-wrap: balance; color: var(--ink);
+    }
+    .related-tag {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 12px; color: var(--muted);
+    }
+    .related-tag::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--up);
+    }
+
+    /* Footer */
+    footer {
+      padding: 56px 24px 64px;
+      background: var(--ink); color: rgba(255,255,255,0.72);
+      font-size: 13px;
+    }
+    .footer-in { max-width: 1280px; margin: 0 auto; }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr 1fr;
+      gap: 56px;
+    }
+    @media (max-width: 800px) { .footer-grid { grid-template-columns: 1fr; gap: 28px; } }
+    .footer-logo {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
+    }
+    .footer-logo-img {
+      width: 32px; height: 32px; border-radius: 7px;
+      background: #fff; color: var(--ink); font-weight: 800; font-size: 13px;
+      display: grid; place-items: center;
+    }
+    .footer-logo-name { color: #fff; font-weight: 700; font-size: 16px; }
+    .footer-tag { margin: 0; line-height: 1.7; max-width: 320px; }
+    .footer-col-head { color: #fff; font-weight: 600; margin-bottom: 10px; }
+    .footer-col-item { padding: 4px 0; }
+    .footer-bottom {
+      margin-top: 40px; padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+      font-size: 12px; color: rgba(255,255,255,0.5);
+    }
+
+    /* Loading */
+    .loading { padding: 100px 24px; text-align: center; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAV ──────────────────────────────────────── -->
+  <nav class="scrolled">
+    <div class="nav-in">
+      <a href="index.html" class="nav-logo">
+        <img src="assets/logo.png" alt="HK Miles">
+        <span>HK Miles</span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html">首頁</a>
+        <a href="promotions.html">優惠情報</a>
+      </div>
+      <a href="https://apple.co/4dnOqe2" class="nav-cta" target="_blank" rel="noopener">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05.88-3.08.41-1.09-.47-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.41C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.08zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+        免費下載
+      </a>
+    </div>
+  </nav>
+
+  <!-- ── TAB BAR (kept original) ──────────────────── -->
+  <div class="controls">
+    <div class="controls-row">
+      <div class="tab-bar" role="tablist">
+        <a class="tab" href="index.html" role="tab">主頁</a>
+        <button class="tab" role="tab">簡介</button>
+        <!-- 信用卡 with dropdown -->
+        <div class="tab-dd-wrap">
+          <button class="tab tab-dd-trigger" role="tab" aria-haspopup="true" aria-expanded="false" id="cc-tab">
+            信用卡
+            <svg class="dd-chevron" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="tab-dropdown" id="cc-dropdown" role="menu">
+            <button class="dd-item">AEON</button>
+            <button class="dd-item">AE</button>
+            <button class="dd-item">東亞</button>
+            <button class="dd-item">中銀</button>
+            <button class="dd-item">建行</button>
+            <button class="dd-item">Citi</button>
+            <button class="dd-item">大新</button>
+            <button class="dd-item">DBS</button>
+            <button class="dd-item">富邦</button>
+            <button class="dd-item">恒生</button>
+            <div class="dd-item-wrap" id="dd-wrap-HSBC">
+              <button class="dd-item" aria-haspopup="true">
+                HSBC
+                <svg class="dd-chevron-right" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+              </button>
+              <div class="dd-sub" id="dd-sub-HSBC" role="menu">
+                <span class="dd-sub-loading">載入中…</span>
+              </div>
+            </div>
+            <button class="dd-item">Mox</button>
+            <button class="dd-item">安信</button>
+            <button class="dd-item">渣打</button>
+            <button class="dd-item">sim</button>
+          </div>
+        </div>
+        <button class="tab" role="tab" aria-selected="true">攻略</button>
+        <button class="tab" role="tab">App 更新</button>
+      </div>
+      <button class="search-ico-btn" aria-label="搜尋">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/>
+          <path d="M21 21l-4.35-4.35"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ── ARTICLE BODY ─────────────────────────────── -->
+  <div class="article-wrap">
+    <div id="article-root" class="loading">載入中…</div>
+  </div>
+
+  <!-- ── FOOTER ───────────────────────────────────── -->
+  <footer>
+    <div class="footer-in">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo">
+            <div class="footer-logo-img">HK</div>
+            <div class="footer-logo-name">HK Miles</div>
+          </div>
+          <p class="footer-tag">香港最完整嘅信用卡及里數情報，每日更新優惠，幫你慳得最多賺得最盡。</p>
+        </div>
+        <div>
+          <div class="footer-col-head">產品</div>
+          <div class="footer-col-item">免費 App</div>
+          <div class="footer-col-item">網頁版</div>
+          <div class="footer-col-item">電郵通訊</div>
+          <div class="footer-col-item">RSS</div>
+        </div>
+        <div>
+          <div class="footer-col-head">分類</div>
+          <div class="footer-col-item">Asia Miles</div>
+          <div class="footer-col-item">Avios</div>
+          <div class="footer-col-item">酒店積分</div>
+          <div class="footer-col-item">現金回贈</div>
+        </div>
+        <div>
+          <div class="footer-col-head">關於</div>
+          <div class="footer-col-item">團隊</div>
+          <div class="footer-col-item">聯絡我們</div>
+          <div class="footer-col-item">私隱聲明</div>
+          <div class="footer-col-item">免責條款</div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>© 2026 HK Miles · 本網與任何信用卡發行商或航空公司均無從屬關係</div>
+        <div>v4.2 · 最後更新 2026-05-23</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="articles-data.js"></script>
+  <script>
+    // ─── Helpers ──────────────────────────────────────
+    const escapeHtml = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const numFmt = (n) => (typeof n === 'number' ? n.toLocaleString('en-US') : n);
+
+    // Tiny inline markdown — **bold** only
+    function renderInline(text) {
+      if (text == null) return '';
+      return escapeHtml(text).replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    }
+
+    // ─── Block renderers ──────────────────────────────
+    const blockHtml = {
+      h2: (b, i) => `
+        <div class="blk-h2-wrap"><h2 class="blk-h2" id="h-${i}">${escapeHtml(b.text)}</h2>
+        ${b.sub ? `<p class="blk-h2-sub">${escapeHtml(b.sub)}</p>` : ''}</div>`,
+
+      h3: (b) => `<h3 class="blk-h3">${escapeHtml(b.text)}</h3>`,
+
+      paragraph: (b) => `<p class="blk-p">${renderInline(b.text)}</p>`,
+
+      image: (b) => `
+        <figure class="blk-figure">
+          <div class="img-ph tint-${b.tint || 'navy'}" style="aspect-ratio: ${b.ratio || '16/9'};"><span>${escapeHtml(b.label || '圖片預留位')}</span></div>
+          ${b.caption ? `<figcaption class="blk-caption">${renderInline(b.caption)}</figcaption>` : ''}
+        </figure>`,
+
+      table: (b) => {
+        const cols = b.headers.length;
+        const align = b.align || b.headers.map(() => 'left');
+        const grid = `minmax(180px, 1.6fr) ${'1fr '.repeat(cols - 1).trim()}`;
+        const headHtml = b.headers.map((h, i) =>
+          `<div style="text-align:${align[i]};">${escapeHtml(h)}</div>`).join('');
+        const rowsHtml = b.rows.map(row =>
+          `<div class="blk-table-row" style="grid-template-columns:${grid}">${row.map((c, ci) =>
+            `<div style="text-align:${align[ci]};">${renderCell(c)}</div>`).join('')}</div>`).join('');
+        const footHtml = b.footnotes
+          ? `<div class="blk-table-foot">${b.footnotes.map((f, i) => `<span>${i > 0 ? '· ' : ''}${escapeHtml(f)}</span>`).join('')}</div>`
+          : '';
+        return `<div class="blk-table-wrap">
+          <div class="blk-table">
+            <div class="blk-table-head" style="grid-template-columns:${grid}">${headHtml}</div>
+            ${rowsHtml}
+          </div>
+          ${footHtml}
+        </div>`;
+      },
+
+      list: (b) => {
+        const Tag = b.kind === 'ol' ? 'ol' : 'ul';
+        return `<${Tag} class="blk-list">${b.items.map(it => `<li>${renderInline(it)}</li>`).join('')}</${Tag}>`;
+      },
+
+      callout: (b) => {
+        const tone = b.tone || 'info';
+        const labels = { info: '提示', warn: '注意', verdict: '結論' };
+        return `<div class="blk-callout callout-${tone}">
+          <div class="blk-callout-label">${escapeHtml(b.label || labels[tone] || labels.info)}</div>
+          <div class="blk-callout-text">${renderInline(b.text)}</div>
+        </div>`;
+      },
+
+      kpis: (b) => {
+        const cols = b.items.length;
+        return `<div class="blk-kpis">
+          ${b.label ? `<div class="blk-kpis-label">${escapeHtml(b.label)}</div>` : ''}
+          <div class="blk-kpis-grid" style="grid-template-columns: repeat(${cols}, 1fr);">
+            ${b.items.map(t => `
+              <div>
+                <div class="blk-kpi-label">${escapeHtml(t.label)}</div>
+                <div class="blk-kpi-value ${t.tone || ''}">${escapeHtml(t.value)}</div>
+              </div>`).join('')}
+          </div>
+          ${b.bullets ? `<ul class="blk-kpis-bullets">${b.bullets.map(x => `<li>${renderInline(x)}</li>`).join('')}</ul>` : ''}
+        </div>`;
+      },
+
+      'two-col': (b) => {
+        const side = (s) => `<div class="blk-twocol-side">
+          <div class="blk-twocol-head">
+            <div class="blk-twocol-dot ${s.tone === 'good' ? 'good' : 'bad'}"></div>
+            <div class="blk-twocol-title">${escapeHtml(s.title)}</div>
+          </div>
+          ${s.items.map((x, i) => `<div class="blk-twocol-item"><span class="blk-twocol-num">${String(i+1).padStart(2,'0')}</span>${renderInline(x)}</div>`).join('')}
+        </div>`;
+        return `<div class="blk-twocol">${side(b.left)}${side(b.right)}</div>`;
+      },
+
+      steps: (b) => `<div class="blk-steps">
+        ${b.items.map((s, i) => `<div class="blk-step">
+          <div class="blk-step-num">${String(i+1).padStart(2,'0')}</div>
+          <div class="blk-step-body">
+            <div class="blk-step-title">${escapeHtml(s.title)}</div>
+            <div class="blk-step-desc">${renderInline(s.desc)}</div>
+          </div>
+        </div>`).join('')}
+      </div>`,
+
+      faq: (b) => `<div class="blk-faq">
+        ${b.items.map((f, i) => `<div class="blk-faq-item">
+          <span class="blk-faq-num">Q${String(i+1).padStart(2,'0')}</span>
+          <div class="blk-faq-body">
+            <div class="blk-faq-q">${escapeHtml(f.q)}</div>
+            <div class="blk-faq-a">${renderInline(f.a)}</div>
+          </div>
+          <span class="blk-faq-plus">＋</span>
+        </div>`).join('')}
+      </div>`,
+
+      cta: () => `<div class="blk-cta">
+        <div class="blk-cta-body">
+          <div class="blk-cta-eyebrow">HK MILES APP</div>
+          <div class="blk-cta-title">下載 App，新表變動即時推送</div>
+          <div class="blk-cta-desc">逐張卡比較里數回贈、追蹤過期日、自訂目的地價警通知。免費，全中文。</div>
+        </div>
+        <div class="blk-cta-btns">
+          <a class="blk-cta-btn" href="https://apple.co/4dnOqe2" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 12.5c0-2.5 2-3.7 2.1-3.8-1.2-1.7-3-2-3.6-2-1.6-.2-3 .9-3.8.9-.8 0-2-.9-3.3-.9-1.7 0-3.3 1-4.2 2.5-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.3 2.5 1.3-.1 1.8-.8 3.4-.8s2 .8 3.3.8c1.4 0 2.3-1.2 3.1-2.5.6-.9 1-1.8 1.3-2.8-2.9-1.1-3-4.1-3-4.1zM15 4.6c.7-.8 1.1-1.9 1-3-.9 0-2.1.6-2.8 1.4-.6.7-1.2 1.8-1 2.9 1 .1 2-.5 2.8-1.3z"/></svg>
+            <div><small>Download on</small>App Store</div>
+          </a>
+        </div>
+      </div>`,
+
+      divider: () => `<div class="blk-divider"></div>`,
+    };
+
+    function renderCell(c) {
+      if (c == null) return '<span style="color:var(--faint);">—</span>';
+      if (typeof c === 'string') {
+        if (c.includes('\n')) {
+          const lines = c.split('\n');
+          return `<div class="cell-multiline-title">${escapeHtml(lines[0])}</div>${lines.slice(1).map(l => `<div class="cell-multiline-sub">${escapeHtml(l)}</div>`).join('')}`;
+        }
+        return escapeHtml(c);
+      }
+      let html = `<div class="cell-val">${escapeHtml(numFmt(c.value))}</div>`;
+      if (c.badge) html += `<span class="cell-badge">${escapeHtml(c.badge)}</span>`;
+      if (c.delta != null && c.delta !== 0 && !c.badge) {
+        const dir = c.delta > 0 ? 'up' : 'down';
+        const arrow = c.delta > 0 ? '▲' : '▼';
+        html += `<div class="cell-delta ${dir}">${arrow} ${Math.abs(c.delta).toFixed(2)}%</div>`;
+      }
+      return html;
+    }
+
+    // ─── Main render ───────────────────────────────────
+    function renderArticle(article) {
+      const m = article.meta;
+      const root = document.getElementById('article-root');
+      root.classList.remove('loading');
+
+      // Hero
+      const heroHtml = `
+        <div class="article-hero">
+          <div class="breadcrumb">${m.breadcrumb.map((b, i) =>
+            `${i > 0 ? '<span>›</span>' : ''}<span>${escapeHtml(b)}</span>`).join('')}</div>
+          <div class="hero-tags">
+            ${m.tags.map(t => `<span class="pill pill-${t.tone || 'blue'}">${escapeHtml(t.label)}</span>`).join('')}
+            <span class="read-time">· ${escapeHtml(m.readTime)}閱讀</span>
+          </div>
+          <h1 class="article-title">${escapeHtml(m.title)}</h1>
+          ${m.lede ? `<p class="article-lede">${renderInline(m.lede)}</p>` : ''}
+          <div class="article-meta">
+            <div class="meta-author">
+              <div class="author-avatar">${escapeHtml(m.author.slice(0, 1))}</div>
+              <div>
+                <div class="author-name">${escapeHtml(m.author)}</div>
+                <div class="author-role">${escapeHtml(m.authorRole)} · 已驗證</div>
+              </div>
+            </div>
+            <div class="meta-divider"></div>
+            <div class="meta-date">發佈於 <strong>${escapeHtml(m.date)}</strong></div>
+            ${m.updated ? `<div class="meta-divider"></div><div class="meta-date">最後更新 ${escapeHtml(m.updated)}</div>` : ''}
+            <div class="meta-actions">
+              <button class="meta-btn">複製連結</button>
+              <button class="meta-btn">分享</button>
+              <button class="meta-btn">收藏</button>
+            </div>
+          </div>
+          ${m.hero ? `<div style="margin-top:32px;">
+            <div class="img-ph tint-${m.hero.tint || 'navy'}" style="aspect-ratio:${m.hero.ratio || '21/9'}; width:100%;"><span>${escapeHtml(m.hero.label || '主視覺')}</span></div>
+          </div>` : ''}
+        </div>`;
+
+      // Blocks
+      const blocksHtml = article.blocks.map((b, i) =>
+        blockHtml[b.type] ? blockHtml[b.type](b, i) : '').join('');
+
+      // TOC (from h2 blocks)
+      const headings = article.blocks
+        .map((b, i) => b.type === 'h2' ? { idx: i, text: b.text } : null)
+        .filter(Boolean);
+      const tocHtml = `
+        <aside class="article-toc">
+          <div class="toc-label">本文目錄</div>
+          <div class="toc-list">
+            ${headings.map((h, i) => `<a class="toc-item ${i === 0 ? 'active' : ''}" href="#h-${h.idx}">${escapeHtml(h.text)}</a>`).join('')}
+          </div>
+          <div class="toc-actions">
+            <button class="toc-action"><span>收藏</span><span>🔖</span></button>
+            <button class="toc-action"><span>分享</span><span>↗</span></button>
+          </div>
+        </aside>`;
+
+      // Related
+      const relatedHtml = article.related && article.related.length ? `
+        <div class="related">
+          <div class="related-in">
+            <div class="related-head">
+              <h3>相關優惠 · 你可能感興趣</h3>
+              <a class="related-link" href="promotions.html">睇全部</a>
+            </div>
+            <div class="related-grid">
+              ${article.related.map(r => `
+                <a class="related-card" href="${r.href || 'promotions.html'}">
+                  <div class="img-ph tint-${r.tone || 'navy'}"><span>${escapeHtml(r.cat)}</span></div>
+                  <div class="related-body">
+                    <div class="related-cat">${escapeHtml(r.cat)}</div>
+                    <div class="related-title">${escapeHtml(r.title)}</div>
+                    <div class="related-tag">${escapeHtml(r.tag)}</div>
+                  </div>
+                </a>`).join('')}
+            </div>
+          </div>
+        </div>` : '';
+
+      root.innerHTML = `
+        ${heroHtml}
+        <div class="article-body">
+          <main class="article-main">${blocksHtml}</main>
+          ${tocHtml}
+        </div>
+        ${relatedHtml}
+      `;
+
+      // Update title
+      document.title = `${m.title} | HK Miles`;
+    }
+
+    // ─── TOC scroll spy ───────────────────────────────
+    function setupScrollSpy() {
+      const items = document.querySelectorAll('.toc-item');
+      const targets = Array.from(items).map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+      if (!targets.length) return;
+      window.addEventListener('scroll', () => {
+        const y = window.scrollY + 120;
+        let active = 0;
+        targets.forEach((t, i) => { if (t.offsetTop <= y) active = i; });
+        items.forEach((it, i) => it.classList.toggle('active', i === active));
+      }, { passive: true });
+    }
+
+    // ─── Load article by slug ─────────────────────────
+    function load() {
+      const slug = new URLSearchParams(window.location.search).get('slug') || 'asia-miles';
+      const article = window.Articles && window.Articles[slug];
+      if (!article) {
+        document.getElementById('article-root').innerHTML = `
+          <div class="loading">
+            <p>找不到文章：<code>${escapeHtml(slug)}</code></p>
+            <p style="margin-top:20px;">可用文章：${Object.keys(window.Articles || {}).map(s =>
+              `<a href="?slug=${s}" style="color:var(--brand); margin: 0 6px;">${s}</a>`).join('')}</p>
+          </div>`;
+        return;
+      }
+      renderArticle(article);
+      requestAnimationFrame(setupScrollSpy);
+    }
+
+    // ─── Bank sub-menu (same as promotions.html) ──────
+    const SANITY_API = 'https://j3rszqec.api.sanity.io/v2024-01-01/data/query/promotions';
+    async function loadBankCards(bankId, sanityBank) {
+      const subEl = document.getElementById(`dd-sub-${bankId}`);
+      if (!subEl) return;
+      try {
+        const q = encodeURIComponent(`*[_type == "creditCard" && bank == "${sanityBank}"] | order(title asc) { title, "slug": slug.current }`);
+        const res = await fetch(`${SANITY_API}?query=${q}`);
+        const data = await res.json();
+        const cards = data.result || [];
+        if (cards.length === 0) {
+          subEl.innerHTML = '<span class="dd-sub-loading">暫無卡片</span>';
+          return;
+        }
+        subEl.innerHTML = cards.map(c =>
+          `<a class="dd-sub-item" href="card.html?slug=${encodeURIComponent(c.slug)}">${escapeHtml(c.title)}</a>`
+        ).join('');
+      } catch (e) {
+        subEl.innerHTML = '<span class="dd-sub-loading">載入失敗</span>';
+      }
+    }
+    loadBankCards('HSBC', 'HSBC');
+
+    load();
+  </script>
+</body>
+</html>
