@@ -1384,11 +1384,14 @@
 
     async function fetchCreditCard(slug) {
       const SANITY_API = 'https://j3rszqec.api.sanity.io/v2024-01-01/data/query/promotions';
+      // Accept either `mainImage` (what Sanity Studio currently uses) or
+      // `cardImage` (alternative naming) — whichever has a value wins.
       const projection = `{
         _id, _createdAt, _updatedAt, title, bank, cardType, summary, tags,
         rewardRateSummary, annualFee, minimumIncome, keyBenefits, applyUrl,
         welcomeOfferTitle, welcomeOfferDetails, status, content,
-        "slug": slug.current, "cardImageUrl": cardImage.asset->url,
+        "slug": slug.current,
+        "cardImageUrl": coalesce(mainImage.asset->url, cardImage.asset->url),
         "related": *[_type == "creditCard" && slug.current != ^.slug.current && bank == ^.bank]
           | order(_createdAt desc) [0...3] {
             "_id": _id, title, bank, "slug": slug.current,
