@@ -1285,6 +1285,107 @@
       return { meta, blocks, related: p.related || [] };
     }
 
+    // ─── CreditCard → Article shape ───────────────────
+    function cardToArticle(c) {
+      const cardTypeLabels = {
+        cashback: '現金回贈', miles: '里數', dining: '餐飲',
+        lifestyle: '生活', travel: '旅遊', online: '網購',
+      };
+      const bankTag = c.bank ? [{ label: c.bank.toUpperCase(), tone: 'black' }] : [];
+      const typeTags = (c.cardType || []).map(t => ({ label: cardTypeLabels[t] || t, tone: 'gray' }));
+      const heroImgUrl = c.cardImageUrl;
+
+      const meta = {
+        breadcrumb: ['主頁', '信用卡', c.bank, c.title].filter(Boolean),
+        tags: [...bankTag, ...typeTags],
+        title: c.title || '信用卡詳情',
+        lede: c.summary || null,
+        author: 'HK Miles 編輯',
+        authorRole: '信用卡組',
+        date: c._createdAt ? new Date(c._createdAt).toLocaleDateString('zh-HK') : '',
+        updated: c._updatedAt ? new Date(c._updatedAt).toLocaleDateString('zh-HK') : '',
+        readTime: estimateReadTime(c.content),
+        hero: null,
+      };
+
+      const blocks = [];
+
+      // Hero image
+      if (heroImgUrl) {
+        blocks.push({
+          type: 'portable-text',
+          content: [{ _type: 'image', asset: { url: heroImgUrl } }],
+        });
+      }
+
+      // Apply CTA — if applyUrl present, surface a quick action paragraph
+      if (c.applyUrl) {
+        blocks.push({
+          type: 'portable-text',
+          content: [{
+            _type: 'block',
+            style: 'normal',
+            children: [{
+              _type: 'span',
+              text: '立即申請 →',
+              marks: ['strong', 'applyLink'],
+            }],
+            markDefs: [{ _key: 'applyLink', _type: 'link', href: c.applyUrl }],
+          }],
+        });
+      }
+
+      // KPIs row: rewardRateSummary / annualFee / minimumIncome
+      const kpiItems = [];
+      if (c.rewardRateSummary) kpiItems.push({ label: '回贈率', value: c.rewardRateSummary });
+      if (c.annualFee)         kpiItems.push({ label: '年費',   value: c.annualFee });
+      if (c.minimumIncome)     kpiItems.push({ label: '最低年薪要求', value: c.minimumIncome });
+      if (kpiItems.length) blocks.push({ type: 'kpis', label: '一覽', items: kpiItems });
+
+      // Welcome offer callout
+      if (c.welcomeOfferTitle || c.welcomeOfferDetails) {
+        blocks.push({
+          type: 'callout',
+          tone: 'verdict',
+          label: '迎新優惠',
+          text: [c.welcomeOfferTitle, c.welcomeOfferDetails].filter(Boolean).join(' — '),
+        });
+      }
+
+      // Key Benefits list
+      if (c.keyBenefits && c.keyBenefits.length) {
+        blocks.push({ type: 'h2', text: '主要優惠' });
+        blocks.push({ type: 'list', kind: 'ul', items: c.keyBenefits });
+      }
+
+      // Body content
+      if (c.content && c.content.length) {
+        blocks.push({ type: 'h2', text: '詳細資料' });
+        blocks.push({ type: 'portable-text', content: c.content });
+      }
+
+      return { meta, blocks, related: c.related || [] };
+    }
+
+    async function fetchCreditCard(slug) {
+      const SANITY_API = 'https://j3rszqec.api.sanity.io/v2024-01-01/data/query/promotions';
+      const projection = `{
+        _id, _createdAt, _updatedAt, title, bank, cardType, summary, tags,
+        rewardRateSummary, annualFee, minimumIncome, keyBenefits, applyUrl,
+        welcomeOfferTitle, welcomeOfferDetails, status, content,
+        "slug": slug.current, "cardImageUrl": cardImage.asset->url,
+        "related": *[_type == "creditCard" && slug.current != ^.slug.current && bank == ^.bank]
+          | order(_createdAt desc) [0...3] {
+            "_id": _id, title, bank, "slug": slug.current,
+            "cat": bank, "tag": "信用卡", "tone": "navy"
+          }
+      }`;
+      const q = encodeURIComponent(`*[_type == "creditCard" && slug.current == "${slug}"][0]${projection}`);
+      const res = await fetch(`${SANITY_API}?query=${q}`);
+      const data = await res.json();
+      return data.result;
+    }
+
     function estimateReadTime(content) {
       if (!content || !content.length) return '3 分鐘';
       let chars = 0;
@@ -1322,13 +1423,38 @@
       const params = new URLSearchParams(window.location.search);
       const id = params.get('id');
       const sanitySlug = params.get('slug');
+      const cardSlug = params.get('card');
 
-      // If id is provided OR slug isn't in local Articles, fetch from Sanity
+      // CreditCard mode: ?card=red-card
+      if (cardSlug) {
+        try {
+          const card = await fetchCreditCard(cardSlug);
+          if (!card) {
+            document.getElementById('article-root').innerHTML = `<div class="loading"><p>找不到信用卡</p></div>`;
+            return;
+          }
+          const related = (card.related || []).map(r => ({
+            cat: r.bank || r.cat,
+            title: r.title,
+            tag: r.tag || '信用卡',
+            tone: 'navy',
+            href: `card.html?slug=${encodeURIComponent(r.slug)}`,
+          }));
+          renderArticle(cardToArticle({ ...card, related }));
+        } catch (e) {
+          console.error(e);
+          document.getElementById('article-root').innerHTML = `<div class="loading"><p>載入失敗，請稍後重試。</p></div>`;
+        }
+        return;
+      }
+
+      // Local hardcoded sample articles (slug matches articles-data.js)
       const isLocal = sanitySlug && window.Articles && window.Articles[sanitySlug];
       if (isLocal) {
         renderArticle(window.Articles[sanitySlug]);
         return;
       }
+      // Promotion mode: ?id=... or ?slug=...
       if (id || sanitySlug) {
         try {
           const promo = await fetchPromotion(id, sanitySlug);
