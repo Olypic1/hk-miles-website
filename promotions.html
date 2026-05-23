@@ -1388,6 +1388,7 @@
       <div class="nav-links" role="list">
         <a href="index.html" role="listitem">首頁</a>
         <a href="promotions.html" role="listitem" aria-current="page">優惠情報</a>
+        <a href="updates.html" role="listitem">App 更新</a>
         <a href="https://apps.apple.com/hk/app/hk-miles/id6746290785" class="nav-cta" role="listitem" target="_blank"
           rel="noopener noreferrer" aria-label="在 App Store 免費下載 HK Miles（於新分頁開啟）">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -1443,7 +1444,7 @@
               </div>
             </div>
             <button class="tab" role="tab" aria-selected="false">攻略</button>
-            <button class="tab" role="tab" aria-selected="false">App 更新</button>
+            <a href="updates.html" class="tab" role="tab" aria-selected="false" style="text-decoration:none;display:inline-flex;align-items:center;">App 更新</a>
           </div>
           <!-- Search icon -->
           <button class="search-ico-btn" id="search-toggle" aria-label="搜尋" aria-expanded="false">
@@ -1987,14 +1988,11 @@
         if (!byBank[c.bank]) { byBank[c.bank] = []; banks.push(c.bank); }
         byBank[c.bank].push(c);
       });
+      // Every bank uses the same hover-flyout pattern, even when it
+      // currently has just one card — keeps the UX consistent and
+      // future-proof for when more cards are added.
       el.innerHTML = banks.map(bank => {
         const list = byBank[bank];
-        if (list.length === 1) {
-          // Single card for this bank → direct link, no sub-menu.
-          const c = list[0];
-          return `<a class="dd-item" role="menuitem" href="article.html?card=${encodeURIComponent(c.slug)}">${esc(bank)}</a>`;
-        }
-        // Multiple cards → bank label with hover sub-menu.
         return (
           '<div class="dd-item-wrap">' +
             '<button class="dd-item" role="menuitem" aria-haspopup="true">' +

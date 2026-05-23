@@ -1577,12 +1577,11 @@
         if (!byBank[c.bank]) { byBank[c.bank] = []; banks.push(c.bank); }
         byBank[c.bank].push(c);
       });
+      // Every bank uses the same hover-flyout pattern, even when it
+      // currently has just one card — keeps the UX consistent and
+      // future-proof for when more cards are added.
       el.innerHTML = banks.map(bank => {
         const list = byBank[bank];
-        if (list.length === 1) {
-          const c = list[0];
-          return `<a class="dd-item" role="menuitem" href="article.html?card=${encodeURIComponent(c.slug)}">${escapeHtml(bank)}</a>`;
-        }
         return (
           '<div class="dd-item-wrap">' +
             '<button class="dd-item" role="menuitem" aria-haspopup="true">' +
