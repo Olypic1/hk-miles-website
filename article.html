@@ -583,7 +583,21 @@
     .blk-divider { border-top: 1px solid var(--hair); margin: 32px 0; }
 
     /* Sidebar — latest posts from promotions */
-    .article-toc { position: sticky; top: 90px; align-self: start; }
+    .article-toc {
+      position: sticky;
+      top: 90px;
+      align-self: start;
+      max-height: calc(100vh - 110px);
+      overflow-y: auto;
+      /* Subtle scrollbar */
+      scrollbar-width: thin;
+      scrollbar-color: var(--hair) transparent;
+      padding-right: 4px;
+    }
+    .article-toc::-webkit-scrollbar { width: 6px; }
+    .article-toc::-webkit-scrollbar-track { background: transparent; }
+    .article-toc::-webkit-scrollbar-thumb { background: var(--hair); border-radius: 3px; }
+    .article-toc::-webkit-scrollbar-thumb:hover { background: var(--text-3); }
     .latest-label {
       font-size: 11px; font-weight: 700; letter-spacing: 0.18em;
       color: var(--muted); margin-bottom: 14px;
