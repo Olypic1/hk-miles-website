@@ -588,10 +588,10 @@
       font-size: 11px; font-weight: 700; letter-spacing: 0.18em;
       color: var(--muted); margin-bottom: 14px;
     }
-    .latest-list { display: flex; flex-direction: column; gap: 12px; }
+    .latest-list { display: flex; flex-direction: column; gap: 16px; }
     .latest-item {
-      display: flex; gap: 10px;
-      padding: 10px; border-radius: 10px;
+      display: flex; flex-direction: column; gap: 10px;
+      padding: 12px; border-radius: 12px;
       border: 1px solid var(--hair2);
       background: #fff;
       text-decoration: none; color: inherit;
@@ -602,17 +602,7 @@
       background: var(--paper);
       transform: translateY(-1px);
     }
-    .latest-thumb {
-      width: 64px; height: 64px; border-radius: 8px;
-      flex-shrink: 0; object-fit: cover; background: var(--paper);
-    }
-    .latest-thumb-ph {
-      width: 64px; height: 64px; border-radius: 8px; flex-shrink: 0;
-      background: linear-gradient(135deg, var(--ink), #2860c5);
-      display: grid; place-items: center;
-      color: rgba(255,255,255,0.7); font-size: 10px; font-weight: 700;
-    }
-    .latest-body { flex: 1; min-width: 0; }
+    .latest-body { min-width: 0; }
     .latest-bank {
       font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
       color: var(--muted); margin-bottom: 4px; text-transform: uppercase;
@@ -624,6 +614,19 @@
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
+    }
+    .latest-thumb {
+      width: 100%; aspect-ratio: 1 / 1;
+      border-radius: 8px;
+      object-fit: cover; background: var(--paper);
+      display: block;
+    }
+    .latest-thumb-ph {
+      width: 100%; aspect-ratio: 1 / 1;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--ink), #2860c5);
+      display: grid; place-items: center;
+      color: rgba(255,255,255,0.7); font-size: 14px; font-weight: 700;
     }
     .latest-loading { padding: 10px; font-size: 13px; color: var(--text-3); }
 
@@ -1219,13 +1222,13 @@
         }
         list.innerHTML = items.map(p => `
           <a class="latest-item" href="article.html?id=${encodeURIComponent(p._id)}">
-            ${p.imgUrl
-              ? `<img class="latest-thumb" src="${escapeHtml(p.imgUrl)}" alt="">`
-              : `<div class="latest-thumb-ph">${escapeHtml((p.bank || 'HK').slice(0, 3).toUpperCase())}</div>`}
             <div class="latest-body">
               <div class="latest-bank">${escapeHtml(p.bank || '')}</div>
               <div class="latest-title">${escapeHtml(p.title || '')}</div>
             </div>
+            ${p.imgUrl
+              ? `<img class="latest-thumb" src="${escapeHtml(p.imgUrl)}" alt="">`
+              : `<div class="latest-thumb-ph">${escapeHtml((p.bank || 'HK').slice(0, 3).toUpperCase())}</div>`}
           </a>`).join('');
       } catch (e) {
         list.innerHTML = '<div class="latest-loading">載入失敗</div>';
