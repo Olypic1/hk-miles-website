@@ -1481,10 +1481,6 @@
         </div>
       </section>
 
-      <!-- RESULTS BAR -->
-      <div class="results-bar">
-        <div class="results-count" id="res-count" aria-live="polite"></div>
-      </div>
 
       <!-- LOADING -->
       <div class="load-state" id="load-st" role="status" aria-live="polite">
@@ -1643,8 +1639,6 @@
     function renderGrid() {
       const list = getFiltered();
       const grid = document.getElementById('promo-grid');
-      const countEl = document.getElementById('res-count');
-      countEl.innerHTML = `顯示 <strong>${list.length}</strong> 個優惠（共 ${all.length} 個）`;
       if (!list.length) { grid.innerHTML = ''; showState('empty'); return; }
       showState('grid');
       grid.innerHTML = list.map((p, i) => cardHTML(p, i)).join('');
@@ -1866,7 +1860,6 @@
       document.getElementById('err-st').style.display = s === 'error' ? 'block' : 'none';
       document.getElementById('empty-st').style.display = s === 'empty' ? 'block' : 'none';
       document.getElementById('promo-grid').style.display = s === 'grid' ? 'grid' : 'none';
-      document.getElementById('res-count').style.visibility = (s === 'grid' || s === 'empty') ? 'visible' : 'hidden';
     }
 
     function updateHdCount() {
