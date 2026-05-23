@@ -205,6 +205,27 @@
     /* ── ARTICLE LAYOUT ───────────────────────────────── */
     .article-wrap { max-width: 1140px; margin: 0 auto; }
     .article-hero { padding: 12px 24px 28px; }
+    .article-hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
+      gap: 32px;
+      align-items: start;
+    }
+    .article-hero-side {
+      width: 100%;
+      border-radius: 16px;
+      overflow: hidden;
+      background: var(--paper);
+      border: 1px solid var(--hair2);
+      box-shadow: var(--shadow-sm);
+    }
+    .article-hero-side img {
+      width: 100%; height: auto; display: block;
+    }
+    @media (max-width: 900px) {
+      .article-hero-grid { grid-template-columns: 1fr; gap: 20px; }
+      .article-hero-side { max-width: 360px; margin: 0 auto; }
+    }
     .breadcrumb {
       display: flex; align-items: center; gap: 8px;
       font-size: 12px; color: var(--muted);
@@ -245,14 +266,6 @@
     .meta-divider { width: 1px; height: 26px; background: var(--hair); }
     .meta-date { font-size: 13px; color: var(--muted); }
     .meta-date strong { color: var(--ink); font-weight: 500; }
-    .meta-actions { margin-left: auto; display: flex; gap: 8px; flex-wrap: wrap; }
-    .meta-btn {
-      background: transparent; border: 1px solid var(--hair);
-      border-radius: 999px; padding: 7px 14px;
-      font-size: 12px; font-weight: 500; color: var(--ink); cursor: pointer;
-      font-family: inherit;
-    }
-    .meta-btn:hover { background: var(--paper); }
 
     /* Pills */
     .pill {
@@ -1122,38 +1135,47 @@
       const root = document.getElementById('article-root');
       root.classList.remove('loading');
 
-      // Hero
-      const heroHtml = `
-        <div class="article-hero">
-          <div class="breadcrumb">${m.breadcrumb.map((b, i) =>
-            `${i > 0 ? '<span>›</span>' : ''}<span>${escapeHtml(b)}</span>`).join('')}</div>
-          <div class="hero-tags">
-            ${m.tags.map(t => `<span class="pill pill-${t.tone || 'blue'}">${escapeHtml(t.label)}</span>`).join('')}
-            <span class="read-time">· ${escapeHtml(m.readTime)}閱讀</span>
+      // Hero text content
+      const heroTextHtml = `
+        <div class="breadcrumb">${m.breadcrumb.map((b, i) =>
+          `${i > 0 ? '<span>›</span>' : ''}<span>${escapeHtml(b)}</span>`).join('')}</div>
+        <div class="hero-tags">
+          ${m.tags.map(t => `<span class="pill pill-${t.tone || 'blue'}">${escapeHtml(t.label)}</span>`).join('')}
+          <span class="read-time">· ${escapeHtml(m.readTime)}閱讀</span>
+        </div>
+        <h1 class="article-title">${escapeHtml(m.title)}</h1>
+        ${m.lede ? `<p class="article-lede">${renderInline(m.lede)}</p>` : ''}
+        <div class="article-meta">
+          <div class="meta-author">
+            <div class="author-avatar">${escapeHtml(m.author.slice(0, 1))}</div>
+            <div>
+              <div class="author-name">${escapeHtml(m.author)}</div>
+              <div class="author-role">${escapeHtml(m.authorRole)} · 已驗證</div>
+            </div>
           </div>
-          <h1 class="article-title">${escapeHtml(m.title)}</h1>
-          ${m.lede ? `<p class="article-lede">${renderInline(m.lede)}</p>` : ''}
-          <div class="article-meta">
-            <div class="meta-author">
-              <div class="author-avatar">${escapeHtml(m.author.slice(0, 1))}</div>
-              <div>
-                <div class="author-name">${escapeHtml(m.author)}</div>
-                <div class="author-role">${escapeHtml(m.authorRole)} · 已驗證</div>
+          <div class="meta-divider"></div>
+          <div class="meta-date">發佈於 <strong>${escapeHtml(m.date)}</strong></div>
+          ${m.updated ? `<div class="meta-divider"></div><div class="meta-date">最後更新 ${escapeHtml(m.updated)}</div>` : ''}
+        </div>`;
+
+      // If meta.heroSide is set (e.g. credit card image), render a 2-col
+      // hero with text on the left and the image on the right. Otherwise
+      // single-column hero, with optional below-fold m.hero placeholder.
+      const heroHtml = m.heroSide
+        ? `<div class="article-hero">
+            <div class="article-hero-grid">
+              <div>${heroTextHtml}</div>
+              <div class="article-hero-side">
+                <img src="${escapeHtml(m.heroSide)}" alt="${escapeHtml(m.title)}">
               </div>
             </div>
-            <div class="meta-divider"></div>
-            <div class="meta-date">發佈於 <strong>${escapeHtml(m.date)}</strong></div>
-            ${m.updated ? `<div class="meta-divider"></div><div class="meta-date">最後更新 ${escapeHtml(m.updated)}</div>` : ''}
-            <div class="meta-actions">
-              <button class="meta-btn">複製連結</button>
-              <button class="meta-btn">分享</button>
-              <button class="meta-btn">收藏</button>
-            </div>
-          </div>
-          ${m.hero ? `<div style="margin-top:32px;">
-            <div class="img-ph tint-${m.hero.tint || 'navy'}" style="aspect-ratio:${m.hero.ratio || '21/9'}; width:100%;"><span>${escapeHtml(m.hero.label || '主視覺')}</span></div>
-          </div>` : ''}
-        </div>`;
+          </div>`
+        : `<div class="article-hero">
+            ${heroTextHtml}
+            ${m.hero ? `<div style="margin-top:32px;">
+              <div class="img-ph tint-${m.hero.tint || 'navy'}" style="aspect-ratio:${m.hero.ratio || '21/9'}; width:100%;"><span>${escapeHtml(m.hero.label || '主視覺')}</span></div>
+            </div>` : ''}
+          </div>`;
 
       // Blocks
       const blocksHtml = article.blocks.map((b, i) =>
@@ -1306,17 +1328,10 @@
         updated: c._updatedAt ? new Date(c._updatedAt).toLocaleDateString('zh-HK') : '',
         readTime: estimateReadTime(c.content),
         hero: null,
+        heroSide: heroImgUrl || null,   // shown on the right of hero
       };
 
       const blocks = [];
-
-      // Hero image
-      if (heroImgUrl) {
-        blocks.push({
-          type: 'portable-text',
-          content: [{ _type: 'image', asset: { url: heroImgUrl } }],
-        });
-      }
 
       // Apply CTA — if applyUrl present, surface a quick action paragraph
       if (c.applyUrl) {
