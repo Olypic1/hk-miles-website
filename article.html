@@ -1370,7 +1370,9 @@
         annualFee, minimumIncome,
         status, content,
         "slug": slug.current,
-        "cardImageUrl": coalesce(mainImage.asset->url, cardImage.asset->url),
+        // imageUrl is a plain string field pointing to an external image
+        // (e.g. Firebase Storage). Fall back to legacy Sanity-asset fields.
+        "cardImageUrl": coalesce(imageUrl, mainImage.asset->url, cardImage.asset->url),
         "related": *[_type == "creditCard" && slug.current != ^.slug.current && bank == ^.bank]
           | order(_createdAt desc) [0...3] {
             "_id": _id, title, bank, "slug": slug.current,
