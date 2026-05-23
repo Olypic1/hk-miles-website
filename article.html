@@ -359,6 +359,17 @@
       .blk-table-head > div { padding: 12px 10px; }
       .blk-table-head, .blk-table-head p, .blk-table-head .blk-p { font-size: 13px; }
     }
+
+    /* Tables where every cell defines its own backgroundColor in Sanity:
+       suppress row striping + white-text override so Sanity's exact
+       fill colors come through pixel-perfect. */
+    .blk-table--custom .blk-table-row--custom { background: transparent !important; }
+    .blk-table--custom .blk-table-row--custom:nth-child(odd),
+    .blk-table--custom .blk-table-row--custom:nth-child(even) { background: transparent !important; }
+    .blk-table--custom .blk-table-row--custom > div { background-color: inherit; }
+    .blk-table--custom .blk-table-row--custom .blk-p {
+      margin: 0; line-height: 1.5; max-width: none;
+    }
     .blk-table-row { display: grid; border-top: 1px solid var(--hair2); }
     .blk-table-row:first-child { border-top: none; }
     .blk-table-row:nth-child(odd) { background: #fff; }
@@ -987,22 +998,46 @@
 
     function renderSanityTable(b) {
       // Plain table: { rows: [{ cells: [...] }] }
-      // Rich table: { rows: [{ cells: [{ content: [...] }] }] }
+      // Rich table: { rows: [{ cells: [{ content, backgroundColor, align }] }] }
       const rows = (b.rows || (b.table && b.table.rows) || []);
       if (!rows.length) return '';
-      const headerRow = rows[0];
-      const dataRows = rows.slice(1);
+
       const cellText = (cell) => {
         if (typeof cell === 'string') return escapeHtml(cell);
         if (cell && cell.content) return renderPortableText(cell.content);
-        if (cell && cell.cells) return ''; // unexpected
         return '';
       };
-      const cols = (headerRow.cells || []).length;
+      const cellStyle = (cell) => {
+        if (!cell || typeof cell === 'string') return '';
+        const s = [];
+        if (cell.backgroundColor) s.push(`background-color:${escapeHtml(cell.backgroundColor)}`);
+        if (cell.align) s.push(`text-align:${escapeHtml(cell.align)}`);
+        return s.length ? ` style="${s.join(';')}"` : '';
+      };
+
+      const cols = (rows[0].cells || []).length;
       const grid = `repeat(${cols}, minmax(0, 1fr))`;
-      const headHtml = (headerRow.cells || []).map(c => `<div>${cellText(c)}</div>`).join('');
+
+      // If ANY cell has its own backgroundColor, let cells dictate their own
+      // look — no dark navy header, no row striping, no forced white text.
+      const hasCellColors = rows.some(r =>
+        (r.cells || []).some(c => c && c.backgroundColor)
+      );
+
+      if (hasCellColors) {
+        const rowsHtml = rows.map(r =>
+          `<div class="blk-table-row blk-table-row--custom" style="grid-template-columns:${grid}">${(r.cells || []).map(c =>
+            `<div${cellStyle(c)}>${cellText(c)}</div>`).join('')}</div>`
+        ).join('');
+        return `<div class="blk-table-wrap"><div class="blk-table blk-table--custom">${rowsHtml}</div></div>`;
+      }
+
+      // Default style: row 0 = dark navy header, body alternates white/paper
+      const headerRow = rows[0];
+      const dataRows = rows.slice(1);
+      const headHtml = (headerRow.cells || []).map(c => `<div${cellStyle(c)}>${cellText(c)}</div>`).join('');
       const rowsHtml = dataRows.map(r =>
-        `<div class="blk-table-row" style="grid-template-columns:${grid}">${(r.cells || []).map(c => `<div>${cellText(c)}</div>`).join('')}</div>`
+        `<div class="blk-table-row" style="grid-template-columns:${grid}">${(r.cells || []).map(c => `<div${cellStyle(c)}>${cellText(c)}</div>`).join('')}</div>`
       ).join('');
       return `<div class="blk-table-wrap"><div class="blk-table">
         <div class="blk-table-head" style="grid-template-columns:${grid}">${headHtml}</div>
