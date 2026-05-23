@@ -496,6 +496,12 @@
       .blk-kpis { padding: 20px; }
       .blk-kpi-value { font-size: 18px; }
     }
+    /* Compact variant — for tucking under the article body */
+    .blk-kpis.blk-kpis--small { padding: 16px 18px; margin: 24px 0 0; }
+    .blk-kpis--small .blk-kpis-label { margin-bottom: 10px; font-size: 10px; }
+    .blk-kpis--small .blk-kpis-grid { gap: 16px; }
+    .blk-kpis--small .blk-kpi-label { font-size: 10px; }
+    .blk-kpis--small .blk-kpi-value { font-size: 15px; font-weight: 700; }
 
     /* Block: two-col */
     .blk-twocol {
@@ -913,7 +919,8 @@
 
       kpis: (b) => {
         const cols = b.items.length;
-        return `<div class="blk-kpis">
+        const sizeCls = b.size === 'small' ? ' blk-kpis--small' : '';
+        return `<div class="blk-kpis${sizeCls}">
           ${b.label ? `<div class="blk-kpis-label">${escapeHtml(b.label)}</div>` : ''}
           <div class="blk-kpis-grid" style="grid-template-columns: repeat(${cols}, 1fr);">
             ${b.items.map(t => `
@@ -1354,19 +1361,21 @@
 
       const blocks = [];
 
-      // KPIs row: 年費 / 最低年薪要求 (other reward fields removed from schema)
-      const kpiItems = [];
-      if (c.annualFee)     kpiItems.push({ label: '年費',   value: c.annualFee });
-      if (c.minimumIncome) kpiItems.push({ label: '最低年薪要求', value: c.minimumIncome });
-      if (kpiItems.length) blocks.push({ type: 'kpis', label: '一覽', items: kpiItems });
-
-      // Body content
+      // Body content first — primary article content
       if (c.content && c.content.length) {
-        blocks.push({ type: 'h2', text: '詳細資料' });
         blocks.push({ type: 'portable-text', content: c.content });
       }
 
-      // Tags (rendered as pills at the bottom of the article)
+      // KPIs (compact) — appended after the article so it reads as a
+      // quick-fact card at the end rather than dominating the top
+      const kpiItems = [];
+      if (c.annualFee)     kpiItems.push({ label: '年費',   value: c.annualFee });
+      if (c.minimumIncome) kpiItems.push({ label: '最低年薪要求', value: c.minimumIncome });
+      if (kpiItems.length) blocks.push({
+        type: 'kpis', size: 'small', label: '一覽', items: kpiItems,
+      });
+
+      // Tags (rendered as a small list at the very bottom)
       if (c.tags && c.tags.length) {
         blocks.push({ type: 'h3', text: '標籤' });
         blocks.push({
