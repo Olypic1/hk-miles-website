@@ -209,10 +209,16 @@
       display: grid;
       grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
       gap: 32px;
-      align-items: start;
+      align-items: stretch;
     }
+    /* Side column stretches to the height of the text column. The image
+       is absolutely positioned inside so it never pushes the row taller,
+       and object-fit: contain scales it down (preserving aspect ratio)
+       so a vertical/portrait card fits within the same hero height. */
     .article-hero-side {
+      position: relative;
       width: 100%;
+      min-height: 220px;
       border-radius: 16px;
       overflow: hidden;
       background: var(--paper);
@@ -220,11 +226,19 @@
       box-shadow: var(--shadow-sm);
     }
     .article-hero-side img {
-      width: 100%; height: auto; display: block;
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: contain;
+      display: block;
     }
     @media (max-width: 900px) {
       .article-hero-grid { grid-template-columns: 1fr; gap: 20px; }
-      .article-hero-side { max-width: 360px; margin: 0 auto; }
+      .article-hero-side {
+        position: static;
+        max-width: 360px; margin: 0 auto;
+        aspect-ratio: 16 / 10;
+      }
+      .article-hero-side img { position: static; }
     }
     .breadcrumb {
       display: flex; align-items: center; gap: 8px;
@@ -339,6 +353,15 @@
       line-height: 1.75; color: var(--text); max-width: 780px;
     }
     .blk-p strong { color: var(--ink); font-weight: 700; }
+
+    /* Portable Text textColor/highlightColor marks — when the renderer wraps
+       <strong>/<em>/etc in a coloured <span class="pt-color">, the inline
+       color on the span loses to block-level rules like ".blk-p strong" that
+       set color directly on the inner element. Force inner inline tags to
+       inherit the coloured span's colour so credit-card pages show the
+       editor's chosen red/blue/green/etc. */
+    .pt-color, .pt-color strong, .pt-color em, .pt-color u,
+    .pt-color s, .pt-color code, .pt-color a { color: inherit; }
 
     /* Block: image */
     .blk-figure { margin: 32px 0; max-width: 100%; }
@@ -1010,7 +1033,7 @@
           }
         }
       });
-      if (style) html = `<span style="${style}">${openTags}${html}${closeTags}</span>`;
+      if (style) html = `<span class="pt-color" style="${style}">${openTags}${html}${closeTags}</span>`;
       else html = `${openTags}${html}${closeTags}`;
       return html;
     }
