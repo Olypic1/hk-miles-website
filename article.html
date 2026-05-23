@@ -306,7 +306,7 @@
       display: grid;
       grid-template-columns: minmax(0, 1fr) 280px;
       gap: 48px;
-      padding: 24px 24px 48px;
+      padding: 8px 24px 48px;
     }
     @media (max-width: 900px) {
       .article-body { grid-template-columns: 1fr; gap: 0; padding: 0 20px 24px; }
@@ -314,6 +314,11 @@
     }
 
     .article-main { min-width: 0; }
+    /* Kill the top margin of the very first block — otherwise it stacks
+       on top of the article-hero's bottom padding + article-body's top
+       padding, creating a big empty band between the meta row and the
+       article content. */
+    .article-main > :first-child { margin-top: 0 !important; }
 
     /* Block: h2 / h3 */
     .blk-h2-wrap { margin: 48px 0 18px; }
