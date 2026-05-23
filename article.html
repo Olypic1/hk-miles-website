@@ -370,6 +370,29 @@
     .blk-table--custom .blk-table-row--custom .blk-p {
       margin: 0; line-height: 1.5; max-width: none;
     }
+    /* First row of a custom table — force text to white. Beats any
+       Portable Text textColor mark, so editors don't have to set white
+       on every span in the header row. */
+    .blk-table--custom .blk-table-row--custom:first-child,
+    .blk-table--custom .blk-table-row--custom:first-child * {
+      color: #fff !important;
+    }
+
+    /* Vertical column separators across both default + custom tables. */
+    .blk-table-head > div + div,
+    .blk-table-row > div + div {
+      border-left: 1px solid rgba(255, 255, 255, 0.18);
+    }
+    /* On light-background body rows the white separator becomes invisible,
+       so use a translucent dark one there. The custom-table first row
+       (dark bg) keeps the white separator from the rule above. */
+    .blk-table-row:not(.blk-table-row--custom):nth-child(odd) > div + div,
+    .blk-table-row:not(.blk-table-row--custom):nth-child(even) > div + div {
+      border-left-color: rgba(13, 33, 72, 0.1);
+    }
+    .blk-table--custom .blk-table-row--custom:not(:first-child) > div + div {
+      border-left-color: rgba(13, 33, 72, 0.1);
+    }
     .blk-table-row { display: grid; border-top: 1px solid var(--hair2); }
     .blk-table-row:first-child { border-top: none; }
     .blk-table-row:nth-child(odd) { background: #fff; }
