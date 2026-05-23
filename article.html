@@ -866,7 +866,137 @@
       </div>`,
 
       divider: () => `<div class="blk-divider"></div>`,
+
+      'portable-text': (b) => renderPortableText(b.content),
     };
+
+    // ─── Portable Text renderer (for Sanity content) ──
+    function renderSpan(span, markDefs) {
+      let html = escapeHtml(span.text || '');
+      const marks = span.marks || [];
+      let style = '';
+      let openTags = '';
+      let closeTags = '';
+      marks.forEach(mark => {
+        if (mark === 'strong') { openTags += '<strong>'; closeTags = '</strong>' + closeTags; }
+        else if (mark === 'em') { openTags += '<em>'; closeTags = '</em>' + closeTags; }
+        else if (mark === 'underline') { openTags += '<u>'; closeTags = '</u>' + closeTags; }
+        else if (mark === 'code') { openTags += '<code>'; closeTags = '</code>' + closeTags; }
+        else if (mark === 'strike-through') { openTags += '<s>'; closeTags = '</s>' + closeTags; }
+        else {
+          // markDef annotation
+          const def = (markDefs || []).find(d => d._key === mark);
+          if (def) {
+            if (def._type === 'link') {
+              openTags += `<a href="${escapeHtml(def.href || '#')}" target="_blank" rel="noopener" style="color:var(--brand); border-bottom:1px solid var(--brand);">`;
+              closeTags = '</a>' + closeTags;
+            } else if (def._type === 'textColor') {
+              style += `color:${escapeHtml(def.color)};`;
+            } else if (def._type === 'highlightColor') {
+              style += `background-color:${escapeHtml(def.color)}; padding:0 2px;`;
+            }
+          }
+        }
+      });
+      if (style) html = `<span style="${style}">${openTags}${html}${closeTags}</span>`;
+      else html = `${openTags}${html}${closeTags}`;
+      return html;
+    }
+
+    function renderBlockChildren(block) {
+      return (block.children || []).map(c => {
+        if (c._type === 'span') return renderSpan(c, block.markDefs);
+        return '';
+      }).join('');
+    }
+
+    function renderPortableText(content) {
+      if (!content || !content.length) return '';
+      const out = [];
+      let listBuffer = null; // { kind, items: [] }
+      const flushList = () => {
+        if (!listBuffer) return;
+        const Tag = listBuffer.kind === 'number' ? 'ol' : 'ul';
+        out.push(`<${Tag} class="blk-list">${listBuffer.items.map(it => `<li>${it}</li>`).join('')}</${Tag}>`);
+        listBuffer = null;
+      };
+
+      content.forEach(b => {
+        if (b._type === 'block') {
+          // List item handling
+          if (b.listItem) {
+            const inner = renderBlockChildren(b);
+            if (!listBuffer || listBuffer.kind !== b.listItem) {
+              flushList();
+              listBuffer = { kind: b.listItem, items: [] };
+            }
+            listBuffer.items.push(inner);
+            return;
+          }
+          flushList();
+
+          const inner = renderBlockChildren(b);
+          if (!inner.trim()) return;
+          const style = b.style || 'normal';
+          if (style === 'h1' || style === 'h2') {
+            out.push(`<div class="blk-h2-wrap"><h2 class="blk-h2">${inner}</h2></div>`);
+          } else if (style === 'h3' || style === 'h4') {
+            out.push(`<h3 class="blk-h3">${inner}</h3>`);
+          } else if (style === 'h5' || style === 'h6') {
+            out.push(`<h3 class="blk-h3" style="font-size:18px;">${inner}</h3>`);
+          } else if (style === 'blockquote') {
+            out.push(`<div class="blk-callout callout-info"><div class="blk-callout-text">${inner}</div></div>`);
+          } else {
+            out.push(`<p class="blk-p">${inner}</p>`);
+          }
+        } else if (b._type === 'image') {
+          flushList();
+          const ref = b.asset && b.asset._ref;
+          const url = b.asset && b.asset.url ? b.asset.url : (ref ? imgUrlFromRef(ref) : '');
+          if (url) {
+            out.push(`<figure class="blk-figure"><img src="${escapeHtml(url)}" alt="" style="width:100%; height:auto; border-radius:12px;">${b.caption ? `<figcaption class="blk-caption">${escapeHtml(b.caption)}</figcaption>` : ''}</figure>`);
+          }
+        } else if (b._type === 'richTable' || b._type === 'table') {
+          flushList();
+          out.push(renderSanityTable(b));
+        }
+      });
+      flushList();
+      return out.join('');
+    }
+
+    // Sanity image asset ref → CDN url
+    function imgUrlFromRef(ref) {
+      // image-XXXX-1234x1234-png → https://cdn.sanity.io/images/<projectId>/<dataset>/XXXX-1234x1234.png
+      const m = String(ref).match(/^image-([a-f0-9]+)-(\d+x\d+)-(\w+)$/);
+      if (!m) return '';
+      return `https://cdn.sanity.io/images/j3rszqec/promotions/${m[1]}-${m[2]}.${m[3]}`;
+    }
+
+    function renderSanityTable(b) {
+      // Plain table: { rows: [{ cells: [...] }] }
+      // Rich table: { rows: [{ cells: [{ content: [...] }] }] }
+      const rows = (b.rows || (b.table && b.table.rows) || []);
+      if (!rows.length) return '';
+      const headerRow = rows[0];
+      const dataRows = rows.slice(1);
+      const cellText = (cell) => {
+        if (typeof cell === 'string') return escapeHtml(cell);
+        if (cell && cell.content) return renderPortableText(cell.content);
+        if (cell && cell.cells) return ''; // unexpected
+        return '';
+      };
+      const cols = (headerRow.cells || []).length;
+      const grid = `repeat(${cols}, minmax(0, 1fr))`;
+      const headHtml = (headerRow.cells || []).map(c => `<div>${cellText(c)}</div>`).join('');
+      const rowsHtml = dataRows.map(r =>
+        `<div class="blk-table-row" style="grid-template-columns:${grid}">${(r.cells || []).map(c => `<div>${cellText(c)}</div>`).join('')}</div>`
+      ).join('');
+      return `<div class="blk-table-wrap"><div class="blk-table">
+        <div class="blk-table-head" style="grid-template-columns:${grid}">${headHtml}</div>
+        ${rowsHtml}
+      </div></div>`;
+    }
 
     function renderCell(c) {
       if (c == null) return '<span style="color:var(--faint);">—</span>';
@@ -994,21 +1124,128 @@
       }, { passive: true });
     }
 
-    // ─── Load article by slug ─────────────────────────
-    function load() {
-      const slug = new URLSearchParams(window.location.search).get('slug') || 'asia-miles';
-      const article = window.Articles && window.Articles[slug];
-      if (!article) {
-        document.getElementById('article-root').innerHTML = `
-          <div class="loading">
-            <p>找不到文章：<code>${escapeHtml(slug)}</code></p>
-            <p style="margin-top:20px;">可用文章：${Object.keys(window.Articles || {}).map(s =>
-              `<a href="?slug=${s}" style="color:var(--brand); margin: 0 6px;">${s}</a>`).join('')}</p>
-          </div>`;
+    // ─── Promotion → Article shape ────────────────────
+    function promotionToArticle(p) {
+      const bankTag = p.bank ? [{ label: p.bank.toUpperCase(), tone: 'black' }] : [];
+      const catTags = (p.categories || []).slice(0, 3).map(c => ({ label: c, tone: 'gray' }));
+      const heroImgUrl = p.imgUrl || (p.mainImage && p.mainImage.asset && p.mainImage.asset.url);
+      const expiry = p.endDate ? new Date(p.endDate) : null;
+      const now = new Date();
+      const daysLeft = expiry ? Math.ceil((expiry - now) / (1000 * 60 * 60 * 24)) : null;
+      const expiryLabel =
+        daysLeft == null ? null :
+        daysLeft < 0     ? '已過期' :
+        daysLeft === 0   ? '今日到期' :
+        daysLeft <= 7    ? `剩 ${daysLeft} 天` :
+        `至 ${p.endDate}`;
+
+      const meta = {
+        breadcrumb: ['主頁', '優惠情報', p.bank || '優惠'].filter(Boolean),
+        tags: [...bankTag, ...catTags, ...(expiryLabel ? [{ label: expiryLabel, tone: daysLeft != null && daysLeft <= 7 ? 'red' : 'amber' }] : [])],
+        title: p.title || '優惠詳情',
+        lede: null,
+        author: 'HK Miles 編輯',
+        authorRole: '優惠情報組',
+        date: p._createdAt ? new Date(p._createdAt).toLocaleDateString('zh-HK') : '',
+        updated: p._updatedAt ? new Date(p._updatedAt).toLocaleDateString('zh-HK') : '',
+        readTime: estimateReadTime(p.content),
+        hero: null,
+      };
+
+      const blocks = [];
+      // Hero image first (rendered inline so it's part of the article body)
+      if (heroImgUrl) {
+        blocks.push({
+          type: 'portable-text',
+          content: [{
+            _type: 'image',
+            asset: { url: heroImgUrl },
+          }],
+        });
+      }
+      blocks.push({ type: 'portable-text', content: p.content || [] });
+
+      return { meta, blocks, related: p.related || [] };
+    }
+
+    function estimateReadTime(content) {
+      if (!content || !content.length) return '3 分鐘';
+      let chars = 0;
+      content.forEach(b => {
+        if (b._type === 'block') {
+          (b.children || []).forEach(c => { chars += (c.text || '').length; });
+        }
+      });
+      const min = Math.max(2, Math.ceil(chars / 350));
+      return `${min} 分鐘`;
+    }
+
+    async function fetchPromotion(id, slug) {
+      const SANITY_API = 'https://j3rszqec.api.sanity.io/v2024-01-01/data/query/promotions';
+      const filter = id ? `_id == "${id}"` : `slug.current == "${slug}"`;
+      const projection = `{
+        _id, _createdAt, _updatedAt, title, bank, categories, tags, status, endDate,
+        "imgUrl": mainImage.asset->url, content,
+        "related": *[_type == "promotion" && _id != ^._id && bank == ^.bank && status == "Active"]
+          | order(_createdAt desc) [0...3] {
+            _id, title, bank,
+            "cat": coalesce(categories[0], bank),
+            "tag": coalesce(endDate, "長期"),
+            "tone": "navy"
+          }
+      }`;
+      const q = encodeURIComponent(`*[_type == "promotion" && ${filter}][0]${projection}`);
+      const res = await fetch(`${SANITY_API}?query=${q}`);
+      const data = await res.json();
+      return data.result;
+    }
+
+    // ─── Load article by slug (local) or id/slug (Sanity) ────
+    async function load() {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get('id');
+      const sanitySlug = params.get('slug');
+
+      // If id is provided OR slug isn't in local Articles, fetch from Sanity
+      const isLocal = sanitySlug && window.Articles && window.Articles[sanitySlug];
+      if (isLocal) {
+        renderArticle(window.Articles[sanitySlug]);
+        requestAnimationFrame(setupScrollSpy);
         return;
       }
-      renderArticle(article);
-      requestAnimationFrame(setupScrollSpy);
+      if (id || sanitySlug) {
+        try {
+          const promo = await fetchPromotion(id, sanitySlug);
+          if (!promo) {
+            document.getElementById('article-root').innerHTML = `<div class="loading"><p>找不到優惠</p></div>`;
+            return;
+          }
+          // Map related promos to related-card shape with article links
+          const related = (promo.related || []).map(r => ({
+            cat: r.bank || r.cat,
+            title: r.title,
+            tag: r.tag && r.tag !== '長期' ? `至 ${r.tag}` : '長期',
+            tone: 'navy',
+            href: `article.html?id=${r._id}`,
+          }));
+          const article = promotionToArticle({ ...promo, related });
+          renderArticle(article);
+          requestAnimationFrame(setupScrollSpy);
+        } catch (e) {
+          console.error(e);
+          document.getElementById('article-root').innerHTML = `<div class="loading"><p>載入失敗，請稍後重試。</p></div>`;
+        }
+        return;
+      }
+
+      // Default fallback — show first local article
+      const firstLocal = Object.keys(window.Articles || {})[0];
+      if (firstLocal) {
+        renderArticle(window.Articles[firstLocal]);
+        requestAnimationFrame(setupScrollSpy);
+      } else {
+        document.getElementById('article-root').innerHTML = `<div class="loading"><p>請指定文章。</p></div>`;
+      }
     }
 
     // ─── Bank sub-menu (same as promotions.html) ──────

@@ -1596,7 +1596,7 @@
     const PROJECT = 'j3rszqec';
     const DATASET = 'promotions';
     const VERSION = 'v2022-03-07';
-    const QUERY = `*[_type == "promotion" && !(_id in path("drafts.**")) && (status == "Active" || status == "Expired" || !defined(status))] | order(pinned desc, _createdAt desc) { _id, title, bank, categories, endDate, "imageUrl": mainImage.asset->url, _createdAt, content, tags, status, pinned }`;
+    const QUERY = `*[_type == "promotion" && !(_id in path("drafts.**")) && (status == "Active" || status == "Expired" || !defined(status))] | order(pinned desc, _createdAt desc) { _id, title, bank, categories, endDate, "imageUrl": mainImage.asset->url, _createdAt, content, tags, status, pinned, slug }`;
 
     let all = [], curFilter = 'all', curSearch = '';
 
@@ -1649,8 +1649,13 @@
       showState('grid');
       grid.innerHTML = list.map((p, i) => cardHTML(p, i)).join('');
       grid.querySelectorAll('.promo-card').forEach((el, i) => {
-        el.addEventListener('click', () => openModal(list[i]));
-        el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(list[i]); } });
+        const goToArticle = () => {
+          const p = list[i];
+          const param = p.slug && p.slug.current ? `slug=${encodeURIComponent(p.slug.current)}` : `id=${encodeURIComponent(p._id)}`;
+          window.location.href = `article.html?${param}`;
+        };
+        el.addEventListener('click', goToArticle);
+        el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); goToArticle(); } });
       });
     }
 
