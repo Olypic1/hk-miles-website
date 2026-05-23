@@ -1333,45 +1333,11 @@
 
       const blocks = [];
 
-      // Apply CTA — if applyUrl present, surface a quick action paragraph
-      if (c.applyUrl) {
-        blocks.push({
-          type: 'portable-text',
-          content: [{
-            _type: 'block',
-            style: 'normal',
-            children: [{
-              _type: 'span',
-              text: '立即申請 →',
-              marks: ['strong', 'applyLink'],
-            }],
-            markDefs: [{ _key: 'applyLink', _type: 'link', href: c.applyUrl }],
-          }],
-        });
-      }
-
-      // KPIs row: rewardRateSummary / annualFee / minimumIncome
+      // KPIs row: 年費 / 最低年薪要求 (other reward fields removed from schema)
       const kpiItems = [];
-      if (c.rewardRateSummary) kpiItems.push({ label: '回贈率', value: c.rewardRateSummary });
-      if (c.annualFee)         kpiItems.push({ label: '年費',   value: c.annualFee });
-      if (c.minimumIncome)     kpiItems.push({ label: '最低年薪要求', value: c.minimumIncome });
+      if (c.annualFee)     kpiItems.push({ label: '年費',   value: c.annualFee });
+      if (c.minimumIncome) kpiItems.push({ label: '最低年薪要求', value: c.minimumIncome });
       if (kpiItems.length) blocks.push({ type: 'kpis', label: '一覽', items: kpiItems });
-
-      // Welcome offer callout
-      if (c.welcomeOfferTitle || c.welcomeOfferDetails) {
-        blocks.push({
-          type: 'callout',
-          tone: 'verdict',
-          label: '迎新優惠',
-          text: [c.welcomeOfferTitle, c.welcomeOfferDetails].filter(Boolean).join(' — '),
-        });
-      }
-
-      // Key Benefits list
-      if (c.keyBenefits && c.keyBenefits.length) {
-        blocks.push({ type: 'h2', text: '主要優惠' });
-        blocks.push({ type: 'list', kind: 'ul', items: c.keyBenefits });
-      }
 
       // Body content
       if (c.content && c.content.length) {
@@ -1379,17 +1345,30 @@
         blocks.push({ type: 'portable-text', content: c.content });
       }
 
+      // Tags (rendered as pills at the bottom of the article)
+      if (c.tags && c.tags.length) {
+        blocks.push({ type: 'h3', text: '標籤' });
+        blocks.push({
+          type: 'portable-text',
+          content: [{
+            _type: 'block', style: 'normal',
+            children: [{ _type: 'span', marks: [], text: c.tags.join(' · ') }],
+          }],
+        });
+      }
+
       return { meta, blocks, related: c.related || [] };
     }
 
     async function fetchCreditCard(slug) {
       const SANITY_API = 'https://j3rszqec.api.sanity.io/v2024-01-01/data/query/promotions';
-      // Accept either `mainImage` (what Sanity Studio currently uses) or
-      // `cardImage` (alternative naming) — whichever has a value wins.
+      // Only fetch fields that exist in the current schema. coalesce on
+      // both mainImage and cardImage so future schema changes don't break.
       const projection = `{
-        _id, _createdAt, _updatedAt, title, bank, cardType, summary, tags,
-        rewardRateSummary, annualFee, minimumIncome, keyBenefits, applyUrl,
-        welcomeOfferTitle, welcomeOfferDetails, status, content,
+        _id, _createdAt, _updatedAt,
+        title, bank, cardType, summary, tags,
+        annualFee, minimumIncome,
+        status, content,
         "slug": slug.current,
         "cardImageUrl": coalesce(mainImage.asset->url, cardImage.asset->url),
         "related": *[_type == "creditCard" && slug.current != ^.slug.current && bank == ^.bank]
