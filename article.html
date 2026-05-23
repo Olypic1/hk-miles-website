@@ -340,6 +340,21 @@
       font-size: 12px; font-weight: 700; letter-spacing: 0.04em;
     }
     .blk-table-head > div { padding: 14px; }
+    /* Force header text to white — overrides Portable Text textColor marks
+       and the .blk-p paragraph color from cell content. (Children only —
+       must NOT clear the .blk-table-head's own dark navy background.) */
+    .blk-table-head * {
+      color: #fff !important;
+      background-color: transparent !important;
+    }
+    .blk-table-head p,
+    .blk-table-head .blk-p {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.4;
+      max-width: none;
+    }
     .blk-table-row { display: grid; border-top: 1px solid var(--hair2); }
     .blk-table-row:first-child { border-top: none; }
     .blk-table-row:nth-child(odd) { background: #fff; }
