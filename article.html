@@ -787,7 +787,7 @@
     <div class="controls">
       <div class="controls-row">
         <div class="tab-bar" role="tablist">
-          <a class="tab" href="promotions.html" role="tab">主頁</a>
+          <a class="tab" id="home-tab" href="promotions.html" role="tab">主頁</a>
           <button class="tab" role="tab">簡介</button>
           <!-- 信用卡 with dynamic dropdown -->
           <div class="tab-dd-wrap">
@@ -819,7 +819,7 @@
               <span class="dd-sub-loading">載入中…</span>
             </div>
           </div>
-          <a class="tab active" href="promotions.html" role="tab">攻略</a>
+          <a class="tab" href="promotions.html" role="tab">攻略</a>
           <button class="tab" role="tab">App 更新</button>
         </div>
         <button class="search-ico-btn" aria-label="搜尋">
@@ -1519,6 +1519,22 @@
         document.getElementById('article-root').innerHTML = `<div class="loading"><p>請指定文章。</p></div>`;
       }
     }
+
+    // ─── Mark the matching tab active based on the URL ──────────
+    (function markActiveTab() {
+      const params = new URLSearchParams(window.location.search);
+      const id = document.getElementById.bind(document);
+      const setActive = (...els) => els.forEach(el => el && el.classList.add('active'));
+      if (params.get('card')) {
+        // Credit card detail — highlight 信用卡 trigger
+        setActive(id('cc-tab'));
+        // We'll also highlight miles/cashback after the data loads if
+        // the card has that type — see fillBankDropdown / loadCardTabs.
+      } else if (params.get('id') || params.get('slug')) {
+        // Promotion or hardcoded article — promotions list acts as 主頁
+        setActive(id('home-tab'));
+      }
+    })();
 
     // ─── Card tab dropdowns (same logic as promotions.html) ─────
     // Pull every active credit card from Sanity once and use it to
