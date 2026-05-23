@@ -1982,7 +1982,7 @@
           return;
         }
         subEl.innerHTML = cards.map(c =>
-          `<a class="dd-sub-item" href="card.html?slug=${encodeURIComponent(c.slug)}">${c.title}</a>`
+          `<a class="dd-sub-item" href="article.html?card=${encodeURIComponent(c.slug)}">${c.title}</a>`
         ).join('');
       } catch (e) {
         subEl.innerHTML = '<span class="dd-sub-loading">載入失敗</span>';

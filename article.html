@@ -1438,7 +1438,7 @@
             title: r.title,
             tag: r.tag || '信用卡',
             tone: 'navy',
-            href: `card.html?slug=${encodeURIComponent(r.slug)}`,
+            href: `article.html?card=${encodeURIComponent(r.slug)}`,
           }));
           renderArticle(cardToArticle({ ...card, related }));
         } catch (e) {
@@ -1503,7 +1503,7 @@
           return;
         }
         subEl.innerHTML = cards.map(c =>
-          `<a class="dd-sub-item" href="card.html?slug=${encodeURIComponent(c.slug)}">${escapeHtml(c.title)}</a>`
+          `<a class="dd-sub-item" href="article.html?card=${encodeURIComponent(c.slug)}">${escapeHtml(c.title)}</a>`
         ).join('');
       } catch (e) {
         subEl.innerHTML = '<span class="dd-sub-loading">載入失敗</span>';
