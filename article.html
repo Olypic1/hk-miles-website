@@ -92,38 +92,49 @@
     }
     .nav-cta:hover { background: #1f2937 !important; }
 
-    /* ── TAB BAR (original, matches promotions.html) ──── */
-    .controls {
-      max-width: 1280px;
+    /* ── TAB BAR (matches promotions.html) ──── */
+    .main-controls {
+      max-width: 1140px;
       margin: 0 auto;
       padding: 84px 24px 0;
     }
+    .controls {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 6px 6px 6px 10px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.07);
+      width: 100%;
+    }
     .controls-row {
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 16px;
-      padding-bottom: 14px;
-      border-bottom: 1px solid var(--hair2);
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
     .tab-bar {
       display: flex; align-items: center; gap: 2px;
-      overflow: visible;
       flex: 1;
+      overflow: visible;
     }
+    .tab-bar::-webkit-scrollbar { display: none; }
     .tab {
-      background: none; border: none; cursor: pointer;
-      font-family: inherit; font-size: 14px; font-weight: 500;
-      color: var(--muted);
-      padding: 8px 14px; border-radius: 8px;
-      transition: color 0.12s, background 0.12s;
-      position: relative;
       white-space: nowrap;
+      background: none; border: none; cursor: pointer;
+      border-radius: 8px;
+      padding: 8px 13px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-2);
+      transition: background 0.15s, color 0.15s;
+      text-decoration: none;
     }
-    .tab:hover { color: var(--ink); background: var(--paper); }
-    .tab[aria-selected="true"] { color: var(--ink); font-weight: 700; }
-    .tab[aria-selected="true"]::after {
-      content: ''; position: absolute;
-      left: 14px; right: 14px; bottom: -14px;
-      height: 2px; background: var(--ink); border-radius: 2px;
+    .tab:hover { background: var(--bg); color: var(--ink); }
+    .tab.active {
+      background: var(--bg);
+      color: var(--ink);
+      font-weight: 600;
     }
     .tab-dd-wrap { position: relative; padding-bottom: 8px; margin-bottom: -8px; }
     .tab-dd-trigger { display: flex; align-items: center; gap: 4px; }
@@ -184,16 +195,16 @@
     .dd-sub-loading { padding: 10px 12px; font-size: 13px; color: var(--text-3); }
     .search-ico-btn {
       display: flex; align-items: center; justify-content: center;
-      width: 36px; height: 36px; border-radius: 50%;
-      background: none; border: 1px solid var(--hair);
-      cursor: pointer; color: var(--ink); flex-shrink: 0;
-      transition: background 0.12s, border-color 0.12s;
+      width: 36px; height: 36px; border-radius: 8px;
+      border: none; background: none;
+      color: var(--text-2); cursor: pointer; flex-shrink: 0;
+      transition: background 0.15s, color 0.15s;
     }
-    .search-ico-btn:hover { background: var(--paper); border-color: var(--ink); }
+    .search-ico-btn:hover { background: var(--bg); color: var(--ink); }
 
     /* ── ARTICLE LAYOUT ───────────────────────────────── */
-    .article-wrap { max-width: 1280px; margin: 0 auto; }
-    .article-hero { padding: 32px 24px 28px; }
+    .article-wrap { max-width: 1140px; margin: 0 auto; }
+    .article-hero { padding: 12px 24px 28px; }
     .breadcrumb {
       display: flex; align-items: center; gap: 8px;
       font-size: 12px; color: var(--muted);
@@ -549,7 +560,7 @@
       border-top: 1px solid var(--hair2);
       background: var(--paper);
     }
-    .related-in { max-width: 1280px; margin: 0 auto; }
+    .related-in { max-width: 1140px; margin: 0 auto; }
     .related-head {
       display: flex; justify-content: space-between; align-items: flex-end;
       margin-bottom: 18px; gap: 12px;
@@ -596,7 +607,7 @@
       background: var(--ink); color: rgba(255,255,255,0.72);
       font-size: 13px;
     }
-    .footer-in { max-width: 1280px; margin: 0 auto; }
+    .footer-in { max-width: 1140px; margin: 0 auto; }
     .footer-grid {
       display: grid;
       grid-template-columns: 1.4fr 1fr 1fr 1fr;
@@ -646,53 +657,55 @@
     </div>
   </nav>
 
-  <!-- ── TAB BAR (kept original) ──────────────────── -->
-  <div class="controls">
-    <div class="controls-row">
-      <div class="tab-bar" role="tablist">
-        <a class="tab" href="index.html" role="tab">主頁</a>
-        <button class="tab" role="tab">簡介</button>
-        <!-- 信用卡 with dropdown -->
-        <div class="tab-dd-wrap">
-          <button class="tab tab-dd-trigger" role="tab" aria-haspopup="true" aria-expanded="false" id="cc-tab">
-            信用卡
-            <svg class="dd-chevron" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-          </button>
-          <div class="tab-dropdown" id="cc-dropdown" role="menu">
-            <button class="dd-item">AEON</button>
-            <button class="dd-item">AE</button>
-            <button class="dd-item">東亞</button>
-            <button class="dd-item">中銀</button>
-            <button class="dd-item">建行</button>
-            <button class="dd-item">Citi</button>
-            <button class="dd-item">大新</button>
-            <button class="dd-item">DBS</button>
-            <button class="dd-item">富邦</button>
-            <button class="dd-item">恒生</button>
-            <div class="dd-item-wrap" id="dd-wrap-HSBC">
-              <button class="dd-item" aria-haspopup="true">
-                HSBC
-                <svg class="dd-chevron-right" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-              </button>
-              <div class="dd-sub" id="dd-sub-HSBC" role="menu">
-                <span class="dd-sub-loading">載入中…</span>
+  <!-- ── TAB BAR (matches promotions.html) ──────────── -->
+  <div class="main-controls">
+    <div class="controls">
+      <div class="controls-row">
+        <div class="tab-bar" role="tablist">
+          <a class="tab" href="index.html" role="tab">主頁</a>
+          <button class="tab" role="tab">簡介</button>
+          <!-- 信用卡 with dropdown -->
+          <div class="tab-dd-wrap">
+            <button class="tab tab-dd-trigger" role="tab" aria-haspopup="true" aria-expanded="false" id="cc-tab">
+              信用卡
+              <svg class="dd-chevron" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="tab-dropdown" id="cc-dropdown" role="menu">
+              <button class="dd-item">AEON</button>
+              <button class="dd-item">AE</button>
+              <button class="dd-item">東亞</button>
+              <button class="dd-item">中銀</button>
+              <button class="dd-item">建行</button>
+              <button class="dd-item">Citi</button>
+              <button class="dd-item">大新</button>
+              <button class="dd-item">DBS</button>
+              <button class="dd-item">富邦</button>
+              <button class="dd-item">恒生</button>
+              <div class="dd-item-wrap" id="dd-wrap-HSBC">
+                <button class="dd-item" aria-haspopup="true">
+                  HSBC
+                  <svg class="dd-chevron-right" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                </button>
+                <div class="dd-sub" id="dd-sub-HSBC" role="menu">
+                  <span class="dd-sub-loading">載入中…</span>
+                </div>
               </div>
+              <button class="dd-item">Mox</button>
+              <button class="dd-item">安信</button>
+              <button class="dd-item">渣打</button>
+              <button class="dd-item">sim</button>
             </div>
-            <button class="dd-item">Mox</button>
-            <button class="dd-item">安信</button>
-            <button class="dd-item">渣打</button>
-            <button class="dd-item">sim</button>
           </div>
+          <a class="tab active" href="promotions.html" role="tab">攻略</a>
+          <button class="tab" role="tab">App 更新</button>
         </div>
-        <button class="tab" role="tab" aria-selected="true">攻略</button>
-        <button class="tab" role="tab">App 更新</button>
+        <button class="search-ico-btn" aria-label="搜尋">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="M21 21l-4.35-4.35"/>
+          </svg>
+        </button>
       </div>
-      <button class="search-ico-btn" aria-label="搜尋">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="8"/>
-          <path d="M21 21l-4.35-4.35"/>
-        </svg>
-      </button>
     </div>
   </div>
 
