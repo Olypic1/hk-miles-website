@@ -268,7 +268,7 @@
     .article-lede strong { color: var(--ink); font-weight: 700; }
     .article-meta {
       display: flex; align-items: center; gap: 22px; flex-wrap: wrap;
-      padding-top: 18px; border-top: 1px solid var(--hair2);
+      margin-top: 18px;
     }
     .meta-author { display: flex; align-items: center; gap: 10px; }
     .author-avatar {
@@ -1257,18 +1257,21 @@
         </div>`;
 
       // If meta.heroSide is set (e.g. credit card image), render a 2-col
-      // grid with topic-text on the left and image on the right, then
-      // place the author meta row BELOW the grid (so the image height
-      // matches the topic block only). Otherwise single-column hero.
+      // grid with the topic + author-meta stacked on the left and the
+      // image on the right. No separator line above the meta — it just
+      // flows naturally under the topic, filling the empty space in the
+      // left column.
       const heroHtml = m.heroSide
         ? `<div class="article-hero">
             <div class="article-hero-grid">
-              <div>${heroTopicHtml}</div>
+              <div>
+                ${heroTopicHtml}
+                ${heroMetaHtml}
+              </div>
               <div class="article-hero-side">
                 <img src="${escapeHtml(m.heroSide)}" alt="${escapeHtml(m.title)}">
               </div>
             </div>
-            ${heroMetaHtml}
           </div>`
         : `<div class="article-hero">
             ${heroTopicHtml}
