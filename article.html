@@ -4,6 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>文章 | HK Miles</title>
+  <!-- SEO — placeholders updated by JS after Sanity fetch -->
+  <meta name="description" content="香港信用卡里數及優惠情報 | HK Miles">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://hkmiles.app/article.html">
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="HK Miles">
+  <meta property="og:locale" content="zh_HK">
+  <meta property="og:title" content="文章 | HK Miles">
+  <meta property="og:description" content="香港信用卡里數及優惠情報 | HK Miles">
+  <meta property="og:image" content="https://hkmiles.app/og-image.png">
+  <meta property="og:url" content="https://hkmiles.app/article.html">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="文章 | HK Miles">
+  <meta name="twitter:description" content="香港信用卡里數及優惠情報 | HK Miles">
+  <meta name="twitter:image" content="https://hkmiles.app/og-image.png">
   <link rel="icon" href="assets/logo.png" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1207,6 +1224,88 @@
       return html;
     }
 
+    // ─── Plain-text extractor (for SEO descriptions) ───
+    function ptToPlainText(blocks, maxLen = 160) {
+      if (!blocks) return '';
+      if (typeof blocks === 'string') return blocks.slice(0, maxLen);
+      let text = '';
+      for (const b of (Array.isArray(blocks) ? blocks : [])) {
+        if (b && b._type === 'block') {
+          text += (b.children || []).map(c => c.text || '').join('') + ' ';
+        }
+        if (text.length >= maxLen) break;
+      }
+      return text.trim().slice(0, maxLen);
+    }
+
+    // ─── Dynamic SEO meta injection ────────────────────
+    // Called after Sanity data loads so crawlers that DO render JS
+    // (Googlebot, some AI bots) get accurate per-page signals.
+    function injectSEOMeta({ title, description, image, url, isCard }) {
+      const fullTitle = `${title} | HK Miles`;
+      const desc = description ||
+        (isCard
+          ? `${title} 信用卡詳情、年費、回贈率及申請資格。`
+          : `${title} 優惠詳情、到期日及申請方法。`) +
+        ' 更多香港信用卡攻略盡在 HK Miles。';
+      const img  = (image && image.startsWith('http')) ? image : 'https://hkmiles.app/og-image.png';
+
+      const set = (sel, attr, val) => {
+        const el = document.querySelector(sel);
+        if (el) el.setAttribute(attr, val);
+      };
+
+      set('meta[name="description"]',       'content', desc);
+      set('link[rel="canonical"]',           'href',    url);
+      set('meta[property="og:title"]',       'content', fullTitle);
+      set('meta[property="og:description"]', 'content', desc);
+      set('meta[property="og:image"]',       'content', img);
+      set('meta[property="og:url"]',         'content', url);
+      set('meta[property="og:type"]',        'content', isCard ? 'product' : 'article');
+      set('meta[name="twitter:title"]',      'content', fullTitle);
+      set('meta[name="twitter:description"]','content', desc);
+      set('meta[name="twitter:image"]',      'content', img);
+
+      // Inject / replace JSON-LD
+      const old = document.getElementById('page-jsonld');
+      if (old) old.remove();
+      const s = document.createElement('script');
+      s.id   = 'page-jsonld';
+      s.type = 'application/ld+json';
+      const breadcrumb = {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'HK Miles', item: 'https://hkmiles.app/' },
+          { '@type': 'ListItem', position: 2, name: isCard ? '信用卡' : '優惠情報',
+            item: isCard ? 'https://hkmiles.app/promotions.html' : 'https://hkmiles.app/promotions.html' },
+          { '@type': 'ListItem', position: 3, name: title, item: url },
+        ],
+      };
+      const entity = isCard ? {
+        '@context': 'https://schema.org',
+        '@type': 'FinancialProduct',
+        name: title,
+        description: desc,
+        image: img,
+        url,
+        provider: { '@type': 'Organization', name: 'HK Miles', url: 'https://hkmiles.app/' },
+      } : {
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        headline: title,
+        description: desc,
+        image: img,
+        url,
+        inLanguage: 'zh-HK',
+        author:    { '@type': 'Organization', name: 'HK Miles', url: 'https://hkmiles.app/' },
+        publisher: { '@type': 'Organization', name: 'HK Miles', url: 'https://hkmiles.app/',
+          logo: { '@type': 'ImageObject', url: 'https://hkmiles.app/og-image.png' } },
+      };
+      s.textContent = JSON.stringify([breadcrumb, entity]);
+      document.head.appendChild(s);
+    }
+
     // ─── Main render ───────────────────────────────────
     function renderArticle(article) {
       const m = article.meta;
@@ -1326,8 +1425,15 @@
         ${relatedHtml}
       `;
 
-      // Update title
+      // Update title + all SEO meta tags
       document.title = `${m.title} | HK Miles`;
+      injectSEOMeta({
+        title:       m.title,
+        description: m.description || '',
+        image:       m.heroSide || m.hero || '',
+        url:         window.location.href,
+        isCard:      !!m.heroSide,   // credit cards carry a heroSide image
+      });
 
       // Populate the sidebar with the 5 latest promotions
       loadLatestSidebar();
@@ -1393,6 +1499,7 @@
         date: p._createdAt ? new Date(p._createdAt).toLocaleDateString('zh-HK') : '',
         updated: p._updatedAt ? new Date(p._updatedAt).toLocaleDateString('zh-HK') : '',
         readTime: estimateReadTime(p.content),
+        description: ptToPlainText(p.content),
         hero: null,
       };
 
@@ -1432,6 +1539,7 @@
         date: c._createdAt ? new Date(c._createdAt).toLocaleDateString('zh-HK') : '',
         updated: c._updatedAt ? new Date(c._updatedAt).toLocaleDateString('zh-HK') : '',
         readTime: estimateReadTime(c.content),
+        description: ptToPlainText(Array.isArray(c.summary) ? c.summary : c.content),
         hero: null,
         heroSide: heroImgUrl || null,   // shown on the right of hero
       };

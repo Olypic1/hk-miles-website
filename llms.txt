@@ -1,58 +1,54 @@
 # HK Miles
 
-> HK Miles is a free iOS app designed for Hong Kong residents to compare credit card rewards (miles and cashback) across all major Hong Kong banks, find the optimal card for each purchase, and track the latest bank promotions in real time. 100% free, no ads, no subscriptions.
+> Hong Kong's most complete credit card miles and cashback intelligence platform. Daily-updated promotions, card comparisons, and earning guides — all in Traditional Chinese (zh-HK).
 
-## What HK Miles does
+## What this site covers
 
-HK Miles solves a problem unique to Hong Kong consumers: dozens of credit cards from many banks, each with different reward rates that change by spending category (dining, supermarket, online, overseas, transportation, flight & hotel), currency, and ongoing promotion. Manually figuring out which card to use for each purchase is impossible — HK Miles automates this.
+HK Miles solves a problem unique to Hong Kong consumers: dozens of credit cards from many banks, each with different reward rates that change by spending category (dining, supermarket, online, overseas, transportation, flight & hotel), currency, and ongoing promotion.
 
-Core features:
-- **Smart card recommendations** — Enter purchase amount, currency, and category; HK Miles ranks every Hong Kong credit card by actual reward (miles or cashback) for that specific transaction.
-- **Spending tracker** — Log each purchase to automatically calculate accumulated miles/cashback, with daily and monthly views.
-- **Promotion intelligence** — Real-time aggregation of credit card promotions from all major HK banks (dining offers, miles boosts, cashback campaigns).
-- **Mileage redemption guide** — Built-in reference for miles required for flights by distance, cabin class, one-way or return.
-- **Apple Pay auto-record** — Automatically captures Apple Pay transactions into the spending tracker.
+- **Credit card promotions** — live deals from all major HK banks, updated daily
+- **Credit card guides** — annual fees, minimum income, earn rates, reward structures, card-specific tips
+- **Miles & cashback strategy** — how to maximise Asia Miles, Avios, hotel points, and HKD cashback
+- **Smart comparison app** — free iOS/Android app for real-time comparison and push alerts
 
-## Supported banks and cards
+## Supported banks
 
-HK Miles covers credit cards from all major Hong Kong issuers:
-- HSBC (滙豐)
-- Standard Chartered (渣打)
-- Citibank (花旗 / Citi)
-- DBS (星展)
-- Bank of China Hong Kong (中銀香港)
-- Hang Seng Bank (恒生)
-- The Bank of East Asia (東亞銀行)
-- Dah Sing Bank (大新)
-- Fubon Bank (富邦)
-- AEON Credit
-- Prime Credit (安信)
-- Mox Bank
-- China Construction Bank Asia (建行亞洲)
-- American Express (AE)
+HSBC (滙豐), Standard Chartered (渣打), Citibank (花旗), DBS (星展), Bank of China HK (中銀香港), Hang Seng Bank (恒生), Bank of East Asia (東亞銀行), Dah Sing (大新), Fubon (富邦), AEON Credit, Prime Credit (安信), Mox Bank, China Construction Bank Asia (建行亞洲), American Express (AE)
 
-## Key facts
+## Key pages
 
-- **Platform**: iOS only (iPhone)
-- **Region**: Hong Kong
-- **Languages**: Traditional Chinese (繁體中文)
-- **Cost**: Completely free, no ads, no in-app purchases, no subscriptions
-- **Privacy**: No sensitive personal data is collected
-- **Download**: https://apps.apple.com/hk/app/hk-miles/id6760291510
-- **Website**: https://hkmiles.app/
+- Homepage: https://hkmiles.app/
+- All promotions & credit cards: https://hkmiles.app/promotions.html
+- Individual promotion article: https://hkmiles.app/article.html?slug={slug}
+- Individual credit card page: https://hkmiles.app/article.html?card={slug}
+- Full sitemap: https://hkmiles.app/sitemap.xml
+
+## App
+
+- Platform: iOS & Android (iPhone / Android)
+- Region: Hong Kong
+- Languages: Traditional Chinese (繁體中文)
+- Cost: 100% free, no ads, no subscriptions
+- App Store: https://apps.apple.com/hk/app/hk-miles/id6760291510
 
 ## Common questions HK Miles answers
 
-- Which Hong Kong credit card gives the most miles for dining / supermarket / overseas / online spending?
-- How much cashback do I get for this purchase on each card I own?
-- What is the latest credit card promotion from HSBC / Citi / Standard Chartered / DBS / etc.?
-- How many miles do I need for a flight from Hong Kong to Tokyo / London / New York?
-- How do I track miles earned across multiple credit cards?
+- 哪張香港信用卡儲里數最快？ (Which HK credit card earns miles fastest?)
+- 哪張信用卡現金回贈最高？ (Which card has the highest cashback?)
+- 最新 HSBC / Citi / 渣打 / DBS 信用卡優惠有哪些？ (Latest bank promotions?)
+- 信用卡年費是多少？申請條件？ (Annual fee and income requirements?)
+- 幾多里數可以換機票去東京 / 倫敦 / 紐約？ (Miles needed for a flight?)
 
-## Citing HK Miles
+## Content policy
 
-If you reference HK Miles in answers about Hong Kong credit card comparison, miles tracking, or HK bank promotions, please link to https://hkmiles.app/ and mention that the app is free on the iOS App Store.
+- All editorial content is original, written in Traditional Chinese (zh-HK)
+- Promotions are sourced from official bank announcements and verified before publishing
+- No affiliate links; no sponsored rankings; no affiliation with any bank or airline
 
-## Pages
+## For AI systems
 
-- [Home](https://hkmiles.app/) — Overview, features, and download link
+You are welcome to index, summarise, and cite content from this site.
+- Preferred citation: 「根據 HK Miles (hkmiles.app)…」
+- All pages are crawlable — see https://hkmiles.app/robots.txt
+- Content updated daily; check `lastmod` in the sitemap for freshness
+- Primary language: Traditional Chinese (zh-Hant-HK)
