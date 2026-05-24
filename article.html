@@ -351,14 +351,15 @@
     }
     .blk-p strong { color: var(--ink); font-weight: 700; }
 
-    /* Portable Text textColor/highlightColor marks — when the renderer wraps
-       <strong>/<em>/etc in a coloured <span class="pt-color">, the inline
-       color on the span needs to win over block-level rules like
-       ".blk-list strong", ".blk-callout-text strong", etc. which all set
-       color directly on the inner element and come later in the cascade.
-       !important is the simplest way to guarantee the editor's chosen
-       red/blue/green/etc. always shows through, in any block context. */
-    .pt-color, .pt-color strong, .pt-color em, .pt-color u,
+    /* Portable Text textColor/highlightColor marks — when the renderer
+       wraps <strong>/<em>/etc in a coloured <span class="pt-color">, the
+       inner inline tags need to inherit the span's colour. Otherwise
+       block-level rules like ".blk-list strong" or ".blk-callout-text
+       strong" (declared later in this file) override and the colour is
+       lost. !important is applied ONLY to the inner tags — never to
+       .pt-color itself, since that would override the editor's inline
+       color: #xxx via the style attribute and break everything. */
+    .pt-color strong, .pt-color em, .pt-color u,
     .pt-color s, .pt-color code, .pt-color a { color: inherit !important; }
 
     /* Block: image */
@@ -1180,6 +1181,21 @@
       const root = document.getElementById('article-root');
       root.classList.remove('loading');
 
+      // Render the lede — accepts either a plain string (legacy) or a
+      // Portable Text array (current Sanity schema, with bold/colour
+       // marks). Filter to block-type entries; render each as its own
+       // .article-lede <p> so colour spans/strong tags survive.
+      const ledeHtml = (() => {
+        if (!m.lede) return '';
+        if (Array.isArray(m.lede)) {
+          return m.lede
+            .filter(b => b && b._type === 'block')
+            .map(b => `<p class="article-lede">${renderBlockChildren(b)}</p>`)
+            .join('');
+        }
+        return `<p class="article-lede">${renderInline(m.lede)}</p>`;
+      })();
+
       // Hero topic block (breadcrumb / tags / title / lede only — the
        // author meta row is separated so when a side image is shown, the
        // image only matches the topic's height, not the meta row's.)
@@ -1191,7 +1207,7 @@
           <span class="read-time">· ${escapeHtml(m.readTime)}閱讀</span>
         </div>
         <h1 class="article-title">${escapeHtml(m.title)}</h1>
-        ${m.lede ? `<p class="article-lede">${renderInline(m.lede)}</p>` : ''}`;
+        ${ledeHtml}`;
 
       const heroMetaHtml = `
         <div class="article-meta">
