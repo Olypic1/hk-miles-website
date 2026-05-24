@@ -353,12 +353,13 @@
 
     /* Portable Text textColor/highlightColor marks — when the renderer wraps
        <strong>/<em>/etc in a coloured <span class="pt-color">, the inline
-       color on the span loses to block-level rules like ".blk-p strong" that
-       set color directly on the inner element. Force inner inline tags to
-       inherit the coloured span's colour so credit-card pages show the
-       editor's chosen red/blue/green/etc. */
+       color on the span needs to win over block-level rules like
+       ".blk-list strong", ".blk-callout-text strong", etc. which all set
+       color directly on the inner element and come later in the cascade.
+       !important is the simplest way to guarantee the editor's chosen
+       red/blue/green/etc. always shows through, in any block context. */
     .pt-color, .pt-color strong, .pt-color em, .pt-color u,
-    .pt-color s, .pt-color code, .pt-color a { color: inherit; }
+    .pt-color s, .pt-color code, .pt-color a { color: inherit !important; }
 
     /* Block: image */
     .blk-figure { margin: 32px 0; max-width: 100%; }
