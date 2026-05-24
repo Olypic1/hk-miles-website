@@ -1444,9 +1444,16 @@
         blocks.push({ type: 'summary', content: c.summary });
       }
 
-      // Body content
+      // Body content — strip the leading 重點速覽 paragraph if present,
+      // since the summary card above already covers that intro.
       if (c.content && c.content.length) {
-        blocks.push({ type: 'portable-text', content: c.content });
+        let content = c.content;
+        const first = content[0];
+        if (first && first._type === 'block') {
+          const text = (first.children || []).map(s => s.text || '').join('');
+          if (text.trim().startsWith('重點速覽')) content = content.slice(1);
+        }
+        if (content.length) blocks.push({ type: 'portable-text', content });
       }
 
       // KPIs (compact) — appended after the article so it reads as a
