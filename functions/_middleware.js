@@ -134,8 +134,9 @@ export async function onRequest(ctx) {
   const id   = p.get('id');
   const slug = p.get('slug');
 
-  // Only act on article.html with a content param — everything else passes through
-  if (url.pathname !== '/article.html' || (!card && !id && !slug))
+  // Cloudflare Pretty URLs strips .html — real pathname is /article not /article.html
+  const isArticlePath = url.pathname === '/article' || url.pathname === '/article.html';
+  if (!isArticlePath || (!card && !id && !slug))
     return ctx.next();
 
   // Fetch the static file and Sanity meta in parallel
