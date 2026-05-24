@@ -628,6 +628,24 @@
     /* Block: divider */
     .blk-divider { border-top: 1px solid var(--hair); margin: 32px 0; }
 
+    /* Block: summary — soft card wrapping a short Portable Text intro */
+    .blk-summary {
+      background: var(--paper);
+      border: 1px solid var(--hair2);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin: 0 0 24px;
+    }
+    .blk-summary p {
+      font-size: clamp(15.5px, 1.4vw, 16.5px);
+      line-height: 1.7;
+      color: var(--text);
+      margin: 0;
+      max-width: none;
+    }
+    .blk-summary p + p { margin-top: 10px; }
+    .blk-summary strong { color: var(--ink); font-weight: 700; }
+
     /* Sidebar — latest posts from promotions.
        Sticky-bottom pin: the sidebar scrolls up with the page (revealing
        more cards as you go) and pins when its bottom hits the viewport. */
@@ -1002,6 +1020,16 @@
       divider: () => `<div class="blk-divider"></div>`,
 
       'portable-text': (b) => renderPortableText(b.content),
+
+      summary: (b) => {
+        const inner = Array.isArray(b.content)
+          ? b.content
+              .filter(blk => blk && blk._type === 'block')
+              .map(blk => `<p>${renderBlockChildren(blk)}</p>`)
+              .join('')
+          : `<p>${renderInline(b.content || '')}</p>`;
+        return `<div class="blk-summary">${inner}</div>`;
+      },
     };
 
     // ─── Portable Text renderer (for Sanity content) ──
@@ -1391,7 +1419,7 @@
         breadcrumb: ['主頁', '信用卡', c.bank, c.title].filter(Boolean),
         tags: [...bankTag, ...typeTags],
         title: c.title || '信用卡詳情',
-        lede: c.summary || null,
+        lede: null,                // summary now lives in the body block
         author: 'HK Miles 編輯',
         authorRole: '信用卡組',
         date: c._createdAt ? new Date(c._createdAt).toLocaleDateString('zh-HK') : '',
@@ -1403,7 +1431,12 @@
 
       const blocks = [];
 
-      // Body content first — primary article content
+      // Summary card — sits at the top of the body, above the content
+      if (c.summary && (Array.isArray(c.summary) ? c.summary.length : c.summary)) {
+        blocks.push({ type: 'summary', content: c.summary });
+      }
+
+      // Body content
       if (c.content && c.content.length) {
         blocks.push({ type: 'portable-text', content: c.content });
       }
