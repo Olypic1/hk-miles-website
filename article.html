@@ -209,33 +209,38 @@
       display: grid;
       grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
       gap: 32px;
-      align-items: stretch;
+      align-items: start;
     }
-    /* Side column stretches to the height of the text column (only the
-       title/lede block — author meta row sits below the grid). The image
-       is absolutely positioned inside so it never pushes the row taller,
-       and object-fit: contain scales it to fit. No surrounding card —
-       transparent background, no border, no shadow. */
+    /* Image slot — fixed visual height of 240px works for both
+       orientations:
+       • Horizontal card (e.g. 16:10) scales to fill the width and the
+         height stays within 240px → reads as a clean wide product shot.
+       • Vertical card (e.g. 10:16) scales to fill the height (240px)
+         and the width becomes narrower than the column → centred,
+         appropriately card-sized without being tiny.
+       Flex centering keeps the image visually balanced for either
+       aspect ratio without distortion (object-fit: contain). */
     .article-hero-side {
-      position: relative;
       width: 100%;
-      min-height: 180px;
+      height: 240px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .article-hero-side img {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 20px;
-      width: auto; height: auto;
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
       object-fit: contain;
       display: block;
     }
     @media (max-width: 900px) {
       .article-hero-grid { grid-template-columns: 1fr; gap: 20px; }
       .article-hero-side {
-        position: static;
         max-width: 360px; margin: 0 auto;
-        aspect-ratio: 16 / 10;
+        height: 200px;
       }
-      .article-hero-side img { position: static; }
     }
     .breadcrumb {
       display: flex; align-items: center; gap: 8px;
