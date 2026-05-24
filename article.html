@@ -147,15 +147,17 @@
       transition: background 0.15s, color 0.15s;
       text-decoration: none;
     }
-    .tab:hover { background: var(--bg); color: var(--ink); }
+    .tab:hover { background: #eff6ff; color: #1D4ED8; }
     .tab.active {
-      background: var(--bg);
-      color: var(--ink);
-      font-weight: 600;
+      background: #0d2148;
+      color: #fff;
+      font-weight: 700;
     }
+    .tab.active:hover { background: #0d2148; color: #fff; }
     .tab-dd-wrap { position: relative; padding-bottom: 8px; margin-bottom: -8px; }
     .tab-dd-trigger { display: flex; align-items: center; gap: 4px; }
     .dd-chevron { transition: transform 0.15s; opacity: 0.55; }
+    .tab.active .dd-chevron { opacity: 0.75; }
     .tab-dd-trigger.open .dd-chevron { transform: rotate(180deg); }
     .tab-dropdown {
       position: absolute; top: 100%; left: 0;
@@ -677,27 +679,27 @@
       align-self: start;
     }
     .latest-label {
-      font-size: 11px; font-weight: 700; letter-spacing: 0.18em;
-      color: var(--muted); margin-bottom: 14px;
+      font-size: 10px; font-weight: 800; letter-spacing: 0.18em;
+      color: #0d2148; margin-bottom: 14px; text-transform: uppercase;
     }
-    .latest-list { display: flex; flex-direction: column; gap: 16px; }
+    .latest-list { display: flex; flex-direction: column; gap: 12px; }
     .latest-item {
       display: flex; flex-direction: column; gap: 10px;
       padding: 12px; border-radius: 12px;
       border: 1px solid var(--hair2);
       background: #fff;
       text-decoration: none; color: inherit;
-      transition: border-color 0.12s, background 0.12s, transform 0.12s;
+      transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
     }
     .latest-item:hover {
-      border-color: var(--hair);
-      background: var(--paper);
-      transform: translateY(-1px);
+      border-color: #1D4ED8;
+      box-shadow: 0 4px 16px rgba(29,78,216,0.10);
+      transform: translateY(-2px);
     }
     .latest-body { min-width: 0; }
     .latest-bank {
-      font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
-      color: var(--muted); margin-bottom: 4px; text-transform: uppercase;
+      font-size: 10px; font-weight: 800; letter-spacing: 0.1em;
+      color: #1D4ED8; margin-bottom: 4px; text-transform: uppercase;
     }
     .latest-title {
       font-size: 13px; font-weight: 600;
@@ -722,48 +724,52 @@
     }
     .latest-loading { padding: 10px; font-size: 13px; color: var(--text-3); }
 
-    /* Related strip */
+    /* Related strip — dark navy, matching footer tone */
     .related {
-      padding: 48px 24px;
-      border-top: 1px solid var(--hair2);
-      background: var(--paper);
+      padding: 56px 24px;
+      background: #0d2148;
     }
     .related-in { max-width: 1140px; margin: 0 auto; }
     .related-head {
       display: flex; justify-content: space-between; align-items: flex-end;
-      margin-bottom: 18px; gap: 12px;
+      margin-bottom: 22px; gap: 12px;
     }
     .related-head h3 {
       font-size: clamp(20px, 2.4vw, 24px);
-      font-weight: 800; margin: 0; color: var(--ink);
+      font-weight: 800; margin: 0; color: #fff;
     }
-    .related-link { font-size: 13px; color: var(--ink); border-bottom: 1px solid var(--ink); }
+    .related-link {
+      font-size: 13px; color: rgba(255,255,255,0.55);
+      border-bottom: 1px solid rgba(255,255,255,0.25);
+      text-decoration: none;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .related-link:hover { color: #fff; border-color: rgba(255,255,255,0.6); }
     .related-grid {
       display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
     }
     @media (max-width: 800px) { .related-grid { grid-template-columns: 1fr; } }
-    /* Related cards mirror the sidebar's latest-item layout:
-       title on top, square (1:1) image on bottom. */
     .related-card {
       display: flex; flex-direction: column; gap: 10px;
-      padding: 12px; border-radius: 12px;
-      background: #fff; border: 1px solid var(--hair2);
+      padding: 14px; border-radius: 14px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
       text-decoration: none; color: inherit;
-      transition: border-color 0.12s, background 0.12s, transform 0.12s;
+      transition: background 0.15s, border-color 0.15s, transform 0.15s;
     }
     .related-card:hover {
-      border-color: var(--hair);
-      background: var(--paper);
-      transform: translateY(-1px);
+      background: rgba(255,255,255,0.11);
+      border-color: rgba(255,255,255,0.25);
+      transform: translateY(-3px);
     }
     .related-body { min-width: 0; }
     .related-cat {
-      font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
-      color: var(--muted); margin-bottom: 4px; text-transform: uppercase;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.45); margin-bottom: 5px; text-transform: uppercase;
     }
     .related-title {
       font-size: 13px; font-weight: 600;
-      color: var(--ink); line-height: 1.4;
+      color: rgba(255,255,255,0.92); line-height: 1.45;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
@@ -772,15 +778,16 @@
     .related-thumb {
       width: 100%; aspect-ratio: 1 / 1;
       border-radius: 8px;
-      object-fit: cover; background: var(--paper);
+      object-fit: cover;
+      background: rgba(255,255,255,0.06);
       display: block;
     }
     .related-thumb-ph {
       width: 100%; aspect-ratio: 1 / 1;
       border-radius: 8px;
-      background: linear-gradient(135deg, var(--ink), #2860c5);
+      background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(37,99,235,0.35));
       display: grid; place-items: center;
-      color: rgba(255,255,255,0.7); font-size: 14px; font-weight: 700;
+      color: rgba(255,255,255,0.5); font-size: 14px; font-weight: 700;
     }
 
     /* Footer (matches promotions.html) */
