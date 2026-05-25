@@ -316,26 +316,6 @@
     .pill-amber  { background: #fff4d6; color: #8a5a00; }
     .pill-black  { background: #0b0b0c; color: #fff; }
 
-    /* Image placeholder */
-    .img-ph {
-      border-radius: 12px; display: grid; place-items: center;
-      color: rgba(255,255,255,0.55);
-      font-size: 12px; letter-spacing: 0.18em; font-weight: 600;
-      position: relative; overflow: hidden;
-      text-transform: uppercase;
-    }
-    .img-ph::before {
-      content: ''; position: absolute; inset: 0;
-      background-image: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.16), transparent 55%);
-    }
-    .img-ph > span { position: relative; z-index: 1; }
-    .tint-navy { background: linear-gradient(135deg, #0d2148, #2860c5); }
-    .tint-dark { background: linear-gradient(135deg, #0d2148, #3a3a3c); }
-    .tint-blue { background: linear-gradient(135deg, #1d6fef, #5b9af7); }
-    .tint-red  { background: linear-gradient(135deg, #7a1a1a, #c83a3a); }
-    .tint-gold { background: linear-gradient(135deg, #7a5a1a, #d6a83a); }
-    .tint-pink { background: linear-gradient(135deg, #7a1a5a, #d63ab0); }
-
     /* Article body grid */
     .article-body {
       display: grid;
@@ -466,17 +446,6 @@
       color: var(--text); line-height: 1.5;
       font-variant-numeric: tabular-nums;
     }
-    .cell-multiline-title { font-weight: 700; font-size: 14px; color: var(--ink); }
-    .cell-multiline-sub { font-size: 11.5px; color: var(--muted); margin-top: 2px; line-height: 1.4; }
-    .cell-val { font-size: 15.5px; font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums; }
-    .cell-delta { font-size: 11px; font-weight: 700; margin-top: 3px; font-variant-numeric: tabular-nums; }
-    .cell-delta.up { color: var(--up); }
-    .cell-delta.down { color: var(--down); }
-    .cell-badge {
-      display: inline-block; font-size: 10px; color: var(--down); font-weight: 600;
-      background: rgba(15,122,59,0.08); padding: 1px 6px; border-radius: 4px;
-      margin-top: 3px;
-    }
     .blk-table-foot {
       margin-top: 10px; font-size: 12px; color: var(--faint);
       display: flex; gap: 16px; flex-wrap: wrap;
@@ -499,18 +468,9 @@
       border-radius: 12px; padding: 22px; margin: 24px 0;
       border-left-width: 3px; border-left-style: solid;
     }
-    .blk-callout-label {
-      font-size: 11px; font-weight: 700; letter-spacing: 0.18em;
-      margin-bottom: 8px; text-transform: uppercase;
-    }
     .blk-callout-text { font-size: 15.5px; line-height: 1.7; color: var(--text); }
     .blk-callout-text strong { color: var(--ink); font-weight: 700; }
     .callout-info { background: var(--paper); border: 1px solid var(--hair); border-left-color: var(--brand); }
-    .callout-info .blk-callout-label { color: var(--brand); }
-    .callout-warn { background: rgba(179,38,30,0.04); border: 1px solid rgba(179,38,30,0.15); border-left-color: var(--up); }
-    .callout-warn .blk-callout-label { color: var(--up); }
-    .callout-verdict { background: #fff8e6; border: 1px solid rgba(138,90,0,0.2); border-left-color: #8a5a00; }
-    .callout-verdict .blk-callout-label { color: #8a5a00; }
 
     /* Block: kpis */
     .blk-kpis {
@@ -548,109 +508,6 @@
     .blk-kpis--small .blk-kpis-grid { gap: 16px; }
     .blk-kpis--small .blk-kpi-label { font-size: 10px; }
     .blk-kpis--small .blk-kpi-value { font-size: 15px; font-weight: 700; }
-
-    /* Block: two-col */
-    .blk-twocol {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 16px; margin: 24px 0;
-    }
-    @media (max-width: 700px) {
-      .blk-twocol { grid-template-columns: 1fr; gap: 12px; }
-    }
-    .blk-twocol-side {
-      border: 1px solid var(--hair); border-radius: 12px;
-      padding: 22px; background: #fff;
-    }
-    .blk-twocol-head {
-      display: flex; align-items: center; gap: 8px; margin-bottom: 12px;
-    }
-    .blk-twocol-dot { width: 8px; height: 8px; border-radius: 50%; }
-    .blk-twocol-dot.good { background: var(--down); }
-    .blk-twocol-dot.bad { background: var(--up); }
-    .blk-twocol-title {
-      font-weight: 700; font-size: 13px; letter-spacing: 0.06em;
-      color: var(--ink); text-transform: uppercase;
-    }
-    .blk-twocol-item {
-      padding: 10px 0; font-size: 14px; line-height: 1.55; color: var(--text);
-      border-top: 1px dashed var(--hair2);
-    }
-    .blk-twocol-item:first-of-type { border-top: none; }
-    .blk-twocol-num {
-      color: var(--faint); margin-right: 8px; font-variant-numeric: tabular-nums;
-    }
-    .blk-twocol-item strong { color: var(--ink); font-weight: 700; }
-
-    /* Block: steps */
-    .blk-steps {
-      border: 1px solid var(--hair); border-radius: 12px;
-      overflow: hidden; margin: 24px 0;
-    }
-    .blk-step {
-      display: grid; grid-template-columns: 64px 1fr;
-      border-top: 1px solid var(--hair2);
-    }
-    .blk-step:first-child { border-top: none; }
-    .blk-step-num {
-      padding: 20px 0; text-align: center;
-      font-size: 28px; font-weight: 800; letter-spacing: -0.02em;
-      color: rgba(13,33,72,0.18);
-      border-right: 1px solid var(--hair2);
-      font-variant-numeric: tabular-nums;
-    }
-    .blk-step-body { padding: 20px 22px; }
-    .blk-step-title { font-weight: 700; font-size: 16px; margin-bottom: 4px; color: var(--ink); }
-    .blk-step-desc { font-size: 14px; color: var(--muted); line-height: 1.6; }
-    .blk-step-desc strong { color: var(--ink); font-weight: 700; }
-
-    /* Block: faq */
-    .blk-faq { border-top: 1px solid var(--hair); margin: 24px 0; }
-    .blk-faq-item {
-      border-bottom: 1px solid var(--hair2);
-      padding: 18px 0;
-      display: flex; align-items: flex-start; gap: 12px;
-    }
-    .blk-faq-num {
-      font-size: 11px; color: var(--faint); font-weight: 700;
-      margin-top: 4px; font-variant-numeric: tabular-nums;
-    }
-    .blk-faq-body { flex: 1; }
-    .blk-faq-q { font-weight: 700; font-size: 15px; margin-bottom: 6px; color: var(--ink); }
-    .blk-faq-a { font-size: 14px; color: var(--text); line-height: 1.7; }
-    .blk-faq-plus { font-size: 18px; color: var(--faint); }
-
-    /* Block: cta */
-    .blk-cta {
-      margin: 40px 0 0;
-      background: var(--ink); color: #fff;
-      border-radius: 20px; padding: 32px 36px;
-      display: flex; align-items: center; gap: 32px; flex-wrap: wrap;
-    }
-    .blk-cta-eyebrow {
-      font-size: 12px; font-weight: 700; letter-spacing: 0.14em;
-      opacity: 0.6; margin-bottom: 8px;
-    }
-    .blk-cta-title {
-      font-size: 28px; font-weight: 700; letter-spacing: -0.01em;
-      line-height: 1.25; margin-bottom: 8px;
-    }
-    .blk-cta-desc { font-size: 14px; opacity: 0.7; line-height: 1.6; max-width: 460px; }
-    .blk-cta-body { flex: 1; min-width: 240px; }
-    .blk-cta-btns { display: flex; gap: 10px; flex-wrap: wrap; }
-    .blk-cta-btn {
-      background: #fff; color: var(--ink);
-      border-radius: 12px; padding: 12px 18px;
-      display: flex; align-items: center; gap: 8px;
-      font-size: 14px; font-weight: 600; text-decoration: none;
-    }
-    .blk-cta-btn small { display: block; font-size: 9px; opacity: 0.7; }
-    @media (max-width: 600px) {
-      .blk-cta { padding: 24px 20px; gap: 16px; }
-      .blk-cta-title { font-size: 22px; }
-    }
-
-    /* Block: divider */
-    .blk-divider { border-top: 1px solid var(--hair); margin: 32px 0; }
 
     /* Block: summary — soft card wrapping a short Portable Text intro */
     .blk-summary {
@@ -927,8 +784,6 @@
   <script>
     // ─── Helpers ──────────────────────────────────────
     const escapeHtml = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-    const numFmt = (n) => (typeof n === 'number' ? n.toLocaleString('en-US') : n);
-
     // Tiny inline markdown — **bold** only
     function renderInline(text) {
       if (text == null) return '';
@@ -937,54 +792,7 @@
 
     // ─── Block renderers ──────────────────────────────
     const blockHtml = {
-      h2: (b, i) => `
-        <div class="blk-h2-wrap"><h2 class="blk-h2" id="h-${i}">${escapeHtml(b.text)}</h2>
-        ${b.sub ? `<p class="blk-h2-sub">${escapeHtml(b.sub)}</p>` : ''}</div>`,
-
       h3: (b) => `<h3 class="blk-h3">${escapeHtml(b.text)}</h3>`,
-
-      paragraph: (b) => `<p class="blk-p">${renderInline(b.text)}</p>`,
-
-      image: (b) => `
-        <figure class="blk-figure">
-          <div class="img-ph tint-${b.tint || 'navy'}" style="aspect-ratio: ${b.ratio || '16/9'};"><span>${escapeHtml(b.label || '圖片預留位')}</span></div>
-          ${b.caption ? `<figcaption class="blk-caption">${renderInline(b.caption)}</figcaption>` : ''}
-        </figure>`,
-
-      table: (b) => {
-        const cols = b.headers.length;
-        const align = b.align || b.headers.map(() => 'left');
-        const grid = `minmax(180px, 1.6fr) ${'1fr '.repeat(cols - 1).trim()}`;
-        const headHtml = b.headers.map((h, i) =>
-          `<div style="text-align:${align[i]};">${escapeHtml(h)}</div>`).join('');
-        const rowsHtml = b.rows.map(row =>
-          `<div class="blk-table-row" style="grid-template-columns:${grid}">${row.map((c, ci) =>
-            `<div style="text-align:${align[ci]};">${renderCell(c)}</div>`).join('')}</div>`).join('');
-        const footHtml = b.footnotes
-          ? `<div class="blk-table-foot">${b.footnotes.map((f, i) => `<span>${i > 0 ? '· ' : ''}${escapeHtml(f)}</span>`).join('')}</div>`
-          : '';
-        return `<div class="blk-table-wrap">
-          <div class="blk-table">
-            <div class="blk-table-head" style="grid-template-columns:${grid}">${headHtml}</div>
-            ${rowsHtml}
-          </div>
-          ${footHtml}
-        </div>`;
-      },
-
-      list: (b) => {
-        const Tag = b.kind === 'ol' ? 'ol' : 'ul';
-        return `<${Tag} class="blk-list">${b.items.map(it => `<li>${renderInline(it)}</li>`).join('')}</${Tag}>`;
-      },
-
-      callout: (b) => {
-        const tone = b.tone || 'info';
-        const labels = { info: '提示', warn: '注意', verdict: '結論' };
-        return `<div class="blk-callout callout-${tone}">
-          <div class="blk-callout-label">${escapeHtml(b.label || labels[tone] || labels.info)}</div>
-          <div class="blk-callout-text">${renderInline(b.text)}</div>
-        </div>`;
-      },
 
       kpis: (b) => {
         const cols = b.items.length;
@@ -1001,54 +809,6 @@
           ${b.bullets ? `<ul class="blk-kpis-bullets">${b.bullets.map(x => `<li>${renderInline(x)}</li>`).join('')}</ul>` : ''}
         </div>`;
       },
-
-      'two-col': (b) => {
-        const side = (s) => `<div class="blk-twocol-side">
-          <div class="blk-twocol-head">
-            <div class="blk-twocol-dot ${s.tone === 'good' ? 'good' : 'bad'}"></div>
-            <div class="blk-twocol-title">${escapeHtml(s.title)}</div>
-          </div>
-          ${s.items.map((x, i) => `<div class="blk-twocol-item"><span class="blk-twocol-num">${String(i+1).padStart(2,'0')}</span>${renderInline(x)}</div>`).join('')}
-        </div>`;
-        return `<div class="blk-twocol">${side(b.left)}${side(b.right)}</div>`;
-      },
-
-      steps: (b) => `<div class="blk-steps">
-        ${b.items.map((s, i) => `<div class="blk-step">
-          <div class="blk-step-num">${String(i+1).padStart(2,'0')}</div>
-          <div class="blk-step-body">
-            <div class="blk-step-title">${escapeHtml(s.title)}</div>
-            <div class="blk-step-desc">${renderInline(s.desc)}</div>
-          </div>
-        </div>`).join('')}
-      </div>`,
-
-      faq: (b) => `<div class="blk-faq">
-        ${b.items.map((f, i) => `<div class="blk-faq-item">
-          <span class="blk-faq-num">Q${String(i+1).padStart(2,'0')}</span>
-          <div class="blk-faq-body">
-            <div class="blk-faq-q">${escapeHtml(f.q)}</div>
-            <div class="blk-faq-a">${renderInline(f.a)}</div>
-          </div>
-          <span class="blk-faq-plus">＋</span>
-        </div>`).join('')}
-      </div>`,
-
-      cta: () => `<div class="blk-cta">
-        <div class="blk-cta-body">
-          <div class="blk-cta-eyebrow">HK MILES APP</div>
-          <div class="blk-cta-title">下載 App，新表變動即時推送</div>
-          <div class="blk-cta-desc">逐張卡比較里數回贈、追蹤過期日、自訂目的地價警通知。免費，全中文。</div>
-        </div>
-        <div class="blk-cta-btns">
-          <a class="blk-cta-btn" href="https://apple.co/4dnOqe2" target="_blank" rel="noopener">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 12.5c0-2.5 2-3.7 2.1-3.8-1.2-1.7-3-2-3.6-2-1.6-.2-3 .9-3.8.9-.8 0-2-.9-3.3-.9-1.7 0-3.3 1-4.2 2.5-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.3 2.5 1.3-.1 1.8-.8 3.4-.8s2 .8 3.3.8c1.4 0 2.3-1.2 3.1-2.5.6-.9 1-1.8 1.3-2.8-2.9-1.1-3-4.1-3-4.1zM15 4.6c.7-.8 1.1-1.9 1-3-.9 0-2.1.6-2.8 1.4-.6.7-1.2 1.8-1 2.9 1 .1 2-.5 2.8-1.3z"/></svg>
-            <div><small>Download on</small>App Store</div>
-          </a>
-        </div>
-      </div>`,
-
-      divider: () => `<div class="blk-divider"></div>`,
 
       'portable-text': (b) => renderPortableText(b.content),
 
@@ -1215,25 +975,6 @@
       </div></div>`;
     }
 
-    function renderCell(c) {
-      if (c == null) return '<span style="color:var(--faint);">—</span>';
-      if (typeof c === 'string') {
-        if (c.includes('\n')) {
-          const lines = c.split('\n');
-          return `<div class="cell-multiline-title">${escapeHtml(lines[0])}</div>${lines.slice(1).map(l => `<div class="cell-multiline-sub">${escapeHtml(l)}</div>`).join('')}`;
-        }
-        return escapeHtml(c);
-      }
-      let html = `<div class="cell-val">${escapeHtml(numFmt(c.value))}</div>`;
-      if (c.badge) html += `<span class="cell-badge">${escapeHtml(c.badge)}</span>`;
-      if (c.delta != null && c.delta !== 0 && !c.badge) {
-        const dir = c.delta > 0 ? 'up' : 'down';
-        const arrow = c.delta > 0 ? '▲' : '▼';
-        html += `<div class="cell-delta ${dir}">${arrow} ${Math.abs(c.delta).toFixed(2)}%</div>`;
-      }
-      return html;
-    }
-
     // ─── Plain-text extractor (for SEO descriptions) ───
     function ptToPlainText(blocks, maxLen = 160) {
       if (!blocks) return '';
@@ -1384,9 +1125,6 @@
         : `<div class="article-hero">
             ${heroTopicHtml}
             ${heroMetaHtml}
-            ${m.hero ? `<div style="margin-top:32px;">
-              <div class="img-ph tint-${m.hero.tint || 'navy'}" style="aspect-ratio:${m.hero.ratio || '21/9'}; width:100%;"><span>${escapeHtml(m.hero.label || '主視覺')}</span></div>
-            </div>` : ''}
           </div>`;
 
       // Blocks
