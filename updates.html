@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>App 更新｜HK Miles</title>
+  <meta name="description" content="HK Miles App 每個版本嘅更新詳情、新功能、改善同修復記錄。掌握最新版本資訊。">
+  <link rel="canonical" href="https://hkmiles.app/updates.html">
+  <link rel="icon" href="assets/logo.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    /* ── RESET ───────────────────────────────────── */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* ── TOKENS ──────────────────────────────────── */
+    :root {
+      --blue: #1D4ED8;
+      --blue-mid: #2563EB;
+      --blue-dim: #1E40AF;
+      --blue-bg: #EFF6FF;
+      --navy: #0F172A;
+      --text: #0F172A;
+      --text-2: #475569;
+      --text-3: #94A3B8;
+      --bg: #F8FAFC;
+      --white: #FFFFFF;
+      --border: #E2E8F0;
+      --red: #DC2626;
+      --orange: #EA580C;
+      --green: #059669;
+      --purple: #7C3AED;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.07);
+      --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.07);
+      --shadow-lg: 0 10px 32px rgba(0, 0, 0, 0.10);
+      --r-sm: 8px;
+      --r-md: 14px;
+      --r-lg: 20px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    img { display: block; max-width: 100%; }
+
+    /* ── SKIP LINK ───────────────────────────────── */
+    .skip-link {
+      position: absolute;
+      top: -48px;
+      left: 8px;
+      background: var(--blue);
+      color: #fff;
+      padding: 8px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 0 0 var(--r-sm) var(--r-sm);
+      z-index: 9999;
+      transition: top 0.2s;
+    }
+    .skip-link:focus { top: 0; outline: 3px solid #fff; outline-offset: 2px; }
+
+    /* ── FOCUS ───────────────────────────────────── */
+    :focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 3px;
+      border-radius: var(--r-sm);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      html { scroll-behavior: auto; }
+    }
+
+    /* ── NAV ─────────────────────────────────────── */
+    body>nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      padding: 14px 24px;
+      pointer-events: none;
+    }
+    .nav-in {
+      pointer-events: all;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: saturate(180%) blur(16px);
+      -webkit-backdrop-filter: saturate(180%) blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 100px;
+      padding: 6px 6px 6px 14px;
+      box-shadow: 0 2px 16px rgba(0, 0, 0, 0.12);
+      transition: background 0.25s, border-color 0.25s, box-shadow 0.25s;
+    }
+    body>nav.scrolled .nav-in {
+      background: rgba(255, 255, 255, 0.88);
+      border-color: var(--border);
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.10);
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 7px;
+      text-decoration: none;
+      border-radius: 100px;
+      padding: 2px 10px 2px 0;
+      margin-right: 4px;
+      flex-shrink: 0;
+    }
+    .nav-logo img { width: 28px; height: 28px; border-radius: 7px; object-fit: cover; }
+    .nav-logo span {
+      font-weight: 700; font-size: 15px; letter-spacing: -0.2px;
+      color: #fff; transition: color 0.25s; white-space: nowrap;
+    }
+    body>nav.scrolled .nav-logo span { color: var(--text); }
+    .nav-links { display: flex; align-items: center; gap: 0; }
+    .nav-links a {
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 14px;
+      font-weight: 500;
+      padding: 12px 14px;
+      border-radius: 100px;
+      transition: color 0.15s, background 0.15s;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    body>nav.scrolled .nav-links a { color: var(--text-2); }
+    .nav-links a:hover { color: #fff; background: rgba(255, 255, 255, 0.15); }
+    body>nav.scrolled .nav-links a:hover { color: var(--text); background: rgba(0, 0, 0, 0.05); }
+    body>nav.scrolled .nav-links a[aria-current] { color: var(--blue); }
+    .nav-cta {
+      background: #111827 !important;
+      color: #fff !important;
+      font-weight: 600 !important;
+      font-size: 14px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+      padding: 9px 16px !important;
+      border-radius: 100px !important;
+      text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+      min-height: 44px !important;
+      transition: background 0.15s !important;
+    }
+    .nav-cta:hover { background: #1f2937 !important; }
+    body>nav.scrolled .nav-cta:hover { background: #374151 !important; }
+    .nav-cta svg { flex-shrink: 0; }
+
+    /* ── PAGE HEADER ─────────────────────────────── */
+    .page-hd {
+      background: linear-gradient(160deg, var(--blue) 0%, var(--blue-dim) 60%, #1E3A8A 100%);
+      padding: 100px 24px 48px;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hd::before {
+      content: '';
+      position: absolute;
+      top: -120px; right: -80px;
+      width: 360px; height: 360px;
+      background: radial-gradient(circle, rgba(255,255,255,0.10), transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .page-hd-in {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+    }
+    .page-hd-lbl {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: .72;
+      margin-bottom: 10px;
+    }
+    .page-hd h1 {
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 900;
+      letter-spacing: -1px;
+      margin-bottom: 10px;
+    }
+    .page-hd p { font-size: 16px; opacity: .80; max-width: 540px; }
+    .hd-meta {
+      display: flex; align-items: center; gap: 10px;
+      margin-top: 22px; flex-wrap: wrap;
+    }
+    .meta-chip {
+      display: flex; align-items: center; gap: 6px;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 100px;
+      padding: 5px 14px;
+      font-size: 12px; font-weight: 600;
+    }
+    .live-dot {
+      width: 7px; height: 7px;
+      background: #4ADE80;
+      border-radius: 50%;
+      animation: pg 2s ease-in-out infinite;
+    }
+    @keyframes pg {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: .5; transform: scale(.8); }
+    }
+
+    /* ── MAIN ─────────────────────────────────────── */
+    .main {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 84px 24px 80px;
+    }
+
+    /* ── CONTROLS (Tab bar) ──────────────────────── */
+    .controls {
+      background: var(--white);
+      border-radius: var(--r-lg);
+      padding: 6px 6px 6px 10px;
+      margin-bottom: 28px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      width: 100%;
+    }
+    .controls-row { display: flex; align-items: center; gap: 8px; }
+    .tab-bar {
+      display: flex; align-items: center; gap: 2px;
+      flex: 1; overflow-x: auto; scrollbar-width: none;
+    }
+    .tab-bar::-webkit-scrollbar { display: none; }
+    .tab {
+      white-space: nowrap;
+      background: none; border: none; border-radius: 8px;
+      padding: 8px 13px;
+      font-family: inherit; font-size: 14px; font-weight: 500;
+      color: var(--text-2);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      text-decoration: none;
+      display: inline-flex; align-items: center;
+    }
+    .tab:hover { background: var(--bg); color: var(--text); }
+    .tab.active { background: var(--bg); color: var(--text); font-weight: 600; }
+
+    /* ── UPDATE LIST ─────────────────────────────── */
+    .updates-wrap {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 32px;
+    }
+
+    /* Sticky side-rail: version index */
+    .ver-rail {
+      position: sticky;
+      top: 96px;
+      align-self: start;
+      display: flex; flex-direction: column;
+      gap: 2px;
+      max-height: calc(100vh - 120px);
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    .ver-rail-lbl {
+      font-size: 11px; font-weight: 800;
+      color: var(--text-3);
+      letter-spacing: 1.4px; text-transform: uppercase;
+      padding: 0 10px 10px;
+    }
+    .ver-rail a {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: var(--r-sm);
+      text-decoration: none;
+      font-size: 13px; font-weight: 600;
+      color: var(--text-2);
+      transition: background .15s, color .15s;
+    }
+    .ver-rail a:hover { background: var(--white); color: var(--blue); }
+    .ver-rail a.on { background: var(--blue-bg); color: var(--blue); }
+    .ver-rail a .ver-rail-date {
+      font-size: 11px; font-weight: 500;
+      color: var(--text-3);
+    }
+    .ver-rail a.on .ver-rail-date { color: var(--blue); opacity: .75; }
+
+    .updates-col { min-width: 0; display: flex; flex-direction: column; gap: 18px; }
+
+    /* Version card */
+    .ver-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      scroll-margin-top: 96px;
+      transition: box-shadow .2s, border-color .2s;
+    }
+    .ver-card:hover { box-shadow: var(--shadow-md); }
+
+    .ver-head {
+      padding: 22px 26px 18px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .ver-head-l { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+    .ver-num {
+      font-size: 22px; font-weight: 900;
+      color: var(--text);
+      letter-spacing: -.4px;
+      font-variant-numeric: tabular-nums;
+    }
+    .ver-tag {
+      font-size: 10px; font-weight: 800;
+      letter-spacing: 1px;
+      padding: 3px 9px;
+      border-radius: 100px;
+      background: var(--blue-bg); color: var(--blue);
+      text-transform: uppercase;
+    }
+    .ver-tag.latest { background: var(--blue); color: #fff; }
+    .ver-date {
+      font-size: 13px; font-weight: 600;
+      color: var(--text-3);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .ver-body { padding: 8px 26px 24px; }
+
+    .ver-summary {
+      padding: 14px 0 10px;
+      font-size: 15px;
+      color: var(--text-2);
+      line-height: 1.7;
+    }
+
+    /* Group of changes (新功能 / 改善 / 修復) */
+    .ch-group { padding: 14px 0; border-top: 1px dashed var(--border); }
+    .ch-group:first-of-type { border-top: none; padding-top: 4px; }
+
+    .ch-head {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 12px;
+    }
+    .ch-ico {
+      width: 28px; height: 28px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .ch-ico.new { background: var(--blue-bg); color: var(--blue); }
+    .ch-ico.imp { background: #FFF7ED; color: var(--orange); }
+    .ch-ico.fix { background: #ECFDF5; color: var(--green); }
+
+    .ch-title {
+      font-size: 13px; font-weight: 800;
+      letter-spacing: .4px;
+      text-transform: uppercase;
+    }
+    .ch-title.new { color: var(--blue); }
+    .ch-title.imp { color: var(--orange); }
+    .ch-title.fix { color: var(--green); }
+
+    .ch-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+    .ch-list li {
+      position: relative;
+      padding: 6px 4px 6px 22px;
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--text);
+    }
+    .ch-list li::before {
+      content: '';
+      position: absolute;
+      left: 6px; top: 14px;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--text-3);
+    }
+    .ch-list.new li::before { background: var(--blue); }
+    .ch-list.imp li::before { background: var(--orange); }
+    .ch-list.fix li::before { background: var(--green); }
+    .ch-list li b, .ch-list li strong { font-weight: 700; color: var(--text); }
+    .ch-list li .muted { color: var(--text-2); }
+
+    /* ── DOWNLOAD STRIP ──────────────────────────── */
+    .dl-strip {
+      margin-top: 32px;
+      background: linear-gradient(135deg, var(--blue-mid), var(--blue-dim));
+      border-radius: var(--r-lg);
+      padding: 28px 28px;
+      color: #fff;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; flex-wrap: wrap;
+    }
+    .dl-strip h3 { font-size: 18px; font-weight: 800; margin-bottom: 4px; }
+    .dl-strip p { font-size: 13px; opacity: .82; }
+    .dl-btn {
+      background: #fff; color: var(--blue);
+      text-decoration: none;
+      font-size: 14px; font-weight: 700;
+      padding: 12px 22px;
+      border-radius: 100px;
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: opacity .2s, transform .2s;
+      min-height: 44px;
+      white-space: nowrap;
+    }
+    .dl-btn:hover { opacity: .92; transform: translateY(-1px); }
+
+    /* ── FOOTER ──────────────────────────────────── */
+    footer {
+      background: var(--navy);
+      color: rgba(255, 255, 255, .50);
+      padding: 40px 24px;
+    }
+    .foot-in {
+      max-width: 1140px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 20px;
+    }
+    .foot-in>p { text-align: right; }
+    .foot-logo {
+      display: flex; align-items: center; gap: 8px;
+      color: #fff; font-weight: 700; font-size: 15px;
+      text-decoration: none; border-radius: var(--r-sm);
+    }
+    .foot-logo img { width: 26px; height: 26px; border-radius: 6px; object-fit: cover; }
+    .foot-links { display: flex; gap: 20px; }
+    .foot-links a {
+      color: rgba(255, 255, 255, .45);
+      text-decoration: none;
+      font-size: 13px;
+      transition: color .15s;
+    }
+    .foot-links a:hover { color: #fff; }
+
+    /* ── RESPONSIVE ──────────────────────────────── */
+    @media (max-width: 900px) {
+      .updates-wrap { grid-template-columns: 1fr; gap: 18px; }
+      .ver-rail {
+        position: static;
+        flex-direction: row;
+        overflow-x: auto;
+        max-height: none;
+        padding-bottom: 4px;
+        gap: 6px;
+      }
+      .ver-rail-lbl { display: none; }
+      .ver-rail a {
+        flex-direction: column; align-items: flex-start;
+        flex-shrink: 0;
+        background: var(--white);
+        border: 1px solid var(--border);
+        padding: 8px 12px;
+        gap: 2px;
+      }
+      .ver-rail a.on { border-color: var(--blue); }
+    }
+
+    @media (max-width: 600px) {
+      .page-hd { padding: 96px 16px 40px; }
+      .page-hd-in { padding-left: 0; padding-right: 0; }
+      .main { padding: 80px 16px 60px; }
+      .ver-head { padding: 18px 18px 14px; }
+      .ver-body { padding: 8px 18px 20px; }
+      .ver-num { font-size: 19px; }
+      .dl-strip { padding: 22px 20px; text-align: center; justify-content: center; }
+      .foot-in { grid-template-columns: 1fr; text-align: center; }
+      .foot-in>p { text-align: center; }
+      .foot-links { justify-content: center; }
+    }
+
+    @media (max-width: 520px) {
+      body > nav { padding: 12px 16px; }
+      .nav-links a:not(.nav-cta) { display: none; }
+    }
+  </style>
+</head>
+
+<body>
+  <a href="#main" class="skip-link">跳至主要內容</a>
+
+  <!-- NAV -->
+  <nav aria-label="主導航">
+    <div class="nav-in">
+      <a href="index.html" class="nav-logo" aria-label="HK Miles 首頁">
+        <img src="assets/logo.png" alt="" aria-hidden="true">
+        <span>HK Miles</span>
+      </a>
+      <div class="nav-links" role="list">
+        <a href="index.html" role="listitem">首頁</a>
+        <a href="promotions" role="listitem">優惠情報</a>
+        <a href="updates.html" role="listitem" aria-current="page">App 更新</a>
+        <a href="https://apps.apple.com/hk/app/hk-miles/id6746290785" class="nav-cta" role="listitem" target="_blank"
+          rel="noopener noreferrer" aria-label="在 App Store 免費下載 HK Miles（於新分頁開啟）">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+          </svg>
+          免費下載
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <header class="page-hd">
+    <div class="page-hd-in">
+      <div class="page-hd-lbl">CHANGELOG</div>
+      <h1>App 更新記錄</h1>
+      <p>每個版本嘅新功能、改善同修復都會記錄喺呢度。我哋會持續更新 HK Miles，為你帶嚟更好嘅信用卡比較體驗。</p>
+      <div class="hd-meta">
+        <span class="meta-chip"><span class="live-dot" aria-hidden="true"></span>實時更新</span>
+        <span class="meta-chip" id="latest-chip">最新版本 v1.4.0</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main id="main">
+    <div class="main">
+
+      <!-- TAB BAR -->
+      <section class="controls" aria-label="分頁">
+        <div class="controls-row">
+          <div class="tab-bar" role="tablist" aria-label="分類">
+            <a href="index.html" class="tab" role="tab">主頁</a>
+            <a href="promotions" class="tab" role="tab">優惠情報</a>
+            <a href="updates.html" class="tab active" role="tab" aria-selected="true" aria-current="page">App 更新</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- UPDATES -->
+      <div class="updates-wrap">
+
+        <!-- Sticky version rail -->
+        <aside class="ver-rail" aria-label="版本目錄">
+          <div class="ver-rail-lbl">版本目錄</div>
+          <a href="#v1-4-0" class="on">v1.4.0 <span class="ver-rail-date">2026-05-20</span></a>
+          <a href="#v1-3-0">v1.3.0 <span class="ver-rail-date">2026-04-22</span></a>
+          <a href="#v1-2-0">v1.2.0 <span class="ver-rail-date">2026-03-15</span></a>
+          <a href="#v1-1-0">v1.1.0 <span class="ver-rail-date">2026-02-08</span></a>
+          <a href="#v1-0-0">v1.0.0 <span class="ver-rail-date">2026-01-12</span></a>
+        </aside>
+
+        <!-- Version list -->
+        <div class="updates-col">
+
+          <!-- ────── v1.4.0 ────── -->
+          <article class="ver-card" id="v1-4-0" aria-labelledby="v1-4-0-h">
+            <div class="ver-head">
+              <div class="ver-head-l">
+                <span class="ver-num" id="v1-4-0-h">v1.4.0</span>
+                <span class="ver-tag latest">最新</span>
+              </div>
+              <span class="ver-date">2026-05-20</span>
+            </div>
+            <div class="ver-body">
+              <p class="ver-summary">新增 <strong>里數卡 / 現金回贈卡專屬分頁</strong>，配合銀行 sub-menu 快速跳轉，搵卡更快。同時改善里數計算引擎，最高快咗 30%。</p>
+
+              <div class="ch-group">
+                <div class="ch-head">
+                  <div class="ch-ico new" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+                  </div>
+                  <span class="ch-title new">新功能</span>
+                </div>
+                <ul class="ch-list new">
+                  <li><b>里數卡 / 現金回贈卡分頁</b>：信用卡 tab 旁邊新增兩個獨立分頁，配合銀行 dropdown 快速 filter。</li>
+                  <li><b>App 更新 tab</b>：可以喺 App 內直接查看版本更新記錄。</li>
+                  <li>支援 <b>Apple Pay 自動記錄</b>：刷 Apple Pay 後自動匹配返對應信用卡，唔使再手動 input。</li>
+                </ul>
+              </div>
+
+              <div class="ch-group">
+                <div class="ch-head">
+                  <div class="ch-ico imp" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                  </div>
+                  <span class="ch-title imp">改善</span>
+                </div>
+                <ul class="ch-list imp">
+                  <li>里數計算引擎重寫，<b>最高快咗 30%</b>，大筆消費都即時出結果。</li>
+                  <li>信用卡列表加入 <b>骨架載入動畫 (skeleton loading)</b>，視覺更順暢。</li>
+                  <li>優化深色模式對比度，長時間睇都唔會攰。</li>
+                </ul>
+              </div>
+
+              <div class="ch-group">
+                <div class="ch-head">
+                  <div class="ch-ico fix" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                  </div>
+                  <span class="ch-title fix">修復</span>
+                </div>
+                <ul class="ch-list fix">
+                  <li>修正 HSBC EveryMile 海外消費里數顯示錯誤嘅問題。</li>
+                  <li>修正部分用戶喺 iOS 17 上開 App 會閃退嘅問題。</li>
+                  <li>修正搜尋欄輸入中文時偶爾失焦嘅 bug。</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- ────── v1.3.0 ────── -->
+          <article class="ver-card" id="v1-3-0" aria-labelledby="v1-3-0-h">
+            <div class="ver-head">
+              <div class="ver-head-l">
+                <span class="ver-num" id="v1-3-0-h">v1.3.0</span>
+                <span class="ver-tag">穩定版</span>
+              </div>
+              <span class="ver-date">2026-04-22</span>
+            </div>
+            <div class="ver-body">
+              <p class="ver-summary">大幅擴充銀行覆蓋，新增 <strong>東亞、大新、富邦、AEON、安信、Mox、建行、AE</strong> 全部信用卡資料，覆蓋香港 99% 主流信用卡。</p>
+
+              <div class="ch-group">
+                <div class="ch-head">
+                  <div class="ch-ico new" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+                  </div>
+                  <span class="ch-title new">新功能</span>
+                </div>
+                <ul class="ch-list new">
+                  <li>新增 <b>8 間銀行</b>：東亞、大新、富邦、AEON、安信、Mox、建行、AE。</li>
+                  <li>新增 <b>月度優惠 tab</b>，每月最強優惠一目了然。</li>
+                  <li>新增里數兌換指南，內附主要航空公司兌換比率。</li>
+                </ul>
+              </div>
+
+              <div class="ch-group">
+                <div class="ch-head">
+                  <div class="ch-ico imp" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                  </div>
+                  <span class="ch-title imp">改善</span>
+                </div>
+                <ul class="ch-list imp">
+                  <li>優惠卡片新增「最新」同「置頂」標籤，更易識別熱門優惠。</li>
+                  <li>啟動速度提升 <b>40%</b>。</li>
+                </ul>
+              </div>
+
+              <div class="ch-group">
+                <div class="ch-head">
+                  <div class="ch-ico fix" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                  </div>
+                  <span class="ch-title fix">修復</span>
+                </div>
+                <ul class="ch-list fix">
+                  <li>修正某啲信用卡圖示無顯示嘅問題。</li>
+                  <li>修正分享優惠連結時 preview 圖未能正確載入。</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- ────── v1.2.0 ────── -->
+          <article class="ver-card" id="v1-2-0" aria-labelledby="v1-2-0-h">
+            <div class="ver-head">
+              <div class="ver-head-l">
+                <span class="ver-num" id="v1-2-0-h">v1.2.0</span>
+              </div>
+              <span class="ver-date">2026-03-15</span>
+            </div>
+            <div class="ver-body">
+              <p class="ver-summary">新增 <strong>消費紀錄 (History) 同 Miles Chart 圖表</strong>，可以追蹤每月里數累積走勢。</p>
+
+              <div class="ch-group">
+                <div class="ch-head">
+                  <div class="ch-ico new" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+                  </div>
+                  <span class="ch-title new">新功能</span>
+                </div>
+                <ul class="ch-list new">
+                  <li><b>消費紀錄</b>：自動記錄每筆消費同累積里數。</li>
+                  <li><b>Miles Chart</b>：圖表化展示每月里數走勢。</li>
+                  <li>支援匯出消費紀錄做 CSV。</li>
+                </ul>
+              </div>
+
+              <div class="ch-group">
+                <div class="ch-head">
+                  <div class="ch-ico imp" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                  </div>
+                  <span class="ch-title imp">改善</span>
+                </div>
+                <ul class="ch-list imp">
+                  <li>Advisor 演算法更精準，會考慮埋特定商戶 bonus。</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- ────── v1.1.0 ────── -->
+          <article class="ver-card" id="v1-1-0" aria-labelledby="v1-1-0-h">
+            <div class="ver-head">
+              <div class="ver-head-l">
+                <span class="ver-num" id="v1-1-0-h">v1.1.0</span>
+              </div>
+              <span class="ver-date">2026-02-08</span>
+            </div>
+            <div class="ver-body">
+              <p class="ver-summary">新增 <strong>優惠情報 tab</strong>，實時抓取各大銀行最新信用卡優惠。</p>
+
+              <div class="ch-group">
+                <div class="ch-head">
+                  <div class="ch-ico new" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+                  </div>
+                  <span class="ch-title new">新功能</span>
+                </div>
+                <ul class="ch-list new">
+                  <li><b>優惠情報</b>：實時更新嘅銀行優惠列表。</li>
+                  <li>新增 push notification 提示最新優惠。</li>
+                </ul>
+              </div>
+
+              <div class="ch-group">
+                <div class="ch-head">
+                  <div class="ch-ico fix" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                  </div>
+                  <span class="ch-title fix">修復</span>
+                </div>
+                <ul class="ch-list fix">
+                  <li>修正首次安裝後資料未能載入嘅問題。</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- ────── v1.0.0 ────── -->
+          <article class="ver-card" id="v1-0-0" aria-labelledby="v1-0-0-h">
+            <div class="ver-head">
+              <div class="ver-head-l">
+                <span class="ver-num" id="v1-0-0-h">v1.0.0</span>
+                <span class="ver-tag">首發版</span>
+              </div>
+              <span class="ver-date">2026-01-12</span>
+            </div>
+            <div class="ver-body">
+              <p class="ver-summary">HK Miles 正式登陸 App Store！第一版包含 <strong>核心信用卡比較同 Advisor 智能推薦</strong>。</p>
+
+              <div class="ch-group">
+                <div class="ch-head">
+                  <div class="ch-ico new" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+                  </div>
+                  <span class="ch-title new">新功能</span>
+                </div>
+                <ul class="ch-list new">
+                  <li>支援 HSBC、渣打、Citi、DBS、中銀、恒生 6 大銀行信用卡。</li>
+                  <li><b>Advisor</b>：輸入消費金額同類別，即時推薦最高回報信用卡。</li>
+                  <li><b>My Card</b>：管理自己嘅信用卡組合。</li>
+                  <li>免費、無廣告。</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+
+      <!-- DOWNLOAD STRIP -->
+      <section class="dl-strip" aria-label="下載 App">
+        <div>
+          <h3>即刻下載最新版本</h3>
+          <p>免費、無廣告，喺 App Store 即刻取得最新功能。</p>
+        </div>
+        <a href="https://apps.apple.com/hk/app/hk-miles/id6746290785" class="dl-btn" target="_blank"
+          rel="noopener noreferrer" aria-label="於 App Store 免費下載 HK Miles（新分頁開啟）">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+          </svg>
+          App Store 下載
+        </a>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="foot-in">
+      <a href="index.html" class="foot-logo">
+        <img src="assets/logo.png" alt="" aria-hidden="true">
+        <span>HK Miles</span>
+      </a>
+      <nav class="foot-links" aria-label="頁腳導航">
+        <a href="privacy.html">私隱政策</a>
+        <a href="terms.html">使用條款</a>
+      </nav>
+      <p style="font-size:12px;">© 2026 HK Miles. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    /* Nav scroll state */
+    const navEl = document.querySelector('nav');
+    function updateNav() { navEl.classList.toggle('scrolled', window.scrollY > 10); }
+    updateNav();
+    window.addEventListener('scroll', updateNav, { passive: true });
+
+    /* Sticky rail — highlight currently-visible version */
+    const railLinks = Array.from(document.querySelectorAll('.ver-rail a'));
+    const sections = railLinks
+      .map(a => document.querySelector(a.getAttribute('href')))
+      .filter(Boolean);
+
+    const setActive = id => {
+      railLinks.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + id));
+    };
+
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(entries => {
+        const visible = entries
+          .filter(e => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+        if (visible) setActive(visible.target.id);
+      }, { rootMargin: '-96px 0px -60% 0px', threshold: 0 });
+      sections.forEach(s => io.observe(s));
+    }
+
+    /* Smooth-scroll for in-page anchors (rail) */
+    railLinks.forEach(a => {
+      a.addEventListener('click', e => {
+        const tgt = document.querySelector(a.getAttribute('href'));
+        if (!tgt) return;
+        e.preventDefault();
+        tgt.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        history.replaceState(null, '', a.getAttribute('href'));
+      });
+    });
+  </script>
+</body>
+</html>
