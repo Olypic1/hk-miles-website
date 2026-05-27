@@ -186,6 +186,7 @@ function descFor(doc, type) {
 export async function onRequest(ctx) {
   const url  = new URL(ctx.request.url);
   const seg  = url.pathname.replace(/^\/|\/$/g, '');
+  const dbg  = { seg, matched: false, resolved: false, tmpl_ok: false };
 
   // ── Path A: pretty article URL  /asia-miles-2026-5 ────────────────────────
   // Single segment, no extension, not a reserved route name.
@@ -195,12 +196,16 @@ export async function onRequest(ctx) {
     !seg.includes('.') &&
     !RESERVED.has(seg)
   ) {
+    dbg.matched = true;
     const found = await resolveSlug(seg);
+    dbg.resolved = !!found;
     if (found) {
       // Fetch the /article static HTML to use as the template.
       const articleRes = await fetch(new URL('/article', url), {
         cf: { cacheTtl: 300, cacheEverything: true },
       });
+      dbg.tmpl_ok = articleRes.ok;
+      dbg.tmpl_status = articleRes.status;
       if (articleRes.ok) {
         const tmpl = await articleRes.text();
         const articleScript = `<script>window.__ARTICLE={type:"${jsEsc(found.type)}",slug:"${jsEsc(seg)}"};</script>`;
@@ -216,6 +221,7 @@ export async function onRequest(ctx) {
           headers: {
             'Content-Type':  'text/html;charset=UTF-8',
             'Cache-Control': 'public,max-age=300,stale-while-revalidate=3600',
+            'x-mw-debug':    JSON.stringify(dbg),
           },
         });
       }
@@ -235,8 +241,13 @@ export async function onRequest(ctx) {
   // rewriting an empty body silently ships "200 OK + empty page" to the
   // client. Only intercept the canonical /article path with article params.
   const isArticlePath = url.pathname === '/article';
-  if (!isArticlePath || (!card && !id && !slug))
-    return ctx.next();
+  if (!isArticlePath || (!card && !id && !slug)) {
+    const passThrough = await ctx.next();
+    // Attach debug for fall-through responses too (lets us see if path A skipped)
+    const h = new Headers(passThrough.headers);
+    h.set('x-mw-debug', JSON.stringify(dbg));
+    return new Response(passThrough.body, { status: passThrough.status, headers: h });
+  }
 
   // Fetch the static file and Sanity meta in parallel.
   const [pageRes, raw] = await Promise.all([
