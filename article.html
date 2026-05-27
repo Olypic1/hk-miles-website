@@ -1198,7 +1198,7 @@
         const q = encodeURIComponent(
           `*[_type == "promotion" && !(_id in path("drafts.**")) && status == "Active"${excl}]
             | order(_createdAt desc) [0...5]
-            { _id, title, bank, "imgUrl": mainImage.asset->url }`
+            { _id, title, bank, "slug": slug.current, "imgUrl": mainImage.asset->url }`
         );
         const res = await fetch(`${SANITY_API}?query=${q}`);
         const data = await res.json();
@@ -1208,7 +1208,7 @@
           return;
         }
         list.innerHTML = items.map(p => `
-          <a class="latest-item" href="article?id=${encodeURIComponent(p._id)}">
+          <a class="latest-item" href="${p.slug ? '/' + encodeURIComponent(p.slug) : 'article?id=' + encodeURIComponent(p._id)}">
             <div class="latest-body">
               <div class="latest-bank">${escapeHtml(p.bank || '')}</div>
               <div class="latest-title">${escapeHtml(p.title || '')}</div>
@@ -1382,7 +1382,7 @@
         "imgUrl": mainImage.asset->url, content,
         "related": *[_type == "promotion" && _id != ^._id && bank == ^.bank && status == "Active"]
           | order(_createdAt desc) [0...3] {
-            _id, title, bank,
+            _id, title, bank, "slug": slug.current,
             "cat": coalesce(categories[0], bank),
             "tag": coalesce(endDate, "長期"),
             "imgUrl": mainImage.asset->url,
@@ -1398,9 +1398,13 @@
     // ─── Load article by slug (local) or id/slug (Sanity) ────
     async function load() {
       const params = new URLSearchParams(window.location.search);
+      // window.__ARTICLE is set by the edge middleware on pretty URLs
+      // (e.g. /asia-miles-2026-5). Falls back to query-string params for
+      // legacy /article?slug=… / ?id=… / ?card=… inbound links.
+      const a = window.__ARTICLE || {};
       const id = params.get('id');
-      const sanitySlug = params.get('slug');
-      const cardSlug = params.get('card');
+      const sanitySlug = a.type === 'promo' ? a.slug : params.get('slug');
+      const cardSlug   = a.type === 'card'  ? a.slug : params.get('card');
 
       // CreditCard mode: ?card=red-card
       if (cardSlug) {
@@ -1416,7 +1420,7 @@
             tag: r.tag || '信用卡',
             tone: 'navy',
             imgUrl: r.imgUrl || null,
-            href: `article?card=${encodeURIComponent(r.slug)}`,
+            href: `/${encodeURIComponent(r.slug)}`,
           }));
           renderArticle(cardToArticle({ ...card, related }));
         } catch (e) {
@@ -1447,7 +1451,7 @@
             tag: r.tag && r.tag !== '長期' ? `至 ${r.tag}` : '長期',
             tone: 'navy',
             imgUrl: r.imgUrl || null,
-            href: `article?id=${r._id}`,
+            href: r.slug ? `/${encodeURIComponent(r.slug)}` : `article?id=${r._id}`,
           }));
           const article = promotionToArticle({ ...promo, related });
           renderArticle(article);
@@ -1470,14 +1474,17 @@
     // ─── Mark the matching tab active based on the URL ──────────
     (function markActiveTab() {
       const params = new URLSearchParams(window.location.search);
+      const a = window.__ARTICLE || {};
       const id = document.getElementById.bind(document);
       const setActive = (...els) => els.forEach(el => el && el.classList.add('active'));
-      if (params.get('card')) {
+      const isCard = a.type === 'card' || !!params.get('card');
+      const isPromo = a.type === 'promo' || !!params.get('id') || !!params.get('slug');
+      if (isCard) {
         // Credit card detail — highlight 信用卡 trigger
         setActive(id('cc-tab'));
         // We'll also highlight miles/cashback after the data loads if
         // the card has that type — see fillBankDropdown / loadCardTabs.
-      } else if (params.get('id') || params.get('slug')) {
+      } else if (isPromo) {
         // Promotion or hardcoded article — promotions list acts as 主頁
         setActive(id('home-tab'));
       }
@@ -1536,7 +1543,7 @@
               '<svg class="dd-chevron-right" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>' +
             '</button>' +
             '<div class="dd-sub" role="menu">' +
-              list.map(c => `<a class="dd-sub-item" href="article?card=${encodeURIComponent(c.slug)}">${escapeHtml(c.title)}</a>`).join('') +
+              list.map(c => `<a class="dd-sub-item" href="/${encodeURIComponent(c.slug)}">${escapeHtml(c.title)}</a>`).join('') +
             '</div>' +
           '</div>'
         );
