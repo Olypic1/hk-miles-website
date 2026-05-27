@@ -1,24 +1,45 @@
 /**
- * functions/_middleware.js  —  Cloudflare Pages edge middleware
+ * functions/[[slug]].js  —  Cloudflare Pages catchall Function
  *
- * Injects SEO meta for legacy article URLs:
- *   /article?slug=…  /article?id=…  /article?card=…
+ * Handles pretty article URLs like /asia-miles-2026-5 or /everymile-card.
+ * The double-bracket [[slug]] is a CF Pages catchall that matches any
+ * unmatched path segment. We resolve the segment as a Sanity slug; if
+ * found, serve the /article template with full meta + window.__ARTICLE
+ * bootstrap. If not, fall through (Cloudflare returns the static asset
+ * or a 404).
  *
- * Pretty article URLs (e.g. /asia-miles-2026-5) are handled by the catchall
- * Function in functions/[[slug]].js, not here. This middleware exists only
- * to preserve back-compat for inbound /article?… links so social/AI bots
- * that don't run JS still see correct OG tags, Twitter card, canonical
- * URL, and JSON-LD.
+ * Why a separate file and not in _middleware.js? Cloudflare Pages
+ * _middleware only reliably runs when a sibling Function exists to wrap.
+ * A catchall Function gives us deterministic invocation for arbitrary
+ * single-segment paths.
  */
 
 const SANITY = 'https://j3rszqec.api.sanity.io/v2024-01-01/data/query/promotions';
 const BASE   = 'https://hkmiles.app';
 const OG_IMG = `${BASE}/og-image.png`;
 
+const RESERVED = new Set([
+  '', 'article', 'article.html',
+  'promotions', 'promotions.html',
+  'updates', 'updates.html',
+  'index', 'index.html',
+  'privacy', 'privacy.html',
+  'terms', 'terms.html',
+  'sitemap.xml', 'robots.txt', 'llms.txt',
+  'og-image.png', 'og-preview.png',
+  'articles-data.js', 'card-banner.psd',
+  'assets', 'favicon.ico', 'apple-touch-icon.png',
+]);
+
 function esc(s) {
   return String(s ?? '')
     .replace(/&/g, '&amp;').replace(/"/g, '&quot;')
     .replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function jsEsc(s) {
+  return String(s ?? '')
+    .replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/</g, '\\u003c');
 }
 
 function ptText(blocks, max = 160) {
@@ -44,23 +65,26 @@ async function sq(groq) {
   }
 }
 
-function fetchCard(slug) {
-  return sq(`*[_type=="creditCard"&&slug.current=="${slug}"][0]{
-    title, bank, summary, "content2":content[0..1],
-    "img":coalesce(imageUrl,mainImage.asset->url,cardImage.asset->url)
+async function resolveSlug(seg) {
+  const doc = await sq(`*[(_type=="promotion"||_type=="creditCard")&&slug.current=="${seg}"][0]{
+    _type, _id, title, bank, summary, categories,
+    "img": coalesce(imageUrl, mainImage.asset->url, cardImage.asset->url),
+    "content2": content[0..1]
   }`);
+  if (!doc) return null;
+  return { type: doc._type === 'creditCard' ? 'card' : 'promo', doc };
 }
 
-function fetchPromo(id, slug) {
-  const f = id ? `_id=="${id}"` : `slug.current=="${slug}"`;
-  return sq(`*[_type=="promotion"&&${f}][0]{
-    title, bank, categories,
-    "img":mainImage.asset->url,
-    "content2":content[0..1]
-  }`);
+function descFor(doc, type) {
+  if (type === 'card') {
+    return ptText(doc.summary) || ptText(doc.content2)
+      || `${doc.title} 信用卡詳情、年費、回贈率及申請資格。更多香港信用卡攻略盡在 HK Miles。`;
+  }
+  return ptText(doc.content2)
+    || `${doc.title} 優惠詳情、到期日及申請方法。更多香港信用卡優惠盡在 HK Miles。`;
 }
 
-function rewriteHead(html, { title, desc, img, url, type }) {
+function rewriteHead(html, { title, desc, img, url, type, articleScript }) {
   const T = esc(`${title} | HK Miles`);
   const D = esc(desc);
   const I = esc(img);
@@ -108,52 +132,50 @@ function rewriteHead(html, { title, desc, img, url, type }) {
     .replace(/(<meta name="twitter:title" content=")[^"]*(")/,       `$1${T}$2`)
     .replace(/(<meta name="twitter:description" content=")[^"]*(")/,  `$1${D}$2`)
     .replace(/(<meta name="twitter:image" content=")[^"]*(")/,       `$1${I}$2`)
-    .replace('</head>', `<script type="application/ld+json">${ld}</script>\n</head>`);
-}
-
-function descFor(raw, type) {
-  if (type === 'card') {
-    return ptText(raw.summary) || ptText(raw.content2)
-      || `${raw.title} 信用卡詳情、年費、回贈率及申請資格。更多香港信用卡攻略盡在 HK Miles。`;
-  }
-  return ptText(raw.content2)
-    || `${raw.title} 優惠詳情、到期日及申請方法。更多香港信用卡優惠盡在 HK Miles。`;
+    .replace('</head>', `${articleScript || ''}<script type="application/ld+json">${ld}</script>\n</head>`);
 }
 
 export async function onRequest(ctx) {
-  const url  = new URL(ctx.request.url);
-  const p    = url.searchParams;
-  const card = p.get('card');
-  const id   = p.get('id');
-  const slug = p.get('slug');
+  const url = new URL(ctx.request.url);
+  const seg = url.pathname.replace(/^\/|\/$/g, '');
 
-  // Only intercept the canonical /article path with article-meta query params.
-  // /article.html gets 308-redirected by Cloudflare's pretty-URL feature
-  // before reaching here, so we don't need to handle that case.
-  const isArticlePath = url.pathname === '/article';
-  if (!isArticlePath || (!card && !id && !slug))
+  // Only resolve clean single-segment paths. Anything else: pass through.
+  if (
+    !seg ||
+    seg.includes('/') ||
+    seg.includes('.') ||
+    RESERVED.has(seg)
+  ) {
     return ctx.next();
+  }
 
-  const [pageRes, raw] = await Promise.all([
-    ctx.next(),
-    card ? fetchCard(card) : fetchPromo(id, slug),
-  ]);
+  const found = await resolveSlug(seg);
+  if (!found) return ctx.next();
 
-  if (!raw) return pageRes;
+  // Fetch /article HTML template and rewrite it with meta + slug bootstrap.
+  const articleRes = await fetch(new URL('/article', url), {
+    cf: { cacheTtl: 300, cacheEverything: true },
+  });
+  if (!articleRes.ok) return ctx.next();
 
-  const isCard = !!card;
-  const modified = rewriteHead(await pageRes.text(), {
-    title: raw.title || '文章',
-    desc:  descFor(raw, isCard ? 'card' : 'promo'),
-    img:   raw.img || OG_IMG,
-    url:   url.toString(),
-    type:  isCard ? 'product' : 'article',
+  const tmpl = await articleRes.text();
+  const articleScript =
+    `<script>window.__ARTICLE={type:"${jsEsc(found.type)}",slug:"${jsEsc(seg)}"};</script>`;
+
+  const modified = rewriteHead(tmpl, {
+    title: found.doc.title || '文章',
+    desc:  descFor(found.doc, found.type),
+    img:   found.doc.img || OG_IMG,
+    url:   `${BASE}/${seg}`,
+    type:  found.type === 'card' ? 'product' : 'article',
+    articleScript,
   });
 
   return new Response(modified, {
     headers: {
       'Content-Type':  'text/html;charset=UTF-8',
       'Cache-Control': 'public,max-age=300,stale-while-revalidate=3600',
+      'x-pretty-slug': seg,
     },
   });
 }
