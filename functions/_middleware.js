@@ -134,8 +134,12 @@ export async function onRequest(ctx) {
   const id   = p.get('id');
   const slug = p.get('slug');
 
-  // Cloudflare Pretty URLs strips .html — real pathname is /article not /article.html
-  const isArticlePath = url.pathname === '/article' || url.pathname === '/article.html';
+  // Cloudflare Pretty URLs 308-redirect /article.html → /article BEFORE this
+  // middleware runs for the canonical path. We must NOT intercept /article.html
+  // ourselves: ctx.next() on that path returns the redirect response, and
+  // rewriting an empty body silently ships "200 OK + empty page" to the client.
+  // Only intercept the canonical /article path with article-meta query params.
+  const isArticlePath = url.pathname === '/article';
   if (!isArticlePath || (!card && !id && !slug))
     return ctx.next();
 

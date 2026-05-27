@@ -1208,7 +1208,7 @@
           return;
         }
         list.innerHTML = items.map(p => `
-          <a class="latest-item" href="article.html?id=${encodeURIComponent(p._id)}">
+          <a class="latest-item" href="article?id=${encodeURIComponent(p._id)}">
             <div class="latest-body">
               <div class="latest-bank">${escapeHtml(p.bank || '')}</div>
               <div class="latest-title">${escapeHtml(p.title || '')}</div>
@@ -1416,7 +1416,7 @@
             tag: r.tag || '信用卡',
             tone: 'navy',
             imgUrl: r.imgUrl || null,
-            href: `article.html?card=${encodeURIComponent(r.slug)}`,
+            href: `article?card=${encodeURIComponent(r.slug)}`,
           }));
           renderArticle(cardToArticle({ ...card, related }));
         } catch (e) {
@@ -1447,7 +1447,7 @@
             tag: r.tag && r.tag !== '長期' ? `至 ${r.tag}` : '長期',
             tone: 'navy',
             imgUrl: r.imgUrl || null,
-            href: `article.html?id=${r._id}`,
+            href: `article?id=${r._id}`,
           }));
           const article = promotionToArticle({ ...promo, related });
           renderArticle(article);
@@ -1536,7 +1536,7 @@
               '<svg class="dd-chevron-right" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>' +
             '</button>' +
             '<div class="dd-sub" role="menu">' +
-              list.map(c => `<a class="dd-sub-item" href="article.html?card=${encodeURIComponent(c.slug)}">${escapeHtml(c.title)}</a>`).join('') +
+              list.map(c => `<a class="dd-sub-item" href="article?card=${encodeURIComponent(c.slug)}">${escapeHtml(c.title)}</a>`).join('') +
             '</div>' +
           '</div>'
         );

@@ -1683,7 +1683,7 @@
         const goToArticle = () => {
           const p = list[i];
           const param = p.slug && p.slug.current ? `slug=${encodeURIComponent(p.slug.current)}` : `id=${encodeURIComponent(p._id)}`;
-          window.location.href = `article.html?${param}`;
+          window.location.href = `article?${param}`;
         };
         el.addEventListener('click', goToArticle);
         el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); goToArticle(); } });
@@ -2038,7 +2038,7 @@
               '<svg class="dd-chevron-right" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>' +
             '</button>' +
             '<div class="dd-sub" role="menu">' +
-              list.map(c => `<a class="dd-sub-item" href="article.html?card=${encodeURIComponent(c.slug)}">${esc(c.title)}</a>`).join('') +
+              list.map(c => `<a class="dd-sub-item" href="article?card=${encodeURIComponent(c.slug)}">${esc(c.title)}</a>`).join('') +
             '</div>' +
           '</div>'
         );
