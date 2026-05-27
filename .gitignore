@@ -1,0 +1,6 @@
+# macOS Finder metadata
+.DS_Store
+._*
+
+# Claude Code per-machine config
+.claude/
