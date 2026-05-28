@@ -1407,14 +1407,18 @@
       body > nav {
         padding: 12px 16px;
       }
-      /* Hide site name and CTA label — show icons only */
-      .nav-logo span,
+      /* Shrink CTA to a round icon-only pill */
       .cta-label {
         display: none;
       }
       .nav-cta {
-        padding: 9px 10px !important;
+        width: 38px !important;
+        height: 38px !important;
+        min-height: unset !important;
+        padding: 0 !important;
         gap: 0 !important;
+        border-radius: 50% !important;
+        justify-content: center !important;
       }
       /* Tighten link padding so they don't overflow */
       .nav-links a:not(.nav-cta) {
