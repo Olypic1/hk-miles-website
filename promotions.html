@@ -1936,9 +1936,7 @@
         </div>
         <div class="card-bottom">
           ${tagsHTML}
-          <div class="expiry ${cls}" aria-label="到期資訊：${txt}">
-            <span class="edot ${dot}" aria-hidden="true"></span>${txt}
-          </div>
+          ${p.endDate ? `<div class="expiry ${cls}" aria-label="到期資訊：${txt}"><span class="edot ${dot}" aria-hidden="true"></span>${txt}</div>` : ''}
         </div>
       </div>
     </article>`;
