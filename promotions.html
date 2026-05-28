@@ -1412,6 +1412,153 @@
         display: none;
       }
     }
+
+    /* ── MOBILE HAMBURGER MENU ─────────────────── */
+    .mob-tab-label {
+      display: none;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding-left: 4px;
+    }
+    .mob-ham-btn {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      border: none;
+      background: none;
+      color: var(--text-2);
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background 0.15s, color 0.15s;
+    }
+    .mob-ham-btn:hover { background: var(--bg); color: var(--text); }
+    .mob-ham-btn.open  { background: var(--bg); color: var(--blue); }
+
+    .mob-menu {
+      display: none;
+      flex-direction: column;
+      padding: 4px 0 2px;
+      border-top: 1px solid var(--border);
+      margin-top: 4px;
+      gap: 1px;
+    }
+    .mob-menu.open { display: flex; }
+
+    .mob-tab-btn {
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: none;
+      border-radius: 8px;
+      padding: 11px 12px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-2);
+      cursor: pointer;
+      transition: background 0.12s, color 0.12s;
+    }
+    .mob-tab-btn:hover  { background: var(--blue-bg); color: var(--blue); }
+    .mob-tab-btn.active { background: #0d2148; color: #fff; font-weight: 700; }
+
+    .mob-acc-trigger {
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: none;
+      border-radius: 8px;
+      padding: 11px 12px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-2);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.12s, color 0.12s;
+    }
+    .mob-acc-trigger:hover  { background: var(--blue-bg); color: var(--blue); }
+    .mob-acc-trigger.active { background: #0d2148; color: #fff; font-weight: 700; }
+    .mob-acc-trigger .dd-chevron {
+      transition: transform 0.2s;
+      flex-shrink: 0;
+      opacity: 0.6;
+    }
+    .mob-acc-trigger.open .dd-chevron { transform: rotate(180deg); }
+    .mob-acc-trigger.active .dd-chevron { opacity: 0.8; }
+
+    .mob-acc-body {
+      display: none;
+      flex-direction: column;
+      gap: 1px;
+      padding: 2px 0 6px 10px;
+      border-left: 2px solid var(--border);
+      margin: 0 0 2px 14px;
+    }
+    .mob-acc-body.open { display: flex; }
+
+    .mob-bank-trigger {
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 10px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-2);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      transition: background 0.12s, color 0.12s;
+    }
+    .mob-bank-trigger:hover { background: var(--bg); color: var(--text); }
+    .mob-bank-trigger .dd-chevron {
+      transition: transform 0.2s;
+      flex-shrink: 0;
+      opacity: 0.45;
+    }
+    .mob-bank-trigger.open .dd-chevron { transform: rotate(180deg); opacity: 0.9; }
+
+    .mob-bank-body {
+      display: none;
+      flex-direction: column;
+      gap: 1px;
+      padding: 2px 0 4px 10px;
+      border-left: 2px solid var(--border);
+      margin: 0 0 2px 14px;
+    }
+    .mob-bank-body.open { display: flex; }
+
+    .mob-card-link {
+      display: block;
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-size: 13px;
+      color: var(--text-2);
+      text-decoration: none;
+      transition: background 0.12s, color 0.12s;
+    }
+    .mob-card-link:hover { background: var(--bg); color: var(--blue); }
+    .mob-acc-empty { padding: 8px 10px; font-size: 13px; color: var(--text-3); }
+
+    @media (max-width: 640px) {
+      .tab-bar   { display: none !important; }
+      .mob-tab-label { display: block; }
+      .mob-ham-btn   { display: flex; }
+    }
   </style>
 </head>
 
@@ -1484,6 +1631,8 @@
             </div>
             <button class="tab" role="tab" aria-selected="false">攻略</button>
           </div>
+          <!-- Mobile: current active tab label -->
+          <span class="mob-tab-label" id="mob-tab-label">主頁</span>
           <!-- Search icon -->
           <button class="search-ico-btn" id="search-toggle" aria-label="搜尋" aria-expanded="false">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -1492,6 +1641,46 @@
               <path d="M21 21l-4.35-4.35" />
             </svg>
           </button>
+          <!-- Mobile: hamburger toggle -->
+          <button class="mob-ham-btn" id="mob-ham-btn" aria-label="開啟選單" aria-expanded="false" aria-controls="mob-menu">
+            <svg class="ham-ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+              <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+            <svg class="close-ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="display:none">
+              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Mobile menu panel -->
+        <div class="mob-menu" id="mob-menu" aria-hidden="true" role="navigation" aria-label="分類選單">
+          <button class="mob-tab-btn active" data-tab="主頁">主頁</button>
+          <button class="mob-tab-btn" data-tab="簡介">簡介</button>
+          <!-- 信用卡 accordion -->
+          <div class="mob-acc">
+            <button class="mob-acc-trigger" aria-expanded="false" aria-controls="mob-cc-dropdown">
+              信用卡
+              <svg class="dd-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="mob-acc-body" id="mob-cc-dropdown" role="menu"><span class="mob-acc-empty">載入中…</span></div>
+          </div>
+          <!-- 里數卡 accordion -->
+          <div class="mob-acc">
+            <button class="mob-acc-trigger" aria-expanded="false" aria-controls="mob-miles-dropdown">
+              里數卡
+              <svg class="dd-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="mob-acc-body" id="mob-miles-dropdown" role="menu"><span class="mob-acc-empty">載入中…</span></div>
+          </div>
+          <!-- 現金回贈卡 accordion -->
+          <div class="mob-acc">
+            <button class="mob-acc-trigger" aria-expanded="false" aria-controls="mob-cashback-dropdown">
+              現金回贈卡
+              <svg class="dd-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="mob-acc-body" id="mob-cashback-dropdown" role="menu"><span class="mob-acc-empty">載入中…</span></div>
+          </div>
+          <button class="mob-tab-btn" data-tab="攻略">攻略</button>
         </div>
 
         <!-- Expandable search -->
@@ -1977,6 +2166,66 @@
       renderGrid();
     });
 
+    /* ── MOBILE HAMBURGER ────────────────────── */
+    const mobHamBtn   = document.getElementById('mob-ham-btn');
+    const mobMenu     = document.getElementById('mob-menu');
+    const mobTabLabel = document.getElementById('mob-tab-label');
+
+    function closeMobMenu() {
+      mobMenu.classList.remove('open');
+      mobHamBtn.classList.remove('open');
+      mobHamBtn.setAttribute('aria-expanded', 'false');
+      mobMenu.setAttribute('aria-hidden', 'true');
+      mobHamBtn.setAttribute('aria-label', '開啟選單');
+      mobHamBtn.querySelector('.ham-ico').style.display   = '';
+      mobHamBtn.querySelector('.close-ico').style.display = 'none';
+    }
+
+    mobHamBtn.addEventListener('click', () => {
+      const isOpen = mobMenu.classList.toggle('open');
+      mobHamBtn.classList.toggle('open', isOpen);
+      mobHamBtn.setAttribute('aria-expanded', String(isOpen));
+      mobMenu.setAttribute('aria-hidden', String(!isOpen));
+      mobHamBtn.setAttribute('aria-label', isOpen ? '關閉選單' : '開啟選單');
+      mobHamBtn.querySelector('.ham-ico').style.display   = isOpen ? 'none' : '';
+      mobHamBtn.querySelector('.close-ico').style.display = isOpen ? ''     : 'none';
+    });
+
+    // Plain mobile tab buttons (主頁, 簡介, 攻略)
+    document.querySelectorAll('.mob-tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Update mobile active state
+        document.querySelectorAll('.mob-tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.mob-acc-trigger').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        mobTabLabel.textContent = btn.dataset.tab;
+        closeMobMenu();
+        // Mirror on desktop tab bar
+        document.querySelectorAll('.tab:not(.tab-dd-trigger)').forEach(t => {
+          const match = t.textContent.trim() === btn.dataset.tab;
+          t.classList.toggle('active', match);
+          t.setAttribute('aria-selected', String(match));
+        });
+      });
+    });
+
+    // Mobile accordion triggers (信用卡, 里數卡, 現金回贈卡)
+    document.querySelectorAll('.mob-acc-trigger').forEach(trigger => {
+      trigger.addEventListener('click', () => {
+        const body   = document.getElementById(trigger.getAttribute('aria-controls'));
+        const isOpen = body.classList.toggle('open');
+        trigger.classList.toggle('open', isOpen);
+        trigger.setAttribute('aria-expanded', String(isOpen));
+      });
+    });
+
+    // Close mob-menu when clicking outside
+    document.addEventListener('click', e => {
+      if (!e.target.closest('.controls') && mobMenu.classList.contains('open')) {
+        closeMobMenu();
+      }
+    });
+
     /* ── NAV SCROLL ──────────────────────────── */
     const navEl = document.querySelector('nav');
     navEl.classList.add('scrolled');
@@ -1993,9 +2242,9 @@
     (async function loadCardTabs() {
       const CARDS_API = 'https://j3rszqec.api.sanity.io/v2024-01-01/data/query/promotions';
       const TABS = [
-        { dropdownId: 'cc-dropdown',       filter: () => true },
-        { dropdownId: 'miles-dropdown',    filter: c => (c.cardType || []).includes('miles') },
-        { dropdownId: 'cashback-dropdown', filter: c => (c.cardType || []).includes('cashback') },
+        { dropdownId: 'cc-dropdown',       mobId: 'mob-cc-dropdown',       filter: () => true },
+        { dropdownId: 'miles-dropdown',    mobId: 'mob-miles-dropdown',    filter: c => (c.cardType || []).includes('miles') },
+        { dropdownId: 'cashback-dropdown', mobId: 'mob-cashback-dropdown', filter: c => (c.cardType || []).includes('cashback') },
       ];
       try {
         const q = encodeURIComponent(
@@ -2005,14 +2254,60 @@
         const res = await fetch(`${CARDS_API}?query=${q}`);
         const data = await res.json();
         const cards = data.result || [];
-        TABS.forEach(t => fillBankDropdown(t.dropdownId, cards.filter(t.filter)));
+        TABS.forEach(t => {
+          const filtered = cards.filter(t.filter);
+          fillBankDropdown(t.dropdownId, filtered);
+          fillBankDropdownMobile(t.mobId, filtered);
+        });
       } catch (e) {
         TABS.forEach(t => {
           const el = document.getElementById(t.dropdownId);
           if (el) el.innerHTML = '<span class="dd-sub-loading">載入失敗</span>';
+          const mob = document.getElementById(t.mobId);
+          if (mob) mob.innerHTML = '<span class="mob-acc-empty">載入失敗</span>';
         });
       }
     })();
+
+    /* Populate a mobile accordion body with bank → card two-level accordion */
+    function fillBankDropdownMobile(elId, cards) {
+      const el = document.getElementById(elId);
+      if (!el) return;
+      if (!cards.length) {
+        el.innerHTML = '<span class="mob-acc-empty">暫無卡片</span>';
+        return;
+      }
+      const banks = [];
+      const byBank = {};
+      cards.forEach(c => {
+        if (!byBank[c.bank]) { byBank[c.bank] = []; banks.push(c.bank); }
+        byBank[c.bank].push(c);
+      });
+      el.innerHTML = banks.map(bank => {
+        const list = byBank[bank];
+        const bodyId = elId + '-' + bank.replace(/\s+/g, '-');
+        return (
+          '<div class="mob-bank-acc">' +
+            '<button class="mob-bank-trigger" aria-expanded="false" aria-controls="' + esc(bodyId) + '">' +
+              esc(bank) +
+              '<svg class="dd-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>' +
+            '</button>' +
+            '<div class="mob-bank-body" id="' + esc(bodyId) + '" role="menu">' +
+              list.map(c => `<a class="mob-card-link" href="/${encodeURIComponent(c.slug)}">${esc(c.title)}</a>`).join('') +
+            '</div>' +
+          '</div>'
+        );
+      }).join('');
+      // Wire up bank-level accordion toggles
+      el.querySelectorAll('.mob-bank-trigger').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const body   = document.getElementById(btn.getAttribute('aria-controls'));
+          const isOpen = body.classList.toggle('open');
+          btn.classList.toggle('open', isOpen);
+          btn.setAttribute('aria-expanded', String(isOpen));
+        });
+      });
+    }
 
     function fillBankDropdown(elId, cards) {
       const el = document.getElementById(elId);
