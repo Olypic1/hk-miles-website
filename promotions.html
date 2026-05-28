@@ -1936,7 +1936,9 @@
         </div>
         <div class="card-bottom">
           ${tagsHTML}
-          ${p.endDate ? `<div class="expiry ${cls}" aria-label="到期資訊：${txt}"><span class="edot ${dot}" aria-hidden="true"></span>${txt}</div>` : ''}
+          ${p.endDate
+            ? `<div class="expiry ${cls}" aria-label="到期資訊：${txt}"><span class="edot ${dot}" aria-hidden="true"></span>${txt}</div>`
+            : p._createdAt ? `<div class="expiry grey" aria-label="發佈日期">發佈：${fmtDate(p._createdAt)}</div>` : ''}
         </div>
       </div>
     </article>`;
@@ -2091,6 +2093,12 @@
     }
 
     /* ── HELPERS ─────────────────────────────── */
+    function fmtDate(iso) {
+      if (!iso) return '';
+      const d = new Date(iso);
+      return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日`;
+    }
+
     function daysLeft(endDate) {
       if (!endDate) return null;
       const end = new Date(endDate + 'T23:59:59+08:00');
