@@ -1407,6 +1407,19 @@
       body > nav {
         padding: 12px 16px;
       }
+      /* Remove compound gaps so spacing can be set uniformly */
+      .nav-in {
+        gap: 0;
+      }
+      .nav-logo {
+        padding-right: 8px;
+        margin-right: 0;
+      }
+      /* Each link gets 8px on each side → 16px visual gap between any two items */
+      .nav-links a:not(.nav-cta) {
+        padding: 10px 8px;
+        font-size: 13px;
+      }
       /* Shrink CTA to a round icon-only pill */
       .cta-label {
         display: none;
@@ -1419,11 +1432,7 @@
         gap: 0 !important;
         border-radius: 50% !important;
         justify-content: center !important;
-      }
-      /* Tighten link padding so they don't overflow */
-      .nav-links a:not(.nav-cta) {
-        padding: 10px 10px;
-        font-size: 13px;
+        margin-left: 8px !important; /* matches right-pad of adjacent link */
       }
     }
 
