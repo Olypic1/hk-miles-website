@@ -62,11 +62,12 @@ async function main() {
   const staticPages = [
     urlEntry({ loc: `${BASE_URL}/`,            lastmod: today(), changefreq: 'daily',   priority: '1.0' }),
     urlEntry({ loc: `${BASE_URL}/promotions`,  lastmod: today(), changefreq: 'daily',   priority: '0.9' }),
+    urlEntry({ loc: `${BASE_URL}/updates`,     lastmod: today(), changefreq: 'weekly',  priority: '0.6' }),
   ];
 
   const promoEntries = promotions.map(p => {
     const loc      = p.slug
-      ? `${BASE_URL}/article?slug=${encodeURIComponent(p.slug)}`
+      ? `${BASE_URL}/${p.slug}`
       : `${BASE_URL}/article?id=${encodeURIComponent(p._id)}`;
     const lastmod  = p._updatedAt ? p._updatedAt.slice(0, 10) : today();
     return urlEntry({ loc, lastmod, changefreq: 'weekly', priority: '0.7' });
@@ -75,7 +76,7 @@ async function main() {
   const cardEntries = cards
     .filter(c => c.slug)
     .map(c => {
-      const loc     = `${BASE_URL}/article?card=${encodeURIComponent(c.slug)}`;
+      const loc     = `${BASE_URL}/${c.slug}`;
       const lastmod = c._updatedAt ? c._updatedAt.slice(0, 10) : today();
       return urlEntry({ loc, lastmod, changefreq: 'monthly', priority: '0.8' });
     });

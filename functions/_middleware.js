@@ -47,7 +47,8 @@ async function sq(groq) {
 function fetchCard(slug) {
   return sq(`*[_type=="creditCard"&&slug.current=="${slug}"][0]{
     title, bank, summary, "content2":content[0..1],
-    "img":coalesce(imageUrl,mainImage.asset->url,cardImage.asset->url)
+    "img":coalesce(imageUrl,mainImage.asset->url,cardImage.asset->url),
+    _createdAt, publishedAt, _updatedAt
   }`);
 }
 
@@ -56,15 +57,30 @@ function fetchPromo(id, slug) {
   return sq(`*[_type=="promotion"&&${f}][0]{
     title, bank, categories,
     "img":mainImage.asset->url,
-    "content2":content[0..1]
+    "content2":content[0..1],
+    _createdAt, publishedAt, _updatedAt
   }`);
 }
 
-function rewriteHead(html, { title, desc, img, url, type }) {
+function rewriteHead(html, { title, desc, img, url, type, datePublished, dateModified }) {
   const T = esc(`${title} | HK Miles`);
   const D = esc(desc);
   const I = esc(img);
   const U = esc(url);
+
+  const articleLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: title, description: desc, image: img, url,
+    inLanguage: 'zh-HK',
+    ...(datePublished && { datePublished }),
+    ...(dateModified  && { dateModified }),
+    author: { '@type': 'Organization', name: 'HK Miles', url: BASE },
+    publisher: {
+      '@type': 'Organization', name: 'HK Miles', url: BASE,
+      logo: { '@type': 'ImageObject', url: OG_IMG },
+    },
+  };
 
   const ld = JSON.stringify([
     {
@@ -83,17 +99,7 @@ function rewriteHead(html, { title, desc, img, url, type }) {
           name: title, description: desc, image: img, url,
           provider: { '@type': 'Organization', name: 'HK Miles', url: BASE },
         }
-      : {
-          '@context': 'https://schema.org',
-          '@type': 'Article',
-          headline: title, description: desc, image: img, url,
-          inLanguage: 'zh-HK',
-          author: { '@type': 'Organization', name: 'HK Miles', url: BASE },
-          publisher: {
-            '@type': 'Organization', name: 'HK Miles', url: BASE,
-            logo: { '@type': 'ImageObject', url: OG_IMG },
-          },
-        },
+      : articleLd,
   ]);
 
   return html
@@ -103,6 +109,7 @@ function rewriteHead(html, { title, desc, img, url, type }) {
     .replace(/(<meta property="og:title" content=")[^"]*(")/,        `$1${T}$2`)
     .replace(/(<meta property="og:description" content=")[^"]*(")/,  `$1${D}$2`)
     .replace(/(<meta property="og:image" content=")[^"]*(")/,        `$1${I}$2`)
+    .replace(/(<meta property="og:image:alt" content=")[^"]*(")/,    `$1${T}$2`)
     .replace(/(<meta property="og:url" content=")[^"]*(")/,          `$1${U}$2`)
     .replace(/(<meta property="og:type" content=")[^"]*(")/,         `$1${esc(type)}$2`)
     .replace(/(<meta name="twitter:title" content=")[^"]*(")/,       `$1${T}$2`)
@@ -143,11 +150,13 @@ export async function onRequest(ctx) {
 
   const isCard = !!card;
   const modified = rewriteHead(await pageRes.text(), {
-    title: raw.title || '文章',
-    desc:  descFor(raw, isCard ? 'card' : 'promo'),
-    img:   raw.img || OG_IMG,
-    url:   url.toString(),
-    type:  isCard ? 'product' : 'article',
+    title:         raw.title || '文章',
+    desc:          descFor(raw, isCard ? 'card' : 'promo'),
+    img:           raw.img || OG_IMG,
+    url:           url.toString(),
+    type:          isCard ? 'product' : 'article',
+    datePublished: raw.publishedAt || raw._createdAt || null,
+    dateModified:  raw._updatedAt || null,
   });
 
   return new Response(modified, {

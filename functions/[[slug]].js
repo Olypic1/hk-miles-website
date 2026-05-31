@@ -69,7 +69,8 @@ async function resolveSlug(seg) {
   const doc = await sq(`*[(_type=="promotion"||_type=="creditCard")&&slug.current=="${seg}"][0]{
     _type, _id, title, bank, summary, categories,
     "img": coalesce(imageUrl, mainImage.asset->url, cardImage.asset->url),
-    "content2": content[0..1]
+    "content2": content[0..1],
+    _createdAt, publishedAt, _updatedAt
   }`);
   if (!doc) return null;
   return { type: doc._type === 'creditCard' ? 'card' : 'promo', doc };
@@ -84,11 +85,25 @@ function descFor(doc, type) {
     || `${doc.title} 優惠詳情、到期日及申請方法。更多香港信用卡優惠盡在 HK Miles。`;
 }
 
-function rewriteHead(html, { title, desc, img, url, type, articleScript }) {
+function rewriteHead(html, { title, desc, img, url, type, articleScript, datePublished, dateModified }) {
   const T = esc(`${title} | HK Miles`);
   const D = esc(desc);
   const I = esc(img);
   const U = esc(url);
+
+  const articleLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: title, description: desc, image: img, url,
+    inLanguage: 'zh-HK',
+    ...(datePublished && { datePublished }),
+    ...(dateModified  && { dateModified }),
+    author: { '@type': 'Organization', name: 'HK Miles', url: BASE },
+    publisher: {
+      '@type': 'Organization', name: 'HK Miles', url: BASE,
+      logo: { '@type': 'ImageObject', url: OG_IMG },
+    },
+  };
 
   const ld = JSON.stringify([
     {
@@ -107,17 +122,7 @@ function rewriteHead(html, { title, desc, img, url, type, articleScript }) {
           name: title, description: desc, image: img, url,
           provider: { '@type': 'Organization', name: 'HK Miles', url: BASE },
         }
-      : {
-          '@context': 'https://schema.org',
-          '@type': 'Article',
-          headline: title, description: desc, image: img, url,
-          inLanguage: 'zh-HK',
-          author: { '@type': 'Organization', name: 'HK Miles', url: BASE },
-          publisher: {
-            '@type': 'Organization', name: 'HK Miles', url: BASE,
-            logo: { '@type': 'ImageObject', url: OG_IMG },
-          },
-        },
+      : articleLd,
   ]);
 
   return html
@@ -127,6 +132,7 @@ function rewriteHead(html, { title, desc, img, url, type, articleScript }) {
     .replace(/(<meta property="og:title" content=")[^"]*(")/,        `$1${T}$2`)
     .replace(/(<meta property="og:description" content=")[^"]*(")/,  `$1${D}$2`)
     .replace(/(<meta property="og:image" content=")[^"]*(")/,        `$1${I}$2`)
+    .replace(/(<meta property="og:image:alt" content=")[^"]*(")/,    `$1${T}$2`)
     .replace(/(<meta property="og:url" content=")[^"]*(")/,          `$1${U}$2`)
     .replace(/(<meta property="og:type" content=")[^"]*(")/,         `$1${esc(type)}$2`)
     .replace(/(<meta name="twitter:title" content=")[^"]*(")/,       `$1${T}$2`)
@@ -163,12 +169,14 @@ export async function onRequest(ctx) {
     `<script>window.__ARTICLE={type:"${jsEsc(found.type)}",slug:"${jsEsc(seg)}"};</script>`;
 
   const modified = rewriteHead(tmpl, {
-    title: found.doc.title || '文章',
-    desc:  descFor(found.doc, found.type),
-    img:   found.doc.img || OG_IMG,
-    url:   `${BASE}/${seg}`,
-    type:  found.type === 'card' ? 'product' : 'article',
+    title:         found.doc.title || '文章',
+    desc:          descFor(found.doc, found.type),
+    img:           found.doc.img || OG_IMG,
+    url:           `${BASE}/${seg}`,
+    type:          found.type === 'card' ? 'product' : 'article',
     articleScript,
+    datePublished: found.doc.publishedAt || found.doc._createdAt || null,
+    dateModified:  found.doc._updatedAt || null,
   });
 
   return new Response(modified, {

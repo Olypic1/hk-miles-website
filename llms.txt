@@ -19,8 +19,8 @@ HSBC (滙豐), Standard Chartered (渣打), Citibank (花旗), DBS (星展), Ban
 
 - Homepage: https://hkmiles.app/
 - All promotions & credit cards: https://hkmiles.app/promotions.html
-- Individual promotion article: https://hkmiles.app/article.html?slug={slug}
-- Individual credit card page: https://hkmiles.app/article.html?card={slug}
+- Individual promotion article: https://hkmiles.app/{slug}
+- Individual credit card page: https://hkmiles.app/{slug}
 - Full sitemap: https://hkmiles.app/sitemap.xml
 
 ## App
