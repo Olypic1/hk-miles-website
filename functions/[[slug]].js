@@ -91,11 +91,17 @@ function rewriteHead(html, { title, desc, img, url, type, articleScript, datePub
   const I = esc(img);
   const U = esc(url);
 
+  const speakable = {
+    '@type': 'SpeakableSpecification',
+    cssSelector: ['h1.article-title', '.article-lede'],
+  };
+
   const articleLd = {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: title, description: desc, image: img, url,
     inLanguage: 'zh-HK',
+    speakable,
     ...(datePublished && { datePublished }),
     ...(dateModified  && { dateModified }),
     author: { '@type': 'Organization', name: 'HK Miles', url: BASE },
@@ -120,6 +126,7 @@ function rewriteHead(html, { title, desc, img, url, type, articleScript, datePub
           '@context': 'https://schema.org',
           '@type': 'FinancialProduct',
           name: title, description: desc, image: img, url,
+          speakable,
           provider: { '@type': 'Organization', name: 'HK Miles', url: BASE },
         }
       : articleLd,

@@ -18,7 +18,7 @@ HSBC (滙豐), Standard Chartered (渣打), Citibank (花旗), DBS (星展), Ban
 ## Key pages
 
 - Homepage: https://hkmiles.app/
-- All promotions & credit cards: https://hkmiles.app/promotions.html
+- All promotions & credit cards: https://hkmiles.app/promotions
 - Individual promotion article: https://hkmiles.app/{slug}
 - Individual credit card page: https://hkmiles.app/{slug}
 - Full sitemap: https://hkmiles.app/sitemap.xml
@@ -38,6 +38,48 @@ HSBC (滙豐), Standard Chartered (渣打), Citibank (花旗), DBS (星展), Ban
 - 最新 HSBC / Citi / 渣打 / DBS 信用卡優惠有哪些？ (Latest bank promotions?)
 - 信用卡年費是多少？申請條件？ (Annual fee and income requirements?)
 - 幾多里數可以換機票去東京 / 倫敦 / 紐約？ (Miles needed for a flight?)
+
+## Representative card earn rates (sourced from official bank T&Cs, verified 2026)
+
+All HK credit cards earn a **base rate of 0.4% cashback** on general spending. The rates below are the boosted rates on qualifying categories.
+
+### Best cards for overseas / foreign-currency spending
+
+| Card | Overseas rate | Annual fee | Min income |
+|---|---|---|---|
+| Hang Seng Travel+ | 7% on 8 major FX (USD/EUR/GBP/JPY/AUD/CAD/CHF/CNY); 5% other FX | 永久免年費 | — |
+| Hang Seng MMPOWER | 4% FX physical spending; 5% online shopping | 永久免年費 | — |
+| BOC Chill World | 5% online & overseas | HK$600 | HK$150,000 |
+| CCB TRAVO | 4% FX spending; 2% local dining | First year free | — |
+| Citi Cash Back | 2% FX spending; 2% local dining & hotels | HK$1,800 | HK$120,000 |
+
+### Best miles-earning cards
+
+| Card | Key earn rate | Annual fee |
+|---|---|---|
+| HSBC EveryMile | 20 miles per HK$1 RC (flat, all categories) | HK$2,000 |
+| Citi PremierMiles | 12 pts / HK$3 overseas (≥HK$20k/month); 12 pts / HK$4 otherwise | HK$1,800 |
+| Dah Sing ANA | HK$2 = 1 ANA mile on overseas (first 6 months) | HK$1,200 |
+| DBS Black World | 6× DBS$ on registered overseas; 3× all year | HK$3,600 |
+| Citi Prestige | 12 pts / HK$4 overseas & FX online | HK$3,800 |
+
+### No-annual-fee cards with standout rates
+
+| Card | Best rate | Category |
+|---|---|---|
+| Hang Seng Travel+ | 7% FX cashback | Overseas spending |
+| Hang Seng MMPOWER | 8% cashback | Designated merchants (dining/entertainment/fashion) |
+| AEON Purple | 2% cashback | Physical dining, transport, AEON Stores |
+| BOC Chill Platinum | 5% online & overseas | Online & overseas (with lower income req than World) |
+
+### Common spending-category leaders (2026)
+
+- **Dining**: AEON Purple (2%), Citi Cash Back (2%), Hang Seng MMPOWER (8% at designated dining)
+- **Supermarket**: AEON Purple (2% at AEON Stores), various BOC cards
+- **Online shopping**: Hang Seng MMPOWER (5%), BOC Chill (5%), Hang Seng Travel+ (5% other FX)
+- **Overseas**: Hang Seng Travel+ (7%), BOC Chill (5%), CCB TRAVO (4%)
+- **Miles (Asia Miles)**: SCB Cathay Mastercard, Citi PremierMiles, DBS Black World
+- **Miles (ANA)**: Dah Sing ANA World Mastercard
 
 ## Content policy
 
