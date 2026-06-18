@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HK Miles Android 封閉測試｜搶先試玩</title>
+<meta name="description" content="HK Miles Android 版開放封閉測試（Closed Beta）。兩步加入：先加入測試群組，再下載 App，即刻幫手捉蟲、俾意見。">
+<link rel="icon" href="assets/logo.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<meta property="og:title" content="HK Miles Android 封閉測試｜搶先試玩">
+<meta property="og:description" content="Android 版開放封閉測試啦！兩步即刻加入，幫手執靚個 App 🙏">
+<meta property="og:image" content="https://hkmiles.app/og-image.png">
+<meta property="og:url" content="https://hkmiles.app/beta">
+<meta property="og:type" content="website">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F8FAFC; --blue-bg:#EFF6FF; --blue:#1D4ED8; --blue-mid:#2563EB; --blue-dim:#1E40AF;
+    --navy:#0F172A; --navy-mid:#1E293B; --text:#0F172A; --muted:#475569; --white:#FFFFFF;
+    --success:#059669; --border:#E2E8F0; --amber-bg:#FEF9EC; --amber-bd:#FBBF24; --amber-tx:#92660A;
+    --r-sm:8px; --r-md:14px; --r-lg:20px; --r-xl:28px;
+    --shadow-md:0 4px 16px rgba(0,0,0,.08); --shadow-lg:0 12px 40px rgba(15,23,42,.14);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'Noto Sans TC',-apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',sans-serif;
+    color:var(--text); line-height:1.65; -webkit-font-smoothing:antialiased;
+    background:
+      radial-gradient(1200px 600px at 50% -120px, #DBEAFE 0%, rgba(219,234,254,0) 60%),
+      linear-gradient(180deg,#F8FAFC 0%, #EFF6FF 100%);
+    min-height:100vh; padding:0 18px 64px;
+  }
+  .wrap{max-width:560px;margin:0 auto}
+  header{text-align:center;padding:48px 0 8px}
+  .logo{width:76px;height:76px;border-radius:20px;box-shadow:var(--shadow-md);display:block;margin:0 auto 18px}
+  .badge{
+    display:inline-flex;align-items:center;gap:7px;font-size:.8rem;font-weight:700;letter-spacing:.04em;
+    color:var(--blue-dim);background:var(--blue-bg);border:1px solid #BFDBFE;
+    padding:6px 14px;border-radius:999px;margin-bottom:18px;
+  }
+  .badge .dot{width:8px;height:8px;border-radius:50%;background:var(--success);box-shadow:0 0 0 3px rgba(5,150,105,.18)}
+  h1{font-size:1.95rem;font-weight:900;letter-spacing:-.01em;line-height:1.25;color:var(--navy);margin-bottom:12px}
+  h1 .hl{color:var(--blue)}
+  .sub{font-size:1.02rem;color:var(--muted);max-width:440px;margin:0 auto}
+  .android{display:inline-flex;align-items:center;gap:6px;font-weight:700;color:var(--success)}
+
+  .steps{margin-top:36px;display:flex;flex-direction:column;gap:16px}
+  .card{
+    background:var(--white);border:1px solid var(--border);border-radius:var(--r-xl);
+    padding:24px 22px;box-shadow:var(--shadow-md);position:relative;overflow:hidden
+  }
+  .card .num{
+    position:absolute;top:-14px;right:-10px;font-size:5.4rem;font-weight:900;color:#EFF6FF;line-height:1;user-select:none
+  }
+  .step-tag{font-size:.78rem;font-weight:700;color:var(--blue);letter-spacing:.05em;text-transform:uppercase}
+  .card h2{font-size:1.22rem;font-weight:900;color:var(--navy);margin:6px 0 8px;position:relative}
+  .card p{color:var(--muted);font-size:.96rem;margin-bottom:18px;position:relative}
+  .btn{
+    display:flex;align-items:center;justify-content:center;gap:9px;width:100%;
+    font-family:inherit;font-size:1.05rem;font-weight:700;text-decoration:none;cursor:pointer;
+    padding:15px 20px;border-radius:var(--r-md);border:0;transition:transform .12s ease, box-shadow .12s ease;
+    position:relative
+  }
+  .btn:active{transform:scale(.985)}
+  .btn-primary{background:linear-gradient(180deg,var(--blue-mid),var(--blue));color:#fff;box-shadow:0 6px 18px rgba(29,78,216,.32)}
+  .btn-dark{background:linear-gradient(180deg,#1E293B,#0F172A);color:#fff;box-shadow:0 6px 18px rgba(15,23,42,.28)}
+  .btn svg{width:20px;height:20px;flex:0 0 auto}
+
+  .reminder{
+    margin-top:22px;background:var(--amber-bg);border:1px solid var(--amber-bd);border-radius:var(--r-lg);
+    padding:16px 18px;display:flex;gap:12px;align-items:flex-start
+  }
+  .reminder .ic{flex:0 0 auto;font-size:1.2rem;line-height:1.5}
+  .reminder b{color:var(--amber-tx)}
+  .reminder .body{font-size:.92rem;color:#7A5A12}
+
+  .note{margin-top:14px;font-size:.86rem;color:var(--muted);text-align:center;line-height:1.6}
+  .note code{background:#EEF2F7;border:1px solid var(--border);border-radius:6px;padding:1px 6px;font-size:.85em}
+
+  footer{margin-top:40px;text-align:center;font-size:.82rem;color:#94A3B8;line-height:1.7}
+  footer a{color:var(--blue);text-decoration:none}
+  .ios{margin-top:18px;text-align:center;font-size:.9rem;color:var(--muted)}
+  .ios a{color:var(--blue);font-weight:700;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img src="assets/logo.png" alt="HK Miles" class="logo">
+    <div class="badge"><span class="dot"></span>ANDROID 封閉測試・CLOSED BETA</div>
+    <h1>搶先試玩<br><span class="hl">HK Miles</span> Android 版 🤖</h1>
+    <p class="sub">功能同 iOS 一樣，67 張卡全部對住真實 T&amp;C 核返嚟。<br>幫手捉吓蟲、俾吓意見，一齊執靚佢🙏</p>
+  </header>
+
+  <div class="steps">
+    <div class="card">
+      <span class="num">1</span>
+      <div class="step-tag">第一步</div>
+      <h2>加入測試群組</h2>
+      <p>撳下面個掣加入 Google 群組，加入咗就即刻變成測試人員，唔使等。</p>
+      <a class="btn btn-primary" href="https://groups.google.com/g/hkmiles-testers" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>
+        加入測試群組
+      </a>
+    </div>
+
+    <div class="card">
+      <span class="num">2</span>
+      <div class="step-tag">第二步</div>
+      <h2>下載 App 開始試玩</h2>
+      <p>加入群組之後，撳呢度開啟測試版，再喺 Google Play 下載安裝。</p>
+      <a class="btn btn-dark" href="https://play.google.com/apps/testing/com.hkmiles.app" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.6 2.3 13 12 3.6 21.7c-.3-.2-.5-.6-.5-1.1V3.4c0-.5.2-.9.5-1.1Zm10.5 10.5 2.6 2.6-9.1 5.2 6.5-7.8Zm0-1.6L7.6 3.4l9.1 5.2-2.6 2.6Zm1.3 1.3 3.4-1.9c.7-.4.7-1.4 0-1.8l-3.4-1.9-2.8 2.8 2.8 2.8Z"/></svg>
+        開始試玩（下載 App）
+      </a>
+    </div>
+  </div>
+
+  <div class="reminder">
+    <div class="ic">⚠️</div>
+    <div class="body"><b>記住用啱 Email！</b> 加入群組時，請用你部 Android 手機 <b>Google Play 登入緊嗰個 Google 帳戶 email</b>。用錯 email 會睇唔到測試㗎。</div>
+  </div>
+
+  <p class="note">加入群組後，測試連結可能要 <b>幾分鐘</b>先生效（Google 系統需要少少時間同步）。如果一開始顯示「測試未開放」，唞陣再試 🙏</p>
+
+  <div class="ios">📱 iPhone 用戶？<a href="https://apps.apple.com/hk/app/hk-miles/id6760291510">App Store 度下載 HK Miles →</a></div>
+
+  <footer>
+    有 bug 或意見？歡迎電郵 <a href="mailto:hkmiles.social@outlook.com">hkmiles.social@outlook.com</a><br>
+    多謝你一直支持 HK Miles 🫶<br>
+    <a href="https://hkmiles.app/">← 返回 hkmiles.app</a>
+  </footer>
+</div>
+</body>
+</html>
