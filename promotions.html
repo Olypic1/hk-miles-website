@@ -1850,7 +1850,7 @@
     const PROJECT = 'j3rszqec';
     const DATASET = 'promotions';
     const VERSION = 'v2022-03-07';
-    const QUERY = `*[_type == "promotion" && !(_id in path("drafts.**")) && (status == "Active" || status == "Expired" || !defined(status))] | order(pinned desc, _createdAt desc) { _id, title, bank, categories, endDate, "imageUrl": mainImage.asset->url, _createdAt, content, tags, status, pinned, slug }`;
+    const QUERY = `*[_type == "promotion" && !(_id in path("drafts.**")) && (status == "Active" || status == "Expired" || !defined(status))] | order(pinned desc, coalesce(publishedAt, _createdAt) desc) { _id, title, bank, categories, endDate, "imageUrl": mainImage.asset->url, "_createdAt": coalesce(publishedAt, _createdAt), content, tags, status, pinned, slug }`;
 
     let all = [], curFilter = 'all', curSearch = '';
 

@@ -1203,7 +1203,7 @@
         const excl = currentId ? ` && _id != "${currentId}"` : '';
         const q = encodeURIComponent(
           `*[_type == "promotion" && !(_id in path("drafts.**")) && status == "Active"${excl}]
-            | order(_createdAt desc) [0...5]
+            | order(coalesce(publishedAt, _createdAt) desc) [0...5]
             { _id, title, bank, "slug": slug.current, "imgUrl": mainImage.asset->url }`
         );
         const res = await fetch(`${SANITY_API}?query=${q}`);
@@ -1384,10 +1384,10 @@
       const SANITY_API = 'https://j3rszqec.api.sanity.io/v2024-01-01/data/query/promotions';
       const filter = id ? `_id == "${id}"` : `slug.current == "${slug}"`;
       const projection = `{
-        _id, _createdAt, _updatedAt, title, bank, categories, tags, status, endDate,
+        _id, "_createdAt": coalesce(publishedAt, _createdAt), _updatedAt, title, bank, categories, tags, status, endDate,
         "imgUrl": mainImage.asset->url, content,
         "related": *[_type == "promotion" && _id != ^._id && bank == ^.bank && status == "Active"]
-          | order(_createdAt desc) [0...3] {
+          | order(coalesce(publishedAt, _createdAt) desc) [0...3] {
             _id, title, bank, "slug": slug.current,
             "cat": coalesce(categories[0], bank),
             "tag": coalesce(endDate, "長期"),
